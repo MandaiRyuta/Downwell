@@ -6,6 +6,7 @@
 #include <crtdbg.h>
 
 #include "../Application/Application.h"
+#include "../Fps/FpsCounter.h"
 #else
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -16,7 +17,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 #ifdef DEBUG
 	Application application;
-
+	FPS::FpsCounter fps;
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	application
@@ -31,18 +32,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			bool bEnabledProcess = ProcessMessage() == 0;
 
-			bool bLoop = !bEscape;
+			bool bLoop = !bEscape && bEnabledProcess;
 
 			return bLoop;
 		};
 
 		while (isLoop())
 		{
+			fps.Update();
 			application.Update();
 
+			fps.Draw();
+			fps.WaitTime();
 
 			ScreenFlip();
 		}
+
+
+		application.Release();
 	},[&]()
 	{
 		application.Release();

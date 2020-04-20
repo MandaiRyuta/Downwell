@@ -152,11 +152,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application\Application.cpp" />
+    <ClCompile Include="Fps\FpsCounter.cpp" />
+    <ClCompile Include="Resource\TextureData.cpp" />
     <ClCompile Include="Window\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Application.h" />
     <ClInclude Include="Constant.h" />
+    <ClInclude Include="Fps\FpsCounter.h" />
+    <ClInclude Include="Resource\TextureData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
