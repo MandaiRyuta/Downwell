@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actor\Character.cpp" />
     <ClCompile Include="Application\Application.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Fps\FpsCounter.cpp" />
@@ -161,6 +162,8 @@
     <ClCompile Include="Window\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor\Actor.h" />
+    <ClInclude Include="Actor\Character.h" />
     <ClInclude Include="Application\Application.h" />
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="Collision\Collision.h" />

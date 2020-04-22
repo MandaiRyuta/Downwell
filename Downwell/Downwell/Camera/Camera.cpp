@@ -18,34 +18,11 @@ void Camera::Init(VECTOR pos, VECTOR at, VECTOR rotate, VECTOR offset)
 
 void Camera::Update()
 {
-	if(CheckHitKey(KEY_INPUT_RIGHT) == 1)
-	{
-		Offset_.x+=1;
-	}
-	if (CheckHitKey(KEY_INPUT_LEFT) == 1)
-	{
-		Offset_.x-=1;
-	}
-	if (CheckHitKey(KEY_INPUT_UP) == 1)
-	{
-		Offset_.y-= 1;
-	}
-	if (CheckHitKey(KEY_INPUT_DOWN) == 1)
-	{
-		Offset_.y += 1;
-	}
-
-	if (CheckHitKey(KEY_INPUT_Y) == 1)
-	{
-		UP_.y += 0.01f;
-		
-	}
-
 	VECTOR eye, scale, up;
-	eye.x = (At_.x - Position_.x) * - 1;
-	eye.y = (At_.y - Position_.y) * - 1;
-	eye.z = 0;
-
+	eye.x = (Offset_.x + Position_.x);
+	eye.y = (Offset_.y + Position_.y);
+	eye.z = (Offset_.z + Position_.z);
+	At_ = Position_;
 	CreateLookAtMatrix(&View_,&eye, &At_, &UP_);
 
 	SetupCamera_Ortho(ScreenHeight);
@@ -65,10 +42,6 @@ void Camera::Update()
 	DrawFormatString(0, 32 * 4, GetColor(255, 255, 255), "m[3][0] %f  m[3][1] %f  m[3][2] %f m[3][3] %f",
 		View_.m[3][0], View_.m[3][1], View_.m[3][2], View_.m[3][3]);
 #endif
-}
-
-void Camera::GetPlayerPosition()
-{
 }
 
 MATRIX Camera::GetMatrix()

@@ -1,5 +1,7 @@
 #pragma once
 #include "Level.h"
+#include "../Constant.h"
+#include "../Actor/Actor.h"
 
 class GameLevel : public Level
 {
@@ -9,4 +11,7 @@ public:
 public:
 	virtual void Update() override;
 	virtual void Draw() override;
+
+private:
+	std::vector<Actor*> obj_;
 };

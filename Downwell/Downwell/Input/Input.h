@@ -4,27 +4,6 @@ class Input
 {
 private:
 	Input() {}
-	/*Input()
-		: InputKeyFrame_(0),
-		InputState_(False),
-		FirstStateCount_(0),
-		FirstStateCheck_(False),
-		SecondStateCount_(0),
-		SecondStateCheck_(False),
-		InputKeyFrameFirstCount_(60),
-		InputKeyFrameSecondCount_(30)
-	{
-		for (int i = 0; i < 256; i++)
-		{
-			PressKey_[i] = False;
-			DownKey_[i] = False;
-			UpKey_[i] = False;
-			DownKeyNum_[i] = 0;
-			UpKeyNum_[i] = 0;
-			PressKeyNum_[i] = 0;
-		}
-	}*/
-
 	~Input(){}
 public:
 

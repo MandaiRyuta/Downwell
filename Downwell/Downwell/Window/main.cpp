@@ -24,7 +24,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	Application application;
 	FPS::FpsCounter fps;
-	Camera::GetInstance().Init(VGet(0.0f, 0.0f, 0.0), VGet(0.0f, -100.0f, 100.0f), VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 0.0f, -500.0f));
+	Camera::GetInstance().Init(VGet(0.0f, 0.0f, 0.0), VGet(0.0f, -100.0f, 100.0f), VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 0.0f, -200.0f));
 	MATRIX mat;
 	application
 		.SetWindowMode(true)
