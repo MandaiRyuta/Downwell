@@ -19,24 +19,24 @@ void Application::Run(const Function<void()>& OnResolved, const Function<void()>
 
 	Init();
 
-	OnRejected();
+	OnResolved();
 }
 
 Application& Application::SetWindowMode(bool bWindow)
 {
-	ChangeWindowMode(bWindow ? true : false);
+	ChangeWindowMode(bWindow ? TRUE : FALSE);
 	return *this;
 }
 
 Application& Application::SetUse3DFlag(bool bEnabled)
 {
-	DxLib::SetUse3DFlag(bEnabled ? true : false);
+	DxLib::SetUse3DFlag(bEnabled ? TRUE : FALSE);
 	return *this;
 }
 
 Application& Application::SetWaitVSyncFlag(bool bEnabled)
 {
-	DxLib::SetWaitVSyncFlag(bEnabled ? true : false);
+	DxLib::SetWaitVSyncFlag(bEnabled ? TRUE : FALSE);
 	return *this;
 }
 

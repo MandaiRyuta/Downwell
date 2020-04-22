@@ -21,5 +21,5 @@ void TextureDataBase::TextureData::Loading(int& scenetype)
 
 const int& TextureDataBase::TextureData::GetTextureData(String name)
 {
-	// TODO: return ステートメントをここに挿入します
+	return Texture_[name.c_str()];
 }

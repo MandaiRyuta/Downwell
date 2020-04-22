@@ -20,7 +20,7 @@ void FPS::FpsCounter::Update()
 void FPS::FpsCounter::Draw()
 {
 #ifdef DEBUG
-	DrawFormatString(0, 0, GetColor(0, 0, 0), "%.1f", Fps_);
+	DrawFormatString(0, 0, GetColor(0,0,0), "%.1f", Fps_);
 #endif
 }
 
