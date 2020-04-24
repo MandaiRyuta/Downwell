@@ -154,10 +154,12 @@
     <ClCompile Include="Actor\Character.cpp" />
     <ClCompile Include="Application\Application.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
+    <ClCompile Include="Collision\QuadTree.cpp" />
     <ClCompile Include="Fps\FpsCounter.cpp" />
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="Level\GameLevel.cpp" />
     <ClCompile Include="Level\LevelsResponsible.cpp" />
+    <ClCompile Include="Resource\StageDataBase.cpp" />
     <ClCompile Include="Resource\TextureData.cpp" />
     <ClCompile Include="Window\main.cpp" />
   </ItemGroup>
@@ -167,12 +169,14 @@
     <ClInclude Include="Application\Application.h" />
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="Collision\Collision.h" />
+    <ClInclude Include="Collision\QuadTree.h" />
     <ClInclude Include="Constant.h" />
     <ClInclude Include="Fps\FpsCounter.h" />
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="Level\GameLevel.h" />
     <ClInclude Include="Level\Level.h" />
     <ClInclude Include="Level\LevelsResponsible.h" />
+    <ClInclude Include="Resource\StageDataBase.h" />
     <ClInclude Include="Resource\TextureData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
