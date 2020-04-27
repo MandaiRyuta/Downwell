@@ -32,19 +32,19 @@ signed short int Input::GetKeyPress(int Key)
 
 signed short int Input::GetKeyDown(int Key)
 {
-	DownKey_[Key] = Key;
+	DownKey_[Key] = 0x000;
 
-	if (CheckHitKey(Key) == 1 && DownKey_[Key] == False)
+	if (CheckHitKey(Key) == 1 && DownKey_[Key] == 0x000)
 	{
-		DownKey_[Key] = True;
+		DownKey_[Key] = 0x001;
 #ifdef DEBUG
 		DebugFont(Key);
-#endif // DEBUG
+ #endif // DEBUG
 		return DownKey_[Key];
 	}
-	else if (CheckHitKey(Key) == 0 && DownKey_[Key] == True)
+	else if (CheckHitKey(Key) == 0 && DownKey_[Key] == 0x001)
 	{
-		DownKey_[Key] = False;
+		DownKey_[Key] = 0x000;  
 #ifdef DEBUG
 		DebugFont(Key);
 #endif // DEBUG
@@ -52,7 +52,7 @@ signed short int Input::GetKeyDown(int Key)
 	}
 	else
 	{
-		DownKey_[Key] = False;
+		DownKey_[Key] = 0x000;
 #ifdef DEBUG
 		DebugFont(Key);
 #endif // DEBUG
@@ -66,12 +66,12 @@ signed short int Input::GetKeyUp(int Key)
 	UpKeyNum_[Key] = Key;
 	if (CheckHitKey(Key) == 1)
 	{
-		UpKey_[Key] = True;
+		UpKey_[Key] = 0x001;
 #ifdef DEBUG
 		DebugFont(Key);
 #endif // DEBUG
 	}
-	else if (CheckHitKey(Key) == 0 && UpKey_[Key] == True)
+	else if (CheckHitKey(Key) == 0 && UpKey_[Key] == 0x001)
 	{
 		UpKey_[Key] = True;
 #ifdef DEBUG
@@ -81,14 +81,14 @@ signed short int Input::GetKeyUp(int Key)
 	}
 	else
 	{
-		UpKey_[Key] = False;
+		UpKey_[Key] = 0x000;
 #ifdef DEBUG
 		DebugFont(Key);
 #endif // DEBUG
 		return UpKey_[Key];
 	}
 
-	return False;
+	return 0x000;
 }
 #ifdef DEBUG
 void Input::DebugFont(int Key)

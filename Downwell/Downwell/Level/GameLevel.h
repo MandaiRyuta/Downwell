@@ -6,12 +6,12 @@
 class GameLevel : public Level
 {
 public:
-	GameLevel();
+	GameLevel(int type);
 	~GameLevel();
 public:
 	virtual void Update() override;
 	virtual void Draw() override;
 
 private:
-	std::vector<Actor*> obj_;
+	std::list<Actor*> obj_[10];
 };

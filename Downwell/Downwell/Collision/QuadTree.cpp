@@ -143,8 +143,11 @@ int QuadTree::GetChildIndexForObject(const Rect& objectbounds)
 {
 	int index = -1;
 
-	double verticalDividingLine = bound_.x + bound_.width * 0.5f;
-	double horizontalDividingLine = bound_.y + bound_.height * 0.5f;
+	//double verticalDividingLine = bound_.x + bound_.width * 0.5f;
+	//double horizontalDividingLine = bound_.y + bound_.height * 0.5f;
+
+	float verticalDividingLine = bound_.x + bound_.width * 0.5f;
+	float horizontalDividingLine = bound_.y + bound_.height * 0.5f;
 
 	bool north = objectbounds.y <= horizontalDividingLine && (objectbounds.height + objectbounds.y <= horizontalDividingLine);
 	bool south = objectbounds.y > horizontalDividingLine;
@@ -179,12 +182,20 @@ int QuadTree::GetChildIndexForObject(const Rect& objectbounds)
 
 void QuadTree::Split()
 {
-	const int childwidth = static_cast<int>(bound_.width * 0.5);
-	const int childheight = static_cast<int>(bound_.height * 0.5);
+	float childwidth = static_cast<float>(bound_.width * 0.5);
+	float childheight = static_cast<float>(bound_.height * 0.5);
 
 	children[childNE] = std::make_shared<QuadTree>(maxobject_, maxlevel_, level_ + 1, Rect(bound_.x + childwidth, bound_.y, childwidth, childheight), this);
 	children[childNW] = std::make_shared<QuadTree>(maxobject_, maxlevel_, level_ + 1, Rect(bound_.x, bound_.y, childwidth, childheight), this);
 	children[childSW] = std::make_shared<QuadTree>(maxobject_, maxlevel_, level_ + 1, Rect(bound_.x, bound_.y + childheight, childwidth, childheight), this);
 	children[childSE] = std::make_shared<QuadTree>(maxlevel_, maxlevel_, level_ + 1, Rect(bound_.x + childwidth, bound_.y + childheight, childwidth, childheight), this);
+
+	//const int childwidth = static_cast<int>(bound_.width * 0.5);
+	//const int childheight = static_cast<int>(bound_.height * 0.5);
+	//
+	//children[childNE] = std::make_shared<QuadTree>(maxobject_, maxlevel_, level_ + 1, Rect(bound_.x + childwidth, bound_.y, childwidth, childheight), this);
+	//children[childNW] = std::make_shared<QuadTree>(maxobject_, maxlevel_, level_ + 1, Rect(bound_.x, bound_.y, childwidth, childheight), this);
+	//children[childSW] = std::make_shared<QuadTree>(maxobject_, maxlevel_, level_ + 1, Rect(bound_.x, bound_.y + childheight, childwidth, childheight), this);
+	//children[childSE] = std::make_shared<QuadTree>(maxlevel_, maxlevel_, level_ + 1, Rect(bound_.x + childwidth, bound_.y + childheight, childwidth, childheight), this);
 
 }

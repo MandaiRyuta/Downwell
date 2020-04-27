@@ -13,6 +13,7 @@ public:
 		return Inst;
 	}
 	void Init();
+
 	signed short int GetKeyPress(int Key);
 	signed short int GetKeyDown(int Key);
 	signed short int GetKeyUp(int Key);

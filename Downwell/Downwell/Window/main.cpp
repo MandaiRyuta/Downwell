@@ -52,7 +52,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		{
 			fps.Update();
 			application.Update();
-
 			LevelsResponsible::GetInstance().Update();
 			Camera::GetInstance().Update();
 

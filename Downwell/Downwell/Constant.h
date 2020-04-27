@@ -17,8 +17,8 @@
 #include <array>
 #include <DxLib.h>
 
-constexpr int ScreenWidth = 640;
-constexpr int ScreenHeight = 480;
+constexpr double ScreenWidth = 640.0;
+constexpr double ScreenHeight = 480.0;
 constexpr signed short int True = 0x001;
 constexpr signed short int False = 0x000;
 

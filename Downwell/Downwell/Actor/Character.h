@@ -1,6 +1,8 @@
 #pragma once
 #include "Actor.h"
 #include "../Constant.h"
+#include "CharacterJump.h"
+#include "CharacterMove.h"
 
 class Character : public Actor
 {
@@ -12,13 +14,19 @@ public:
 
 	void PolygonCreate();
 	static VECTOR GetPos();
+
 private:
-	int texhandle, pshandle;
-	VERTEX2D Vert[6];
-	unsigned short Index[6];
-	static VECTOR Position_;
-	VECTOR Scale_;
-	MATRIX Wrold_;
-	float SizeX_;
-	float SizeY_;
+	int ntexhandle;
+	VERTEX2D vtx2d_Vert[6];
+	unsigned short usIndex[6];
+	static VECTOR vPosition_;
+	VECTOR vScale_;
+	float fSizeX_;
+	float fSizeY_;
+	bool bGround;
+
+	CharacterJump cJumpState_;
+	CharacterMove cMoveState_;
+	VECTOR vSpeed;
+
 };

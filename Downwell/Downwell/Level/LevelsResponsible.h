@@ -1,6 +1,6 @@
 #pragma once
 #include "../Constant.h"
-#include "../Constant.h"
+
 class Level;
 
 class LevelsResponsible :
@@ -22,6 +22,7 @@ public:
 	void Draw();
 	virtual void Release() override;
 public:
+	void ChangeLevel(int type);
 	int& GetNowLevel();
 private:
 	int NowLevel_;
