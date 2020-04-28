@@ -10,11 +10,10 @@ public:
 	~CharacterJump() {}
 public:
 	void JumpUpdate();
-	void JumpState(VECTOR& vpos, VECTOR& vspeed, bool& bground);
-	void BulletJumpState(VECTOR vpos, VECTOR& vspeed, bool& bground);
-	bool GetJumpExist();
+	void JumpState(VECTOR& vpos, VECTOR& vspeed, bool& bground, int& nstate);
+	const bool& GetJumpExist();
 	void SetJumpExist(bool bjump);
-	bool GetBulletJumpExist();
+	const bool& GetBulletJumpExist();
 	void SetBulletJumpExist(bool bjump);
 private:
 	int nFrame_;

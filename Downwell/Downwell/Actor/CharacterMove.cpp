@@ -32,8 +32,8 @@ void CharacterMove::SideAcceleration(VECTOR& vPos)
 		break;
 	}
 
-
-	if (vPos.x > ScreenWidth / 4)
+	//vPos.x > ScreenWidth / 4
+	if (vPos.x > 130)
 	{
 		switch (unLeftAcceleration_)
 		{
@@ -51,7 +51,7 @@ void CharacterMove::SideAcceleration(VECTOR& vPos)
 	}
 
 
-	if (vPos.x < ScreenWidth - (32 + (ScreenWidth / 4)))
+	if (vPos.x < 490)
 	{
 		switch (unRightAcceleration_)
 		{

@@ -16,12 +16,7 @@ Character::Character()
 	vSpeed.y = 0.0f;
 	bGround = false;
 
-	//nSideType_ = -1;
-	//unLeftAcceleration_ = -1;
-	//unRightAcceleration_ = -1;
-	//nMoveFrame_ = 0;
-	//fMove_ = 0;
-	//MoveRemainingPower_ = 0.0f;
+	nCharacterActionState_ = 0;
 
 	for (int i = 0; i < 6; i++)
 	{
@@ -37,20 +32,29 @@ void Character::Update()
 {
 	bGround = false;
 	cJumpState_.JumpUpdate();
-
+	
 	if (bGround == false)
 	{
-		if (vPosition_.y > 180)
+		if (vPosition_.y >= 180)
 		{
 			bGround = true;
-		}
-		if (Input::GetInstance().GetKeyPress(KEY_INPUT_SPACE) == 0x000)
-		{
-			cJumpState_.SetJumpExist(false);
+
+			nCharacterActionState_ = 0;
+
+			if (Input::GetInstance().GetKeyPress(KEY_INPUT_SPACE) == 0x000)
+			{
+				cAttackState_.SetAttackExist(false);
+				cAttackState_.SetBullet(8);
+				cAttackState_.SetAttackFrame(0);
+				cJumpState_.SetBulletJumpExist(false);
+				cJumpState_.SetJumpExist(false);
+			}
 		}
 	}
-	
-	cJumpState_.JumpState(vPosition_, vSpeed, bGround);
+
+	cJumpState_.JumpState(vPosition_, vSpeed, bGround, nCharacterActionState_);
+
+	cAttackState_.Attack(bGround, nCharacterActionState_, vPosition_, cJumpState_.GetJumpExist());
 
 	cMoveState_.SideMove(vPosition_);
 
@@ -61,6 +65,7 @@ void Character::Draw()
 {
 	//DrawBillboard3D(VGet(0.f, 0.f, 0.f), 0.5f, 0.5f, 225, 0, texhandle, true);
     DrawPolygon2D(vtx2d_Vert, 4,ntexhandle , FALSE);
+	cAttackState_.Draw();
 }
 
 void Character::PolygonCreate()

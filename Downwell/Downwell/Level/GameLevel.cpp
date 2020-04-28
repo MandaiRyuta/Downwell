@@ -1,6 +1,7 @@
 #include "GameLevel.h"
 #include <DxLib.h>
 #include "../Actor/Character.h"
+#include "../Actor/Stage.h"
 
 GameLevel::GameLevel(int type)
 {
@@ -12,6 +13,7 @@ GameLevel::GameLevel(int type)
 		//背景 0
 		//ステージ キャラ　エネミー　弾 2
 		//UI 3
+		obj_[0].push_back(new Stage);
 		obj_[2].push_back(new Character);
 		break;
 	case 2:

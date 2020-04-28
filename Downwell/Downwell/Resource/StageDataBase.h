@@ -14,5 +14,5 @@ public:
 
 	void InitStage();
 	int GetStageType(int type, int x, int y);
-	int Stage_[10][256][256];
+	int Stage_[10][50][20];
 };

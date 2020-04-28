@@ -151,9 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actor\Bullet.cpp" />
     <ClCompile Include="Actor\Character.cpp" />
+    <ClCompile Include="Actor\CharacterAttack.cpp" />
     <ClCompile Include="Actor\CharacterJump.cpp" />
     <ClCompile Include="Actor\CharacterMove.cpp" />
+    <ClCompile Include="Actor\Stage.cpp" />
     <ClCompile Include="Application\Application.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Collision\QuadTree.cpp" />
@@ -167,9 +170,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor\Actor.h" />
+    <ClInclude Include="Actor\Bullet.h" />
     <ClInclude Include="Actor\Character.h" />
+    <ClInclude Include="Actor\CharacterAttack.h" />
     <ClInclude Include="Actor\CharacterJump.h" />
     <ClInclude Include="Actor\CharacterMove.h" />
+    <ClInclude Include="Actor\Enemy.h" />
+    <ClInclude Include="Actor\Stage.h" />
     <ClInclude Include="DownwellConstant.h" />
     <ClInclude Include="Application\Application.h" />
     <ClInclude Include="Camera\Camera.h" />
