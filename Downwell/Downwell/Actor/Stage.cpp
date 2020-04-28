@@ -26,7 +26,10 @@ Stage::~Stage()
 
 void Stage::Update()
 {
-
+	/// <summary>
+	/// 各マップチップの座標とカメラの矩形を判定して、フラグを指定する　true || false 
+	/// true の場合　描画、　false の場合　描画させない。
+	/// </summary>
 }
 
 void Stage::Draw()
