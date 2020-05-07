@@ -1,6 +1,8 @@
 #pragma once
 #include <DxLib.h>
 
+
+
 class Camera {
 private:
 	Camera() {}		//コンストラクタ
@@ -14,9 +16,13 @@ public:
 
 	void Init(VECTOR pos);
 	void Update();
-	void GetPlayerPosition();
+
+	void DebugCamera();
 	MATRIX GetMatrix();
 	void SetPosition(VECTOR pos);
 private:
 	VECTOR Position_;
+	VECTOR Offset_;
 };
+
+

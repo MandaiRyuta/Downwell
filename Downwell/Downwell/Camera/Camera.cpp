@@ -11,17 +11,17 @@ void Camera::Init(VECTOR pos)
 
 void Camera::Update()
 {
-	
-	Position_.x = Character::GetPos().x;
-	Position_.y = -(Character::GetPos().y);
+	//指定の左右座標の範囲内にはいってるときのみ、Y座標を同期
+	if(Character::GetPos().x > 150 && Character::GetPos().x < 500)
+	Position_.y = Character::GetPos().y;
 
-	
-	SetCameraPositionAndTarget_UpVecY(VGet(Position_.x, Position_.y, -10),VGet(Character::GetPos().x, -Character::GetPos().y, 0.0f));
+	SetCameraPositionAndTarget_UpVecY(VGet(Position_.x, Position_.y, -300.0f),VGet(Position_.x, Position_.y, 0.0f));
+}
 
-	SetupCamera_Ortho(2000);
-	SetCameraNearFar(1.0f, 1000.0f);
-
-#ifdef DEBUG
+void Camera::DebugCamera()
+{
+	#ifdef DEBUG
+	DrawFormatString(0, 32 * 8, GetColor(255, 255, 255), "Player座標 : %f, %f, %f", Character::GetPos().x, Character::GetPos().y, Character::GetPos().z);
 	DrawFormatString(0, 32 * 5, GetColor(255, 255, 255), "Targetが範囲内に入っているか : %d", CheckCameraViewClip_Dir(Character::GetPos()));
 	DrawFormatString(0, 32 * 6, GetColor(255, 255, 255), "カメラの位置　: %f, %f, %f", GetCameraPosition().x, GetCameraPosition().y, GetCameraPosition().z);
 	DrawFormatString(0, 32 * 7, GetColor(255, 255, 255), "カメラの注視点 : %f, %f, %f", GetCameraTarget().x, GetCameraTarget().y, GetCameraTarget().z);

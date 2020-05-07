@@ -24,8 +24,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	Application application;
 	FPS::FpsCounter fps;
-	Camera::GetInstance().Init(VGet(0.0f, 0.0f, 0.0));
-	
+	Camera::GetInstance().Init(VGet(ScreenWidth / 2, -300.0f, 0.0));
+	SetDrawValidGraphCreateFlag(TRUE);
+	int screen = MakeGraph(256, 256);
+	SetDrawValidGraphCreateFlag(FALSE);
 	application
 		.SetWindowMode(true)
 		.SetWaitVSyncFlag(false)
@@ -52,10 +54,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		{
 			fps.Update();
 			application.Update();
-			LevelsResponsible::GetInstance().Update();
 			Camera::GetInstance().Update();
 
+			LevelsResponsible::GetInstance().Update();
 			LevelsResponsible::GetInstance().Draw();
+			Camera::GetInstance().DebugCamera();
 			fps.Draw();
 
 			fps.WaitTime();

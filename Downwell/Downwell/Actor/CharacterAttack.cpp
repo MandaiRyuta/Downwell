@@ -15,7 +15,7 @@ void CharacterAttack::Attack(bool& bground, int& nstate, VECTOR& vpos, const boo
 		{
 			if (nAttackFrame_ % 2 == 0)
 			{
-				vpos.y -= 20.0f;
+				vpos.y += 20.0f;
 				nBullet_--;
 				cBullet_.Create(vpos);
 			}

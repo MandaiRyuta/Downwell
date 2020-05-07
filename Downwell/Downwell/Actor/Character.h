@@ -13,14 +13,13 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override;
 
-	void PolygonCreate();
 	static VECTOR GetPos();
-
 private:
+	void CreatePolygon();
+private:
+	VERTEX3D vtx3d_vert[6];
 	int nCharacterActionState_;
 	int ntexhandle;
-	VERTEX2D vtx2d_Vert[6];
-	unsigned short usIndex[6];
 	static VECTOR vPosition_;
 	VECTOR vScale_;
 	float fSizeX_;

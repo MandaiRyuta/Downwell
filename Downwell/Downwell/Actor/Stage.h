@@ -12,5 +12,9 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override;
 private:
-	std::array<std::array<int,20>,250> stage_;
+	std::array<std::array<int,20>,250> Stage_;
+	int StageBlockHandle_;
+	int BlockTexture_;
+	int NonBlockTexture_;
+	int InSideBlockTexture_;
 };

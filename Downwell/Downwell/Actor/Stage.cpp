@@ -14,10 +14,15 @@ Stage::Stage()
 			for (int x = 0; x < 20; x++)
 			{
 				ny = y + (type * 50);
-				stage_[ny][x] = (StageDataBase::GetInstance().GetStageType(type, x, y));
+				Stage_[ny][x] = (StageDataBase::GetInstance().GetStageType(type, x, y));
 			}
 		}
 	}
+	StageBlockHandle_ = LoadGraph("Background.png");
+
+	BlockTexture_ = LoadGraph("Resource/block.png");
+	InSideBlockTexture_ = LoadGraph("Resource/insideblock.png");
+	NonBlockTexture_ = LoadGraph("Resource/nonblock.png");
 }
 
 Stage::~Stage()
@@ -31,25 +36,37 @@ void Stage::Update()
 	/// true の場合　描画、　false の場合　描画させない。
 	/// </summary>
 }
-
+#include "Character.h"
 void Stage::Draw()
 {
+	int MapDrawPointX = -Character::GetPos().x + ((640 / 20 + 2) / 2 - 1);
+	int MapDrawPointY = -Character::GetPos().y + ((640 / 20 + 2) / 2 - 1);
+	
+	int numcount = 0;
 	for (int y = 0; y < 250; y++)
 	{
 		for (int x = 0; x < 20; x++)
 		{
-			if (stage_[y][x] == 0)
+			//画面外のステージオブジェクトはカリング
+			if (y + MapDrawPointY < 0 || y + MapDrawPointY >= y + MapDrawPointY + 50)	continue;
+			
+			if (Stage_[y][x] == 0)
 			{
-				DrawBox(125+ x * 20 + 1,-150 + y * 20 + 1, 125 + x * 20 + 20 - 1, -150 + y * 20 + 20 - 1, GetColor(0, 255, 0), true);
-			}
-			if (stage_[y][x] == 1)
+				DrawBillboard3D(VGet(150 + x * 18 + 1, 50 + -y * 18 + 1, 0.0f), 0.5f, 0.5f, 18, 0, BlockTexture_,false);
+			}																 
+			if (Stage_[y][x] == 1)											 
+			{																 
+				DrawBillboard3D(VGet(150 + x * 18 + 1, 50 + -y * 18 + 1, 0.0f), 0.5f, 0.5f, 18, 0, InSideBlockTexture_, false);
+			}																 
+			if (Stage_[y][x] == 2)											 
 			{
-				DrawBox(125 + x * 20 + 1,-150 + y * 20 + 1, 125 + x * 20 + 20 - 1, -150 + y * 20 + 20 - 1, GetColor(255, 0, 0), true);
+				DrawBillboard3D(VGet(150 + x * 18 + 1, 50 + -y * 18 + 1, 0.0f), 0.5f, 0.5f, 18, 0, NonBlockTexture_, false);
 			}
-			if (stage_[y][x] == 2)
+			if (Stage_[y][x] == 3)
 			{
-				DrawBox(125 + x * 20 + 1,-150 + y * 20 + 1, 125 + x * 20 + 20 - 1, -150 + y * 20 + 20 - 1, GetColor(0, 0, 255), true);
+				DrawBillboard3D(VGet(150 + x * 18 + 1, 50 + -y * 18 + 1, 0.0f), 0.5f, 0.5f, 18, 0, NonBlockTexture_, false);
 			}
+			numcount++;
 		}
 	}
 }

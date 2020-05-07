@@ -32,8 +32,8 @@ void CharacterMove::SideAcceleration(VECTOR& vPos)
 		break;
 	}
 
-	//vPos.x > ScreenWidth / 4
-	if (vPos.x > 130)
+	//指定の左座標＋画像の幅の半分
+	if (vPos.x > 150 + 10)
 	{
 		switch (unLeftAcceleration_)
 		{
@@ -50,8 +50,8 @@ void CharacterMove::SideAcceleration(VECTOR& vPos)
 		}
 	}
 
-
-	if (vPos.x < 490)
+	//指定の右座標＋画像の幅の半分
+	if (vPos.x < 500 - 10)
 	{
 		switch (unRightAcceleration_)
 		{

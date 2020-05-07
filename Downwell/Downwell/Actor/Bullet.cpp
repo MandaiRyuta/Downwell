@@ -3,14 +3,13 @@
 Bullet::Bullet()
 {
 	bBullet_ = false;
-	vScale_.x = 25.0f;
-	vScale_.y = 35.0f;
-	for (int i = 0; i < 5; i++)
-	{
-		vtx2d_Vert[i] = {};
-	}
+	vScale_.x = 20.0f;
+	vScale_.y = 20.0f;
+
 	nBulletFrame_ = 0;
 	nBulletNumber = 0;
+
+	nBulletTexture_ = LoadGraph("Resource/bullet.png");
 }
 
 Bullet::~Bullet()
@@ -28,16 +27,19 @@ void Bullet::Update()
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			vPosition_[i].y += 20.0f;
+			vPosition_[i].y -= 20.0f;
 		}
 	}
 }
 
 void Bullet::Draw()
 {
-	for (int i = 0; i < 10; i++)
+	if (bBullet_)
 	{
-		DrawBox(vPosition_[i].x, vPosition_[i].y, vPosition_[i].x + vScale_.x, vPosition_[i].y + vScale_.y, GetColor(255, 255, 255), true);
+		for (int i = 0; i < 10; i++)
+		{
+			DrawBillboard3D(vPosition_[i], 0.5f, 0.5f, 20, 0, nBulletTexture_, false);
+		}
 	}
 }
 
@@ -48,9 +50,9 @@ void Bullet::Create(const VECTOR& vpos)
 		nBulletNumber = 0;
 	}
 
-	vPosition_[nBulletNumber].x = ((32 - vScale_.x) * 0.5) + vpos.x;
-	vPosition_[nBulletNumber].y = ((42 - vScale_.y) * 0.5) + vpos.y;
-
+	vPosition_[nBulletNumber].x = vpos.x;
+  	vPosition_[nBulletNumber].y = vpos.y;
+	vPosition_[nBulletNumber].z = 0.0f;
 	if (nBulletNumber < 10)
 	{
 		nBulletNumber++;
