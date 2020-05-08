@@ -11,6 +11,16 @@ void CharacterAttack::Attack(VECTOR& vpos, const bool& bJump, const bool& bAttac
 {
 	Camera::GetInstance().SetShake(false);
 	bshake = false;
+	if (nBullet_ <= 0)
+	{
+		nSideAttackFrame_ = 0;
+	}
+
+	if (Input::GetInstance().GetKeyPress(KEY_INPUT_SPACE) == 0x001)
+	{
+		nSideAttackFrame_++;
+	}
+
 	if (nstate == 0 && !bJump && Input::GetInstance().GetKeyPress(KEY_INPUT_SPACE) == 0x000)
 	{
 		nstate = 1;
@@ -20,9 +30,9 @@ void CharacterAttack::Attack(VECTOR& vpos, const bool& bJump, const bool& bAttac
 	{
        	if (MapHitCheck::GetChipParam(VGet(vpos.x - 16 * 0.5f, vpos.y - (16 * 0.5f + 8.0f), 0.0f)) == 0 || MapHitCheck::GetChipParam(VGet(vpos.x + 16 * 0.5f, vpos.y - (16 * 0.5f + 8.0f), 0.0f)) == 0)
 		{
-			if (nAttackFrame_ % 3 == 0)
+			if (nAttackFrame_ % 5 == 0)
 			{
-				fgravity += 0.2f;
+				fgravity += 0.4f;
 				nBullet_--;
 				cBullet_.Create(vpos);
 				Camera::GetInstance().SetShake(true);
@@ -34,13 +44,14 @@ void CharacterAttack::Attack(VECTOR& vpos, const bool& bJump, const bool& bAttac
 			nAttackFrame_++;
 		}
 	}
-	else if(Input::GetInstance().GetKeyPress(KEY_INPUT_SPACE) == 0x001 && nBullet_ > 0)
+	
+	if(nSideAttackFrame_ > 10 && Input::GetInstance().GetKeyPress(KEY_INPUT_SPACE) == 0x001 && nBullet_ > 0)
 	{
 		if (MapHitCheck::GetChipParam(VGet(vpos.x - 16 * 0.5f, vpos.y - (16 * 0.5f + 8.0f), 0.0f)) == 0 || MapHitCheck::GetChipParam(VGet(vpos.x + 16 * 0.5f, vpos.y - (16 * 0.5f + 8.0f), 0.0f)) == 0)
 		{
-			if (nAttackFrame_ % 3 == 0)
+			if (nAttackFrame_ % 5 == 0)
 			{
-				fgravity += 0.2f;
+				fgravity += 0.4f;
 				nBullet_--;
 				cBullet_.Create(vpos);
 				Camera::GetInstance().SetShake(true);

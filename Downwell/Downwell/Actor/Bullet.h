@@ -11,17 +11,17 @@ public:
 	void Draw();
 	void Create(const VECTOR& vpos);
 	const VECTOR& Scale();
-	const VECTOR& GetPosition(int nbulletnumber);
-private:
-	void CreatePolygon();
+	const static VECTOR& GetPosition(int nbulletnumber);
+	static void ResetSetPosition(int nbulletnumber);
 private:
 	int nBulletType_;
 	int nBulletTexture_;
-	VECTOR vPosition_[10];
+	static VECTOR vPosition_[10];
 	VECTOR vScale_;
 	int nSpeed_;
 	int nRotate_;
-	bool bBullet_[10];
+	static bool bBullet_[10];
+	static float fBulletspeed_[10];
 	int nBulletFrame_;
 	int nBulletNumber;
 };

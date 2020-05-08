@@ -57,6 +57,8 @@ Stage::Stage()
 Stage::~Stage()
 {
 }
+#include "Bullet.h"
+#include "../Collision/MapHitCheck.h"
 
 void Stage::Update()
 {
@@ -64,6 +66,18 @@ void Stage::Update()
 	/// 各マップチップの座標とカメラの矩形を判定して、フラグを指定する　true || false 
 	/// true の場合　描画、　false の場合　描画させない。
 	/// </summary>
+
+	for (int i = 0; i < 10; i++)
+	{
+		if (MapHitCheck::GetChipParam(VGet(Bullet::GetPosition(i).x - 2.0f, Bullet::GetPosition(i).y - 1.0f, 0.0f)) == 3 ||
+			MapHitCheck::GetChipParam(VGet(Bullet::GetPosition(i).x + 2.0f, Bullet::GetPosition(i).y - 1.0f, 0.0f)) == 3)
+		{
+			int x = Bullet::GetPosition(i).x / BlockSize - (BlockSize * 0.5f);
+			int y = Bullet::GetPosition(i).y / -BlockSize;
+			Stage_[y][x] = 0;
+			Bullet::ResetSetPosition(i);
+		}
+	}
 }
 
 void Stage::Draw()
@@ -119,5 +133,5 @@ const Rect& Stage::GetStageRect(int x, int y)
 
 void Stage::SetStageType(int type, int x, int y)
 {
-	Stage_[x][y] = type;
+	Stage_[y][x] = type;
 }

@@ -6,7 +6,7 @@ class CharacterAttack
 {
 public:
 	CharacterAttack() : 
-		bAttack_(false), nAttackFrame_(0), fSpeed_(0.0f)
+		bAttack_(false), nAttackFrame_(0), fSpeed_(0.0f), nSideAttackFrame_(0)
 	{
 		nBullet_ = 10;
 	}
@@ -21,6 +21,7 @@ public:
 private:
 	bool bAttack_;
 	int nAttackFrame_;
+	int nSideAttackFrame_;
 	float fSpeed_;
 	static int nBullet_;
 	Bullet cBullet_;
