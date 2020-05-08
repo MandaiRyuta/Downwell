@@ -2,12 +2,15 @@
 #include "../Input/Input.h"
 #include "../DownwellConstant.h"
 #include "../Collision/MapHitCheck.h"
+#include "../Camera/Camera.h"
 #include <random>
 
 int CharacterAttack::nBullet_ = 0;
 
 void CharacterAttack::Attack(VECTOR& vpos, const bool& bJump, const bool& bAttackjump, int& nstate, float& fgravity)
 {
+	Camera::GetInstance().SetShake(false);
+
 	if (nstate == 0 && !bJump && Input::GetInstance().GetKeyPress(KEY_INPUT_SPACE) == 0x000)
 	{
 		nstate = 1;
@@ -22,6 +25,7 @@ void CharacterAttack::Attack(VECTOR& vpos, const bool& bJump, const bool& bAttac
 				fgravity += 0.5f;
 				nBullet_--;
 				cBullet_.Create(vpos);
+				Camera::GetInstance().SetShake(true);
 			}
 			if (nAttackFrame_ % 2 == 0)
 			{

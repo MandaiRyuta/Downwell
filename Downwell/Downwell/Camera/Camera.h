@@ -20,9 +20,12 @@ public:
 	void DebugCamera();
 	MATRIX GetMatrix();
 	void SetPosition(VECTOR pos);
+	void SetShake(bool bshake);
 private:
 	VECTOR Position_;
 	VECTOR Offset_;
+	bool bShake_;
+	float fShakePower_;
 };
 
 

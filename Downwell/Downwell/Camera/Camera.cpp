@@ -7,13 +7,21 @@ void Camera::Init(VECTOR pos)
 {
 	Position_.x = pos.x;
 	Position_.y = pos.y;
+	fShakePower_ = 2.0f;
+	bShake_ = false;
 }
 
 void Camera::Update()
 {
 	//指定の左右座標の範囲内にはいってるときのみ、Y座標を同期
-	if(Character::GetPos().x > 150 && Character::GetPos().x < 500)
-	Position_.y = Character::GetPos().y;
+	if (Character::GetPos().x > 150 && Character::GetPos().x < 500 && !bShake_)
+	{
+		Position_.y = Character::GetPos().y;
+	}
+	else if (Character::GetPos().x > 150 && Character::GetPos().x < 500 && !bShake_)
+	{
+		Position_.y = Character::GetPos().y + (fShakePower_ * -1.0f);
+	}
 
 	SetCameraPositionAndTarget_UpVecY(VGet(Position_.x, Position_.y, -300.0f),VGet(Position_.x, Position_.y, 0.0f));
 }
@@ -45,4 +53,9 @@ MATRIX Camera::GetMatrix()
 void Camera::SetPosition(VECTOR pos)
 {
 	Position_ = pos;
+}
+
+void Camera::SetShake(bool bshake)
+{
+	bShake_ = bshake;
 }
