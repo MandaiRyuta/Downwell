@@ -6,19 +6,23 @@ class CharacterAttack
 {
 public:
 	CharacterAttack() : 
-		bAttack_(false), nAttackFrame_(0), fSpeed_(0.0f), nBullet_(5){}
+		bAttack_(false), nAttackFrame_(0), fSpeed_(0.0f)
+	{
+		nBullet_ = 10;
+	}
 	~CharacterAttack() {}
 public:
-	void Attack(bool& bground, int& nstate,VECTOR& vpos, const bool& bJump);
+	void Attack(VECTOR& vpos, const bool& bJump, const bool& bAttackjump, int& nstate, float& fgravity);
 	void Draw();
 	void SetAttackExist(bool battack);
-	void SetBullet(int nbullet);
+	static void SetBullet(int nbullet);
 	void SetAttackFrame(int nframe);
+	static const int& GetBullet();
 private:
 	bool bAttack_;
 	int nBulletTexture_;
 	int nAttackFrame_;
 	float fSpeed_;
-	int nBullet_;
+	static int nBullet_;
 	Bullet cBullet_;
 };

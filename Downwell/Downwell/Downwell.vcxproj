@@ -178,6 +178,7 @@
     <ClCompile Include="Behaviour\TrackingMoveAction.cpp" />
     <ClCompile Include="Behaviour\TurnMoveAction.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
+    <ClCompile Include="Collision\MapHitCheck.cpp" />
     <ClCompile Include="Collision\QuadTree.cpp" />
     <ClCompile Include="Fps\FpsCounter.cpp" />
     <ClCompile Include="Input\Input.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="Behaviour\TrackingMoveAction.h" />
     <ClInclude Include="Behaviour\TurnMoveAction.h" />
     <ClInclude Include="Behaviour\Node.h" />
+    <ClInclude Include="Collision\MapHitCheck.h" />
     <ClInclude Include="DownwellConstant.h" />
     <ClInclude Include="Application\Application.h" />
     <ClInclude Include="Camera\Camera.h" />

@@ -1,23 +1,31 @@
 #include "CharacterAttack.h"
 #include "../Input/Input.h"
 #include "../DownwellConstant.h"
+#include "../Collision/MapHitCheck.h"
+#include <random>
 
-void CharacterAttack::Attack(bool& bground, int& nstate, VECTOR& vpos, const bool& bJump)
+int CharacterAttack::nBullet_ = 0;
+
+void CharacterAttack::Attack(VECTOR& vpos, const bool& bJump, const bool& bAttackjump, int& nstate, float& fgravity)
 {
-	if (!bground)
+	if (nstate == 0 && !bJump && Input::GetInstance().GetKeyPress(KEY_INPUT_SPACE) == 0x000)
 	{
-		if (nstate == 0 && bJump && Input::GetInstance().GetKeyPress(KEY_INPUT_SPACE) == 0x000)
-		{
-			nstate = 1;
-		}
+		nstate = 1;
+	}
 
- 		if (nstate == 1 && bJump && Input::GetInstance().GetKeyPress(KEY_INPUT_SPACE) == 0x001 && nBullet_ > 0)
+ 	if (nstate == 1 && !bJump && bAttackjump && Input::GetInstance().GetKeyPress(KEY_INPUT_SPACE) == 0x001 && nBullet_ > 0)
+	{
+       	if (MapHitCheck::GetChipParam(VGet(vpos.x - 16 * 0.5f, vpos.y - (16 * 0.5f + 8.0f), 0.0f)) == 0 || MapHitCheck::GetChipParam(VGet(vpos.x + 16 * 0.5f, vpos.y - (16 * 0.5f + 8.0f), 0.0f)) == 0)
 		{
-			if (nAttackFrame_ % 2 == 0)
+			if (nAttackFrame_ % 3 == 0)
 			{
-				vpos.y += 20.0f;
+				fgravity += 0.5f;
 				nBullet_--;
 				cBullet_.Create(vpos);
+			}
+			if (nAttackFrame_ % 2 == 0)
+			{
+				vpos.y -= 2.5f;
 			}
 			nAttackFrame_++;
 		}
@@ -44,4 +52,9 @@ void CharacterAttack::SetBullet(int nbullet)
 void CharacterAttack::SetAttackFrame(int nframe)
 {
 	nAttackFrame_ = nframe;
+}
+
+const int& CharacterAttack::GetBullet()
+{
+	return nBullet_;
 }

@@ -1,5 +1,6 @@
 #include "Bullet.h"
 #include "../Input/Input.h"
+#include <math.h>
 Bullet::Bullet()
 {
 	bBullet_ = false;
@@ -10,6 +11,7 @@ Bullet::Bullet()
 	nBulletNumber = 0;
 
 	nBulletTexture_ = LoadGraph("Resource/bullet.png");
+	nBulletType_ = 0;
 }
 
 Bullet::~Bullet()
@@ -25,9 +27,32 @@ void Bullet::Update()
 
 	if (bBullet_)
 	{
-		for (int i = 0; i < 10; i++)
+		switch (nBulletType_)
 		{
-			vPosition_[i].y -= 20.0f;
+		case 0:
+			for (int i = 0; i < 10; i++)
+			{
+				vPosition_[i].y -= 20.0f;
+			}
+			break;
+		case 1:
+			for (int i = 0; i < 10; i++)
+			{
+				vPosition_[i].y -= 20.0f;
+			}
+			break;
+		case 2:
+			for (int i = 0; i < 10; i++)
+			{
+				vPosition_[i].y -= 20.0f;
+			}
+			break;
+		case 3:
+			for (int i = 0; i < 10; i++)
+			{
+				vPosition_[i].y -= 20.0f;
+			}
+			break;
 		}
 	}
 }

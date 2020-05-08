@@ -16,8 +16,8 @@ public:
 	}
 	~CharacterMove() {}
 public:
-	void SideAcceleration(VECTOR& vPos);
-	void SideMove(VECTOR& vPos);
+	void SideAcceleration(VECTOR& vPos, float fspeedx);
+	void SideMove(VECTOR& vposition, float& fspeedx, float& fspeedy, float& fgravitypower, float fsize, bool bjumpflag);
 private:
 	VECTOR vSpeed;
 	int nSideType_;

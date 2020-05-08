@@ -15,6 +15,7 @@ public:
 private:
 	void CreatePolygon();
 private:
+	int nBulletType_;
 	int nBulletTexture_;
 	VECTOR vPosition_[10];
 	VECTOR vScale_;

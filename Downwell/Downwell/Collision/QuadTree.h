@@ -33,12 +33,6 @@ public:
 	}
 };
 
-struct Vector2
-{
-	float x;
-	float y;
-};
-
 class BoxCollider
 {
 public:

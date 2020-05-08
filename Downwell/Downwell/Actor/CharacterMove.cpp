@@ -1,7 +1,9 @@
 #include "CharacterMove.h"
 #include "../Input/Input.h"
+#include "../Collision/MapHitCheck.h"
+#include "CharacterAttack.h"
 
-void CharacterMove::SideAcceleration(VECTOR& vPos)
+void CharacterMove::SideAcceleration(VECTOR& vPos, float fspeedx)
 {
 
 	switch (nSideType_)
@@ -38,12 +40,10 @@ void CharacterMove::SideAcceleration(VECTOR& vPos)
 		switch (unLeftAcceleration_)
 		{
 		case 0:
-			vPos.x += -1.0f * fMove_;
-			MoveRemainingPower_ = -1 * fMove_;
+			vPos.x += fspeedx;
 			break;
 		case 1:
-			vPos.x += -5.0f * fMove_;
-			MoveRemainingPower_ = -5 * fMove_;
+			vPos.x += fspeedx;
 			break;
 		default:
 			break;
@@ -56,42 +56,28 @@ void CharacterMove::SideAcceleration(VECTOR& vPos)
 		switch (unRightAcceleration_)
 		{
 		case 0:
-			vPos.x += 1.0f * fMove_;
-			MoveRemainingPower_ = 1 * fMove_;
+			vPos.x += fspeedx;
 			break;
 		case 1:
-			vPos.x += 5.0f * fMove_;
-			MoveRemainingPower_ = 5 * fMove_;
+			vPos.x += fspeedx;
 			break;
 		default:
 			break;
 		}
 	}
 
-	if (fMove_ == 0.0f)
-	{
-		if (MoveRemainingPower_ != 0)
-		{
-			if (MoveRemainingPower_ < 0)
-			{
-				MoveRemainingPower_++;
-			}
-			if (MoveRemainingPower_ > 0)
-			{
-				MoveRemainingPower_--;
-			}
-		}
 
-		vPos.x += MoveRemainingPower_;
-	}
 }
 
-void CharacterMove::SideMove(VECTOR& vPos)
+void CharacterMove::SideMove(VECTOR& vposition, float& fspeedx, float& fspeedy, float& fgravitypower, float fsize, bool bjumpflag)
 {
+
 	if (Input::GetInstance().GetKeyPress(KEY_INPUT_LEFT))
 	{
+		//fspeedx -= 1.0f;
 		nSideType_ = 0;
-		fMove_ = 0.75f;
+		if (unLeftAcceleration_ == 0) fspeedx = -1.0f;
+		if (unLeftAcceleration_ == 1) fspeedx = -2.5f;
 		nMoveFrame_++;
 	}
 	else if (!Input::GetInstance().GetKeyPress(KEY_INPUT_LEFT))
@@ -100,8 +86,10 @@ void CharacterMove::SideMove(VECTOR& vPos)
 	}
 	if (Input::GetInstance().GetKeyPress(KEY_INPUT_RIGHT))
 	{
+		//fspeedx += 1.0f;
 		nSideType_ = 1;
-		fMove_ = 0.75f;
+		if (unRightAcceleration_ == 0) fspeedx = 1.0f;
+		if (unRightAcceleration_ == 1) fspeedx = 2.5f;
 		nMoveFrame_++;
 	}
 	else if (!Input::GetInstance().GetKeyPress(KEY_INPUT_RIGHT))
@@ -111,8 +99,44 @@ void CharacterMove::SideMove(VECTOR& vPos)
 
 	if (!Input::GetInstance().GetKeyPress(KEY_INPUT_LEFT) && !Input::GetInstance().GetKeyPress(KEY_INPUT_RIGHT))
 	{
-		fMove_ = 0.0f;
+		//fspeedx = 0.0f;
+		fspeedx = 0.0f;
 		nMoveFrame_ = 0;
 	}
-	SideAcceleration(vPos);
+
+	float halfsize;
+	float dummy = 0.0f;
+	halfsize = fsize * 0.5f;
+	
+	{
+		if (MapHitCheck::MapHitCollision(VGet(vposition.x - halfsize, vposition.y + halfsize, 0.0f), dummy, fspeedy) == 3)
+		{
+			fgravitypower = 0.0f;
+		}
+		if (MapHitCheck::MapHitCollision(VGet(vposition.x + halfsize, vposition.y + halfsize, 0.0f), dummy, fspeedy) == 3)
+		{
+			fgravitypower = 0.0f;
+		}
+		if (MapHitCheck::MapHitCollision(VGet(vposition.x - halfsize, vposition.y - halfsize, 0.0f), dummy, fspeedy) == 4)
+		{
+			fgravitypower = 0.0f;
+			fspeedy = 0.0f;
+			CharacterAttack::SetBullet(10);
+		}
+		if (MapHitCheck::MapHitCollision(VGet(vposition.x + halfsize, vposition.y - halfsize, 0.0f), dummy, fspeedy) == 4)
+		{
+			fgravitypower = 0.0f;
+			fspeedy = 0.0f;
+			CharacterAttack::SetBullet(10);
+		}
+	}
+
+	{
+		MapHitCheck::MapHitCollision(VGet(vposition.x - halfsize, vposition.y + halfsize, 0.0f), fspeedx, dummy);
+		MapHitCheck::MapHitCollision(VGet(vposition.x + halfsize, vposition.y + halfsize, 0.0f), fspeedx, dummy);
+		MapHitCheck::MapHitCollision(VGet(vposition.x - halfsize, vposition.y - halfsize, 0.0f), fspeedx, dummy);
+		MapHitCheck::MapHitCollision(VGet(vposition.x + halfsize, vposition.y - halfsize, 0.0f), fspeedx, dummy);
+	
+		SideAcceleration(vposition, fspeedx);
+	}
 }

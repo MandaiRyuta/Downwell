@@ -4,6 +4,7 @@
 #include "CharacterJump.h"
 #include "CharacterMove.h"
 #include "CharacterAttack.h"
+#include "../Collision/QuadTree.h"
 
 class Character : public Actor
 {
@@ -28,5 +29,8 @@ private:
 	CharacterAttack cAttackState_;
 	CharacterJump cJumpState_;
 	CharacterMove cMoveState_;
-	VECTOR vSpeed;
+	VECTOR vSpeed_;
+	VECTOR vOldPosition_;
+	Rect rPlayer_;
+	float fGravity_;
 };

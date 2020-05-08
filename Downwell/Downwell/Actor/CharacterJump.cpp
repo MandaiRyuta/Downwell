@@ -1,36 +1,39 @@
 #include "CharacterJump.h"
 #include "../Input/Input.h"
+#include "../Collision/MapHitCheck.h"
+#include "CharacterAttack.h"
 
 void CharacterJump::JumpUpdate()
 {
-	if (nFrame_ > 30)
+	if (CharacterAttack::GetBullet() <= 0)
 	{
 		bBulletJump_ = false;
-		nFrame_ = 0;
 	}
-	nFrame_++;
 }
 
-void CharacterJump::JumpState(VECTOR& vpos, VECTOR& vspeed, bool& bground, int& nstate)
+void CharacterJump::JumpState(VECTOR& vpos, VECTOR& vspeed, float& fgravity, int& nstate)
 {
-	if (bground)
+	if (MapHitCheck::GetChipParam(VGet(vpos.x - 16 * 0.5f, vpos.y - (16 * 0.5f + 1.0f), 0.0f)) == 1 && Input::GetInstance().GetKeyDown(KEY_INPUT_SPACE) == 0x000 || MapHitCheck::GetChipParam(VGet(vpos.x + 16 * 0.5f, vpos.y - (16 * 0.5f + 1.0f), 0.0f)) == 1 && Input::GetInstance().GetKeyDown(KEY_INPUT_SPACE) == 0x000 ||
+		MapHitCheck::GetChipParam(VGet(vpos.x - 16 * 0.5f, vpos.y - (16 * 0.5f + 1.0f), 0.0f)) == 2 && Input::GetInstance().GetKeyDown(KEY_INPUT_SPACE) == 0x000 || MapHitCheck::GetChipParam(VGet(vpos.x + 16 * 0.5f, vpos.y - (16 * 0.5f + 1.0f), 0.0f)) == 2 && Input::GetInstance().GetKeyDown(KEY_INPUT_SPACE) == 0x000 ||
+		MapHitCheck::GetChipParam(VGet(vpos.x - 16 * 0.5f, vpos.y - (16 * 0.5f + 1.0f), 0.0f)) == 3 && Input::GetInstance().GetKeyDown(KEY_INPUT_SPACE) == 0x000 || MapHitCheck::GetChipParam(VGet(vpos.x + 16 * 0.5f, vpos.y - (16 * 0.5f + 1.0f), 0.0f)) == 3 && Input::GetInstance().GetKeyDown(KEY_INPUT_SPACE) == 0x000 ||
+		MapHitCheck::GetChipParam(VGet(vpos.x - 16 * 0.5f, vpos.y - (16 * 0.5f + 1.0f), 0.0f)) == 4 && Input::GetInstance().GetKeyDown(KEY_INPUT_SPACE) == 0x000 || MapHitCheck::GetChipParam(VGet(vpos.x + 16 * 0.5f, vpos.y - (16 * 0.5f + 1.0f), 0.0f)) == 4 && Input::GetInstance().GetKeyDown(KEY_INPUT_SPACE) == 0x000 ||
+		MapHitCheck::GetChipParam(VGet(vpos.x - 16 * 0.5f, vpos.y - (16 * 0.5f + 1.0f), 0.0f)) == 5 && Input::GetInstance().GetKeyDown(KEY_INPUT_SPACE) == 0x000 || MapHitCheck::GetChipParam(VGet(vpos.x + 16 * 0.5f, vpos.y - (16 * 0.5f + 1.0f), 0.0f)) == 5 && Input::GetInstance().GetKeyDown(KEY_INPUT_SPACE) == 0x000)
 	{
-		if (Input::GetInstance().GetKeyDown(KEY_INPUT_SPACE) == 0x001 && !bJump)
-		{
-			vspeed.y = fJump_v0;
-			vpos.y += vspeed.y;
-			bJump = true;
-		}
+		bJump = true;
+		CharacterAttack::SetBullet(10);
+		bBulletJump_ = false;
 	}
-	else
+	else if(MapHitCheck::GetChipParam(VGet(vpos.x - 16 * 0.5f, vpos.y - (16 * 0.5f + 1.0f), 0.0f)) == 0 && Input::GetInstance().GetKeyDown(KEY_INPUT_SPACE) == 0x000 || MapHitCheck::GetChipParam(VGet(vpos.x + 16 * 0.5f, vpos.y - (16 * 0.5f + 1.0f), 0.0f)) == 0 && Input::GetInstance().GetKeyDown(KEY_INPUT_SPACE) == 0x000)
 	{
-		vspeed.y += fGravity;
-		vpos.y += vspeed.y;
+		bJump = false;
+	}
 
-		if (vspeed.y < 180 && Input::GetInstance().GetKeyPress(KEY_INPUT_SPACE) != 0x001 && bJump)
-		{
-			vspeed.y *= 0.9f;
-		}
+	if (bJump && Input::GetInstance().GetKeyDown(KEY_INPUT_SPACE) == 0x001)
+	{
+		nstate = 0;
+		bBulletJump_ = true;
+		fgravity = fJump_v0;
+		bJump = false;
 	}
 }
 

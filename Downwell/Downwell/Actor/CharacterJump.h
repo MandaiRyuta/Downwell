@@ -6,11 +6,11 @@
 class CharacterJump
 {
 public:
-	CharacterJump() : bJump(false), bBulletJump_(false), nFrame_(0) {}
+	CharacterJump() : bJump(true), bBulletJump_(false), nFrame_(0) {}
 	~CharacterJump() {}
 public:
 	void JumpUpdate();
-	void JumpState(VECTOR& vpos, VECTOR& vspeed, bool& bground, int& nstate);
+	void JumpState(VECTOR& vpos, VECTOR& vspeed, float& fgravity, int& nstate);
 	const bool& GetJumpExist();
 	void SetJumpExist(bool bjump);
 	const bool& GetBulletJumpExist();
