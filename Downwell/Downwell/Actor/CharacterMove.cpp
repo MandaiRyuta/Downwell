@@ -76,8 +76,8 @@ void CharacterMove::SideMove(VECTOR& vposition, float& fspeedx, float& fspeedy, 
 	{
 		//fspeedx -= 1.0f;
 		nSideType_ = 0;
-		if (unLeftAcceleration_ == 0) fspeedx = -1.0f;
-		if (unLeftAcceleration_ == 1) fspeedx = -2.5f;
+		if (unLeftAcceleration_ == 0) fspeedx = -2.0f;
+		if (unLeftAcceleration_ == 1) fspeedx = -5.0f;
 		nMoveFrame_++;
 	}
 	else if (!Input::GetInstance().GetKeyPress(KEY_INPUT_LEFT))
@@ -88,8 +88,8 @@ void CharacterMove::SideMove(VECTOR& vposition, float& fspeedx, float& fspeedy, 
 	{
 		//fspeedx += 1.0f;
 		nSideType_ = 1;
-		if (unRightAcceleration_ == 0) fspeedx = 1.0f;
-		if (unRightAcceleration_ == 1) fspeedx = 2.5f;
+		if (unRightAcceleration_ == 0) fspeedx = 2.0f;
+		if (unRightAcceleration_ == 1) fspeedx = 5.0f;
 		nMoveFrame_++;
 	}
 	else if (!Input::GetInstance().GetKeyPress(KEY_INPUT_RIGHT))

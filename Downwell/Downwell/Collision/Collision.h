@@ -16,7 +16,7 @@ struct  Vector3
 public:
 	float x, y, z;
 
-	Vector3(){}
+	Vector3() { x = 0.0f; y = 0.0f; z = 0.0f; }
 	
 	Vector3(float vecx, float vecy, float vecz)
 		: x(vecx),

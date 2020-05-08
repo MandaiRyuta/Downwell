@@ -5,7 +5,13 @@
 
 class Camera {
 private:
-	Camera() {}		//コンストラクタ
+	Camera()
+	{
+		fShakePower_ = 0.0f;
+		bShake_ = false;
+		Position_ = VGet(0.0f, 0.0f, 0.0f);
+		Offset_ = VGet(0.0f, 0.0f, 0.0f);
+	}		//コンストラクタ
 	~Camera() {}
 public:
 	static Camera& GetInstance()

@@ -6,7 +6,7 @@
 #include "../Collision/QuadTree.h"
 
 constexpr int StageWidth = 20;
-constexpr int StageHeigh = 250;
+constexpr int StageHeigh = 350;
 constexpr int OneBlockHeight = 50;
 constexpr int OneBlockWidth = 20;
 constexpr int BlockWidth = 18;
@@ -25,6 +25,7 @@ public:
 	static const VECTOR& GetStagePos(int x, int y);
 	static const int& GetStageType(int x, int y);
 	static const Rect& GetStageRect(int x, int y);
+	static void SetStageType(int type, int x, int y);
 private:
 	static std::array<std::array<int, StageWidth>, StageHeigh> Stage_;
 	static std::array<std::array<VECTOR, StageWidth>, StageHeigh> Blockpos_;

@@ -3,7 +3,7 @@
 class StageDataBase
 {
 private:
-	StageDataBase() {}
+	StageDataBase() : Stage_() {}
 	~StageDataBase() {}
 public:
 	static StageDataBase& GetInstance()

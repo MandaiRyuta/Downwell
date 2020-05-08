@@ -1,29 +1,49 @@
 #include "Stage.h"
 #include "../Resource/StageDataBase.h"
 #include "Character.h"
-
+#include <random>
 std::array<std::array<int, StageWidth>, StageHeigh> Stage::Stage_ = {};
 std::array<std::array<VECTOR, StageWidth>, StageHeigh> Stage::Blockpos_ = {};
 std::array<std::array<Rect, StageWidth>, StageHeigh> Stage::Blockrect_ = {};
 
 Stage::Stage()
 {
-	int nx = 0, ny = 0;
+	int nx = 0, ny = 0, stagetype = 0;
 	StageDataBase::GetInstance().InitStage();
-
-	for (int type = 0; type < 5; type++)
+	std::random_device rnd;
+	std::mt19937 mt(rnd());
+	std::uniform_int_distribution<> randset(2, 8);
+	float blockwidth = static_cast<float>(BlockWidth);
+	float blockheight = static_cast<float>(BlockHeight);
+	for (int type = 0; type < 7; type++)
 	{
+		stagetype = randset(mt);
 		for (int y = 0; y < OneBlockHeight; y++)
 		{
 			for (int x = 0; x < OneBlockWidth; x++)
 			{
 				ny = y + (type * OneBlockHeight);
-				Stage_[ny][x] = (StageDataBase::GetInstance().GetStageType(type, x, y));
-				Blockpos_[ny][x] = VGet(171 + x * BlockWidth, (-ny * BlockHeight) + (BlockHeight * -0.5f), 0.0f);
+
+				if (type == 0)
+				{
+					Stage_[ny][x] = (StageDataBase::GetInstance().GetStageType(0, x, y));
+					Blockpos_[ny][x] = VGet(171.0f + static_cast<float>(x) * (float)blockwidth, (static_cast<float>(-ny) * blockheight) + (blockheight * -0.5f), 0.0f);
+				}
+				else if (type == 6)
+				{
+					Stage_[ny][x] = (StageDataBase::GetInstance().GetStageType(9, x, y));
+					Blockpos_[ny][x] = VGet(171.0f + static_cast<float>(x) * (float)blockwidth, (static_cast<float>(-ny) * blockheight) + (blockheight * -0.5f), 0.0f);
+				}
+				else
+				{
+					Stage_[ny][x] = (StageDataBase::GetInstance().GetStageType(stagetype, x, y));
+					Blockpos_[ny][x] = VGet(171.0f + static_cast<float>(x) * (float)blockwidth, (static_cast<float>(-ny) * blockheight) + (blockheight * -0.5f), 0.0f);
+				}
+
 				Blockrect_[ny][x].x = Blockpos_[ny][x].x;
 				Blockrect_[ny][x].y = Blockpos_[ny][x].y;
-				Blockrect_[ny][x].width = BlockWidth;
-				Blockrect_[ny][x].height = BlockHeight;
+				Blockrect_[ny][x].width = blockwidth;
+				Blockrect_[ny][x].height = blockheight;
 			}
 		}
 	}
@@ -48,8 +68,10 @@ void Stage::Update()
 
 void Stage::Draw()
 {
-	int MapDrawPointX = -Character::GetPos().x + ((640 / 20 + 2) / 2 - 1);
-	int MapDrawPointY = -Character::GetPos().y + ((640 / 20 + 2) / 2 - 1);
+	int MapDrawPointX, MapDrawPointY;
+	MapDrawPointX = MapDrawPointY = 0;
+	MapDrawPointX = static_cast<int>(-Character::GetPos().x + ((640 / 20 + 2) / 2 - 1));
+	MapDrawPointY = static_cast<int>(-Character::GetPos().y + ((640 / 20 + 2) / 2 - 1));
 	
 	int numcount = 0;
 	for (int y = 0; y < StageHeigh; y++)
@@ -93,4 +115,9 @@ const int& Stage::GetStageType(int x, int y)
 const Rect& Stage::GetStageRect(int x, int y)
 {
 	return Blockrect_[y][x];
+}
+
+void Stage::SetStageType(int type, int x, int y)
+{
+	Stage_[x][y] = type;
 }

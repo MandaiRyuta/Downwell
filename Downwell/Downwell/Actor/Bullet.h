@@ -21,7 +21,7 @@ private:
 	VECTOR vScale_;
 	int nSpeed_;
 	int nRotate_;
-	bool bBullet_;
+	bool bBullet_[10];
 	int nBulletFrame_;
 	int nBulletNumber;
 };

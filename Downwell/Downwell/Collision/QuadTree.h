@@ -9,7 +9,10 @@ struct Rect
 	float width;
 
 public:
-	Rect(){}
+	Rect()
+	{
+		x = y = height = width = 0.0f;
+	}
 	Rect(float fx, float fy, float fwidth, float fheight)
 	{
 		x = fx;
@@ -57,7 +60,13 @@ public:
 class QuadTree
 {
 public:
-	QuadTree() {}
+	QuadTree() 
+	{
+		maxobject_ = 0;
+		parent_ = nullptr;
+		maxlevel_ = 0;
+		level_ = 0;
+	}
 	QuadTree(int maxobj, int maxlevel, int level, Rect bounds, QuadTree* parent);
 	
 	void Insert(std::shared_ptr<BoxCollider> object);

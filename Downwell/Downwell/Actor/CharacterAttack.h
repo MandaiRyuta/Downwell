@@ -12,7 +12,7 @@ public:
 	}
 	~CharacterAttack() {}
 public:
-	void Attack(VECTOR& vpos, const bool& bJump, const bool& bAttackjump, int& nstate, float& fgravity);
+	void Attack(VECTOR& vpos, const bool& bJump, const bool& bAttackjump, int& nstate, float& fgravity, bool& bshake);
 	void Draw();
 	void SetAttackExist(bool battack);
 	static void SetBullet(int nbullet);
@@ -20,7 +20,6 @@ public:
 	static const int& GetBullet();
 private:
 	bool bAttack_;
-	int nBulletTexture_;
 	int nAttackFrame_;
 	float fSpeed_;
 	static int nBullet_;

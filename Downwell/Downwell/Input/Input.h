@@ -3,13 +3,24 @@
 class Input
 {
 private:
-	Input() {}
+	Input() : DownKeyNum_(),UpKeyNum_(),PressKeyNum_(),DownKey_(),UpKey_(),PressKey_()
+	{
+		for (int i = 0; i < 256; i++)
+		{
+			DownKeyNum_[i] = 0;
+			UpKeyNum_[i] = 0;
+			PressKeyNum_[i] = 0;
+			DownKey_[i] = 0x000;
+			UpKey_[i] = 0x000;
+			PressKey_[i] = 0x000;
+		}
+	}
 	~Input(){}
 public:
 
 	static Input& GetInstance()
 	{
-		Input Inst;
+		static Input Inst;
 		return Inst;
 	}
 	void Init();

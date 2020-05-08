@@ -5,14 +5,14 @@
 class CharacterMove
 {
 public:
-	CharacterMove() 
+	CharacterMove() : vSpeed(VGet(0.0f,0.0f,0.0f))
 	{
 		nSideType_ = -1;
 		unLeftAcceleration_ = -1;
 		unRightAcceleration_ = -1;
 		nMoveFrame_ = 0;
 		fMove_ = 0;
-		MoveRemainingPower_ = 0.0f;
+		MoveRemainingPower_ = 0;
 	}
 	~CharacterMove() {}
 public:

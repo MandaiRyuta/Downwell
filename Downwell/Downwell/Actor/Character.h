@@ -16,9 +16,6 @@ public:
 
 	static VECTOR GetPos();
 private:
-	void CreatePolygon();
-private:
-	VERTEX3D vtx3d_vert[6];
 	int nCharacterActionState_;
 	int ntexhandle;
 	static VECTOR vPosition_;
@@ -33,4 +30,6 @@ private:
 	VECTOR vOldPosition_;
 	Rect rPlayer_;
 	float fGravity_;
+	float fPlayershake_;
+	bool bPlayershake_;
 };

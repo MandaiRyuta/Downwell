@@ -1,9 +1,12 @@
 #include "Bullet.h"
 #include "../Input/Input.h"
 #include <math.h>
-Bullet::Bullet()
+Bullet::Bullet() : vPosition_(),nSpeed_(0),nRotate_(0),bBullet_()
 {
-	bBullet_ = false;
+	for (int i = 0; i < 10; i++)
+	{
+		bBullet_[i] = false;
+	}
 	vScale_.x = 20.0f;
 	vScale_.y = 20.0f;
 
@@ -22,10 +25,10 @@ void Bullet::Update()
 {
 	if (Input::GetInstance().GetKeyPress(KEY_INPUT_SPACE) == 0x001)
 	{
-		bBullet_ = true;
+		bBullet_[nBulletNumber] = true;
 	}
 
-	if (bBullet_)
+	if (bBullet_[nBulletNumber])
 	{
 		switch (nBulletType_)
 		{
@@ -60,6 +63,7 @@ void Bullet::Create(const VECTOR& vpos)
 	vPosition_[nBulletNumber].x = vpos.x;
   	vPosition_[nBulletNumber].y = vpos.y;
 	vPosition_[nBulletNumber].z = 0.0f;
+
 	if (nBulletNumber < 10)
 	{
 		nBulletNumber++;
