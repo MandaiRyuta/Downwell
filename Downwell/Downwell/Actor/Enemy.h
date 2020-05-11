@@ -6,7 +6,7 @@
 class Enemy : public Actor
 {
 public:
-	Enemy(int ntype, int nhp, int nspeed);
+	Enemy(int enemynumber, int ntype, int nhp, int nspeed, VECTOR vposition);
 	~Enemy();
 public:
 	virtual void Update() override; 

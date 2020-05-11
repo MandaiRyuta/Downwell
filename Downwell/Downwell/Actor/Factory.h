@@ -1,22 +1,22 @@
 #pragma once
 #include <string>
-
+#include "../Constant.h"
 class EnemyParameter;
 
 class Factory
 {
 public:
-	EnemyParameter* Create(int ntype, int nhp, int nspeed) {
-		return CreateInstance(ntype, nhp, nspeed);
+	EnemyParameter* Create(int enemynumber, int ntype, int nhp, int nspeed, VECTOR vposition) {
+		return CreateInstance(enemynumber, ntype, nhp, nspeed, vposition);
 	}
 private:
-	virtual EnemyParameter* CreateInstance(int ntype, int nhp, int nspeed) = 0;
+	virtual EnemyParameter* CreateInstance(int enemynumber, int ntype, int nhp, int nspeed, VECTOR vposition) = 0;
 };
 
 class CreateFactory : public Factory
 {
 private:
-	EnemyParameter* CreateInstance(int ntype, int nhp, int nspeed);
+	EnemyParameter* CreateInstance(int enemynumber, int ntype, int nhp, int nspeed, VECTOR vposition);
 };
 
 //専用コントローラーを作っても良い

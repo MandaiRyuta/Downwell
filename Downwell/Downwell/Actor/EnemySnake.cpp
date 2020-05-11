@@ -15,7 +15,7 @@ EnemySnake::~EnemySnake()
 {
 	if (AIData_ != nullptr)
 	{
-		AIData_->Release();
+		AIData_->PopSequenceNode();
 		delete AIData_;
 	}
 }

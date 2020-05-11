@@ -10,12 +10,12 @@
 #include "EnemySquid.h"
 #include "EnemyTurtle.h"
 
-Enemy::Enemy(int ntype, int nhp, int nspeed)
+Enemy::Enemy(int enemynumber, int ntype, int nhp, int nspeed, VECTOR vposition)
 {
 	//’P‘Ì‚Å
 	cFactory_ = new CreateFactory();
 	//•¡”‚Å
-	cProduct_ = cFactory_->Create(ntype, nhp, nspeed);
+	cProduct_ = cFactory_->Create(enemynumber, ntype, nhp, nspeed, vposition);
 }
 
 Enemy::~Enemy()

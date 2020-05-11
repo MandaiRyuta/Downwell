@@ -13,7 +13,7 @@ public:
 	{
 		Init();
 	}
-	void Release();
+	~BehaviorData();
 	void Init();
 	void PushSequenceNode(Node* node);
 	Node* PopSequenceNode();

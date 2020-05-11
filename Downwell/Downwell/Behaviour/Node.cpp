@@ -4,6 +4,15 @@
 
 Node::~Node()
 {
+	//for (auto itr : ChildNode_)
+	//{
+	//	delete itr;
+	//}
+}
+
+void Node::Release()
+{
+	//delete JudgementBase_;
 }
 
 bool Node::Judgment(EnemyParameter* enemy)

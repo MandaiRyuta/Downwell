@@ -19,7 +19,7 @@ void LevelsResponsible::Draw()
 
 void LevelsResponsible::Release()
 {
-	delete[] Level_;
+	delete Level_;
 }
 
 void LevelsResponsible::ChangeLevel(int type)

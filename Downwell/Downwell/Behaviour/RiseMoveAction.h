@@ -1,5 +1,6 @@
 #pragma once
 #include "ActionBase.h"
+#include "../Constant.h"
 
 class EnemyParameter;
 
@@ -13,4 +14,6 @@ public:
 	}
 
 	virtual ActionBase::STATE Run(EnemyParameter* enemy) override;
+private:
+	VECTOR vMove_;
 };

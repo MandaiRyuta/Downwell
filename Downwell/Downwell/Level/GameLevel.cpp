@@ -2,9 +2,12 @@
 #include <DxLib.h>
 #include "../Actor/Character.h"
 #include "../Actor/Stage.h"
+#include "../Actor/Enemy.h"
 
 GameLevel::GameLevel(int type)
 {
+	int EnemyCount = 0;
+
 	switch (type)
 	{
 	case 0:
@@ -15,6 +18,18 @@ GameLevel::GameLevel(int type)
 		//UI 3
 		obj_[0].push_back(new Stage);
 		obj_[2].push_back(new Character);
+		for (int i = 0; i < 350; i++)
+		{
+			for (int t = 0; t < 20; t++)
+			{
+				if (Stage::GetStageType(t, i) == 9)
+				{
+					obj_[3].push_back(new Enemy(EnemyCount, 1, 1, 1,Stage::GetStagePos(t,i)));
+					EnemyCount++;
+				}
+			}
+		}
+		EnemyCount = EnemyCount;
 		break;
 	case 2:
 		break;
@@ -27,7 +42,7 @@ GameLevel::~GameLevel()
 	{
 		for (auto itr : obj_[i])
 		{
-			delete itr;
+			if(itr != nullptr)	delete itr;
 		}
 	}
 }

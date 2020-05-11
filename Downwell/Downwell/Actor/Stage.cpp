@@ -12,9 +12,10 @@ Stage::Stage()
 	StageDataBase::GetInstance().InitStage();
 	std::random_device rnd;
 	std::mt19937 mt(rnd());
-	std::uniform_int_distribution<> randset(2, 8);
+	std::uniform_int_distribution<> randset(1, 10);
 	float blockwidth = static_cast<float>(BlockWidth);
 	float blockheight = static_cast<float>(BlockHeight);
+
 	for (int type = 0; type < 7; type++)
 	{
 		stagetype = randset(mt);
@@ -31,7 +32,7 @@ Stage::Stage()
 				}
 				else if (type == 6)
 				{
-					Stage_[ny][x] = (StageDataBase::GetInstance().GetStageType(9, x, y));
+					Stage_[ny][x] = (StageDataBase::GetInstance().GetStageType(11, x, y));
 					Blockpos_[ny][x] = VGet(171.0f + static_cast<float>(x) * (float)blockwidth, (static_cast<float>(-ny) * blockheight) + (blockheight * -0.5f), 0.0f);
 				}
 				else
@@ -47,6 +48,7 @@ Stage::Stage()
 			}
 		}
 	}
+	
 	StageBlockHandle_ = LoadGraph("Background.png");
 
 	BlockTexture_ = LoadGraph("Resource/block.png");

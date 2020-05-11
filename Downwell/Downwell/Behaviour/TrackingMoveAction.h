@@ -1,5 +1,6 @@
 #pragma once
 #include "ActionBase.h"
+#include "../Constant.h"
 
 class EnemyParameter;
 

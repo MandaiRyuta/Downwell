@@ -1,6 +1,7 @@
 #pragma once
-
 #include "ActionBase.h"
+#include "../Constant.h"
+#include "../DownwellConstant.h"
 
 class EnemyParameter;
 
@@ -12,6 +13,8 @@ public:
 		static TurnMoveAction instance;
 		return &instance;
 	}
-
 	virtual ActionBase:: STATE Run(EnemyParameter* enemy) override;
+private:
+	VECTOR Move_[nTurtleMaxCount];
+
 };

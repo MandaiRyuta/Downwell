@@ -20,7 +20,7 @@ class Node
 public:
 	Node() {}
 	//エントリー名、登録したノードの検索、兄弟ノード、優先度、ビヘイビアツリーの選択ルール、切り替える判断クラス(残ったHPで行動を判断)、行動クラス、子要素にいれているものに登録するヒエラルキー
-	Node(std::string entry_name, Node* parent_node, Node* sibling, int priority, TREE_RULE select_rule, JudgmentBase* judgment, ActionBase* action, int hierarchy_number) : 
+	Node(std::string entry_name, Node* parent_node, Node* sibling, int priority, TREE_RULE select_rule, JudgmentBase* judgment, ActionBase* action, int hierarchy_number) :
 		Name_(entry_name),
 		Parent_(parent_node),
 		Sibiling_(sibling),
@@ -28,21 +28,12 @@ public:
 		BTRuleBase_(select_rule),
 		JudgementBase_(judgment),
 		ActionBase_(action),
-		HierarchyNumber_(hierarchy_number)
+		HierarchyNumber_(hierarchy_number),
+		ChildNode_(NULL)
 	{}
 	~Node();
 public:
-	void SetNode(std::string& entry_name, Node* parent_node, Node* sibling, int& priority, TREE_RULE& select_rule, JudgmentBase* judgment, ActionBase* action, int hierarchy_number)
-	{
-		Name_ = entry_name;
-		Parent_ = parent_node;
-		Sibiling_ = sibling;
-		Priority_ = priority;
-		BTRuleBase_ = select_rule;
-		JudgementBase_ = judgment;
-		ActionBase_ = action;
-		HierarchyNumber_ = hierarchy_number;
-	}
+	void Release();
 	const std::string& GetName()
 	{
 		return Name_;
@@ -56,9 +47,14 @@ public:
 	{
 		return ChildNode_.size() >= index ? nullptr : ChildNode_[index];
 	}
-	Node& GetLastChild()
+	Node* GetLastChild()
 	{
-		return *ChildNode_[ChildNode_.size() - 1];
+		if (ChildNode_.size() == 0)
+		{
+			return nullptr;
+		}
+
+		return ChildNode_[ChildNode_.size() - 1];
 	}
 	const Node& GetFirstChildNode()
 	{

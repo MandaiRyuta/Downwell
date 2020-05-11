@@ -1,9 +1,9 @@
 #include "EnemySlime.h"
 #include "../Behaviour/BehaviorData.h"
 
-EnemySlime::EnemySlime(BehaviorTree* aitree, int nhp, int nspeed) : 
-	AITree_(aitree)
+EnemySlime::EnemySlime(BehaviorTree aitree, int nhp, int nspeed) 
 {
+	AITree_ = aitree;
 	nHp_ = nhp;
 	nMaxHp_ = nhp;
 	nSpeed_ = nspeed;
@@ -15,7 +15,7 @@ EnemySlime::~EnemySlime()
 {
 	if (AIData_ != nullptr)
 	{
-		AIData_->Release();
+		AIData_->PopSequenceNode();
 		delete AIData_;
 	}
 }

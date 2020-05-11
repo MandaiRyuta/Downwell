@@ -1,14 +1,15 @@
 #include "BehaviorData.h"
 #include "Node.h"
 
-void BehaviorData::Release()
+BehaviorData::~BehaviorData()
 {
+	UpdateSequenceStep_.clear();
+	UsedNode_.clear();
+
 	while (SequenceStack_.size() > 0)
 	{
 		SequenceStack_.pop();
 	}
-
-	UpdateSequenceStep_.clear();
 }
 
 void BehaviorData::Init()
