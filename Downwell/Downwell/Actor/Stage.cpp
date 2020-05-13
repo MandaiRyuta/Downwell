@@ -1,7 +1,10 @@
 #include "Stage.h"
 #include "../Resource/StageDataBase.h"
 #include "Character.h"
+#include "EnemySeaUrchin.h"
+#include "../Resource/TextureData.h"
 #include <random>
+
 std::array<std::array<int, StageWidth>, StageHeigh> Stage::Stage_ = {};
 std::array<std::array<VECTOR, StageWidth>, StageHeigh> Stage::Blockpos_ = {};
 std::array<std::array<Rect, StageWidth>, StageHeigh> Stage::Blockrect_ = {};
@@ -48,12 +51,10 @@ Stage::Stage()
 			}
 		}
 	}
-	
-	StageBlockHandle_ = LoadGraph("Background.png");
 
-	BlockTexture_ = LoadGraph("Resource/block.png");
-	InSideBlockTexture_ = LoadGraph("Resource/insideblock.png");
-	NonBlockTexture_ = LoadGraph("Resource/nonblock.png");
+	BlockTexture_ = TextureDataBase::TextureData::GetInstance().GetTextureData(TextureDataBase::TextureNumber::BackgroundBlock);
+	InSideBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetTextureData(TextureDataBase::TextureNumber::OutBlock);
+	NonBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetTextureData(TextureDataBase::TextureNumber::Block);
 }
 
 Stage::~Stage()
@@ -76,7 +77,38 @@ void Stage::Update()
 		{
 			int x = Bullet::GetPosition(i).x / BlockSize - (BlockSize * 0.5f);
 			int y = Bullet::GetPosition(i).y / -BlockSize;
+
 			Stage_[y][x] = 0;
+
+			if (Stage_[y][x + 1] == 0)
+			{
+				Stage_[y - 1][x + 1] = 7;
+			}
+			else if (Stage_[y][x - 1] == 0)
+			{
+				Stage_[y - 1][x - 1] = 8;
+			}
+			else if (Stage_[y][x + 1] == 0 && Stage_[y][x - 1] == 1)
+			{
+				Stage_[y - 1][x + 1] = 7;
+			}
+			else if (Stage_[y][x - 1] == 0 && Stage_[y][x + 1] == 1)
+			{
+				Stage_[y - 1][x - 1] = 8;
+			}
+				
+
+			//if (EnemySeaUrchin::GetPosition().x < Bullet::GetPosition(i).x)
+			//{
+			//	Stage_[y + 1][x] = 11;
+			//	Stage_[y - 1][x] = 10;
+			//}
+			//if (EnemySeaUrchin::GetPosition().x >= Bullet::GetPosition(i).x)
+			//{
+			//	Stage_[y + 1][x] = 12;
+			//	Stage_[y - 1][x] = 13;
+			//}
+
 			Bullet::ResetSetPosition(i);
 		}
 	}

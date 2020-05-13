@@ -30,7 +30,7 @@ private:
 	static std::array<std::array<int, StageWidth>, StageHeigh> Stage_;
 	static std::array<std::array<VECTOR, StageWidth>, StageHeigh> Blockpos_;
 	static std::array<std::array<Rect, StageWidth>, StageHeigh> Blockrect_;
-	int StageBlockHandle_;
+
 	int BlockTexture_;
 	int NonBlockTexture_;
 	int InSideBlockTexture_;

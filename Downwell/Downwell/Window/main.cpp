@@ -10,6 +10,7 @@
 #include "../Level//LevelsResponsible.h"
 #include "../Input/Input.h"
 #include "../Camera/Camera.h"
+#include "../Resource/TextureData.h"
 #else
 #include "../Application/Application.h"
 #include "../Fps/FpsCounter.h"
@@ -43,13 +44,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			bool bEnabledProcess = ProcessMessage() == 0;
 
 			bool bEnabledLevel = LevelsResponsible::GetInstance().GetNowLevel() != 0;
-
-			bool bLoop = !bEscape && bEnabledProcess && bEnabledLevel;
+			bool bTitleLevelCheck = (LevelsResponsible::GetInstance().GetNowLevel() == 0 && TextureDataBase::TextureData::GetInstance().GetTextureData(TextureDataBase::TextureNumber::Player) > 0);
+			bool bGameLevelCheck = (LevelsResponsible::GetInstance().GetNowLevel() == 1 && TextureDataBase::TextureData::GetInstance().GetTextureData(TextureDataBase::TextureNumber::Turtle) > 0);
+			bool bResultLevelCheck = (LevelsResponsible::GetInstance().GetNowLevel() == 2 && TextureDataBase::TextureData::GetInstance().GetTextureData(TextureDataBase::TextureNumber::Player) > 0);
+			bool bLoop = bEnabledProcess && bEnabledLevel && !bEscape && (bTitleLevelCheck || bGameLevelCheck || bResultLevelCheck);
 
 			return bLoop;
 		};
 
-		int loadtex = LoadGraph("Background.png");
 		while (isLoop())
 		{
 			fps.Update();

@@ -3,6 +3,8 @@
 #include <math.h>
 #include "../Collision/MapHitCheck.h"
 #include "Stage.h"
+#include "Character.h"
+#include "../Resource/TextureData.h"
 
 VECTOR Bullet::vPosition_[10] = {};
 bool Bullet::bBullet_[10] = {};
@@ -20,7 +22,7 @@ Bullet::Bullet() : nSpeed_(0),nRotate_(0)
 	nBulletFrame_ = 0;
 	nBulletNumber = 0;
 
-	nBulletTexture_ = LoadGraph("Resource/bullet.png");
+	nBulletTexture_ = TextureDataBase::TextureData::GetInstance().GetTextureData(TextureDataBase::TextureNumber::Bullet);
 	nBulletType_ = 0;
 }
 
@@ -57,6 +59,12 @@ void Bullet::Update()
 					bulletspeed[i] = 0.0f;
 					vPosition_[i] = VGet(0.0f, 0.0f, 0.0f);
 				}*/
+				if (vPosition_[i].y < Character::GetPos().y + -250.0f)
+				{
+					bBullet_[i] = false;
+					fBulletspeed_[i] = 0.0f;
+					vPosition_[i] = VGet(0.0f, 0.0f, 0.0f);
+				}
 				if (MapHitCheck::GetChipParam(VGet(vPosition_[i].x - 12 * 0.5f, vPosition_[i].y - (12 * 0.5f + 1.0f), 0.0f)) == 1 ||
 					MapHitCheck::GetChipParam(VGet(vPosition_[i].x + 12 * 0.5f, vPosition_[i].y - (12 * 0.5f + 1.0f), 0.0f)) == 1 ||
 					MapHitCheck::GetChipParam(VGet(vPosition_[i].x - 12 * 0.5f, vPosition_[i].y - (12 * 0.5f + 1.0f), 0.0f)) == 2 ||
@@ -121,42 +129,3 @@ void Bullet::ResetSetPosition(int nbulletnumber)
 	fBulletspeed_[nbulletnumber] = 0.0f;
 	vPosition_[nbulletnumber] = VGet(0.0f, 0.0f, 0.0f);
 }
-
-//void Bullet::CreatePolygon()
-//{
-//	vtx2d_Vert[0].pos = VGet(0.0f + vPosition_.x, 0.0f + vPosition_.y, 0.0f);
-//	vtx2d_Vert[0].rhw = 1.0f;
-//	vtx2d_Vert[0].dif = GetColorU8(255, 255, 255, 255);
-//	vtx2d_Vert[0].u = 0.0f;
-//	vtx2d_Vert[0].v = 0.0f;
-//
-//	vtx2d_Vert[1].pos = VGet(vScale_.x + vPosition_.x, 0.0f + vPosition_.y, 0.0f);
-//	vtx2d_Vert[1].rhw = 1.0f;
-//	vtx2d_Vert[1].dif = GetColorU8(255, 255, 255, 255);
-//	vtx2d_Vert[1].u = 1.0f;
-//	vtx2d_Vert[1].v = 0.0f;
-//
-//	vtx2d_Vert[2].pos = VGet(0.0f + vPosition_.x, vScale_.y + vPosition_.y, 0.0f);
-//	vtx2d_Vert[2].rhw = 1.0f;
-//	vtx2d_Vert[2].dif = GetColorU8(255, 255, 255, 255);
-//	vtx2d_Vert[2].u = 0.0f;
-//	vtx2d_Vert[2].v = 1.0f;
-//
-//	vtx2d_Vert[3].pos = VGet(vScale_.x + vPosition_.x, vScale_.y + vPosition_.y, 0.0f);
-//	vtx2d_Vert[3].rhw = 1.0f;
-//	vtx2d_Vert[3].dif = GetColorU8(255, 255, 255, 255);
-//	vtx2d_Vert[3].u = 1.0f;
-//	vtx2d_Vert[3].v = 1.0f;
-//
-//	vtx2d_Vert[4].pos = VGet(0.0f + vPosition_.x, vScale_.y + vPosition_.y, 0.0f);
-//	vtx2d_Vert[4].rhw = 1.0f;
-//	vtx2d_Vert[4].dif = GetColorU8(255, 255, 255, 255);
-//	vtx2d_Vert[4].u = 0.0f;
-//	vtx2d_Vert[4].v = 1.0f;
-//
-//	vtx2d_Vert[5].pos = VGet(vScale_.x + vPosition_.x, 0.0f + vPosition_.y, 0.0f);
-//	vtx2d_Vert[5].rhw = 1.0f;
-//	vtx2d_Vert[5].dif = GetColorU8(255, 255, 255, 255);
-//	vtx2d_Vert[5].u = 1.0f;
-//	vtx2d_Vert[5].v = 0.0f;
-//}

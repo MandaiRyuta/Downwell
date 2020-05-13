@@ -3,6 +3,7 @@
 #include "../Collision/MapHitCheck.h"
 #include "CharacterAttack.h"
 
+bool CharacterJump::bJump = false;
 void CharacterJump::JumpUpdate()
 {
 	if (CharacterAttack::GetBullet() <= 0)

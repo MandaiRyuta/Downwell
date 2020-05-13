@@ -1,9 +1,10 @@
 #pragma once
 #include "../Constant.h"
-
+#include "../DownwellConstant.h"
 class EnemyParameter
 {
 public:
+	EnemyParameter();
 	virtual ~EnemyParameter() {};
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
@@ -70,7 +71,18 @@ public:
 	{
 		return nEnemyNumber_;
 	}
+
+	const bool& GetbLifeExist()
+	{
+		return bLife_;
+	}
+	
+	void SetbLife(bool blife)
+	{
+		bLife_ = blife;
+	}
 protected:
+	bool bLife_;
 	int nEnemyNumber_;
 	int nMoveType_;
 	int nHp_;

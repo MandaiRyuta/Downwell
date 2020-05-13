@@ -15,6 +15,5 @@ public:
 	}
 	virtual ActionBase:: STATE Run(EnemyParameter* enemy) override;
 private:
-	VECTOR Move_[nTurtleMaxCount];
-
+	VECTOR vMove_[nTurnMoveMaxEnemy];
 };

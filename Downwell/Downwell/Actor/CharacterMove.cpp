@@ -105,25 +105,25 @@ void CharacterMove::SideMove(VECTOR& vposition, float& fspeedx, float& fspeedy, 
 	}
 
 	float halfsize;
-	float dummy = 0.0f;
+	float dammy = 0.0f;
 	halfsize = fsize * 0.5f;
 	
 	{
-		if (MapHitCheck::MapHitCollision(VGet(vposition.x - halfsize, vposition.y + halfsize, 0.0f), dummy, fspeedy) == 3)
+		if (MapHitCheck::MapHitCollision(VGet(vposition.x - halfsize, vposition.y + halfsize, 0.0f), dammy, fspeedy) == 3)
 		{
 			fgravitypower = 0.0f;
 		}
-		if (MapHitCheck::MapHitCollision(VGet(vposition.x + halfsize, vposition.y + halfsize, 0.0f), dummy, fspeedy) == 3)
+		if (MapHitCheck::MapHitCollision(VGet(vposition.x + halfsize, vposition.y + halfsize, 0.0f), dammy, fspeedy) == 3)
 		{
 			fgravitypower = 0.0f;
 		}
-		if (MapHitCheck::MapHitCollision(VGet(vposition.x - halfsize, vposition.y - halfsize, 0.0f), dummy, fspeedy) == 4)
+		if (MapHitCheck::MapHitCollision(VGet(vposition.x - halfsize, vposition.y - halfsize, 0.0f), dammy, fspeedy) == 4)
 		{
 			fgravitypower = 0.0f;
 			fspeedy = 0.0f;
 			CharacterAttack::SetBullet(10);
 		}
-		if (MapHitCheck::MapHitCollision(VGet(vposition.x + halfsize, vposition.y - halfsize, 0.0f), dummy, fspeedy) == 4)
+		if (MapHitCheck::MapHitCollision(VGet(vposition.x + halfsize, vposition.y - halfsize, 0.0f), dammy, fspeedy) == 4)
 		{
 			fgravitypower = 0.0f;
 			fspeedy = 0.0f;
@@ -132,10 +132,10 @@ void CharacterMove::SideMove(VECTOR& vposition, float& fspeedx, float& fspeedy, 
 	}
 
 	{
-		MapHitCheck::MapHitCollision(VGet(vposition.x - halfsize, vposition.y + halfsize, 0.0f), fspeedx, dummy);
-		MapHitCheck::MapHitCollision(VGet(vposition.x + halfsize, vposition.y + halfsize, 0.0f), fspeedx, dummy);
-		MapHitCheck::MapHitCollision(VGet(vposition.x - halfsize, vposition.y - halfsize, 0.0f), fspeedx, dummy);
-		MapHitCheck::MapHitCollision(VGet(vposition.x + halfsize, vposition.y - halfsize, 0.0f), fspeedx, dummy);
+		MapHitCheck::MapHitCollision(VGet(vposition.x - halfsize, vposition.y + halfsize, 0.0f), fspeedx, dammy);
+		MapHitCheck::MapHitCollision(VGet(vposition.x + halfsize, vposition.y + halfsize, 0.0f), fspeedx, dammy);
+		MapHitCheck::MapHitCollision(VGet(vposition.x - halfsize, vposition.y - halfsize, 0.0f), fspeedx, dammy);
+		MapHitCheck::MapHitCollision(VGet(vposition.x + halfsize, vposition.y - halfsize, 0.0f), fspeedx, dammy);
 	
 		SideAcceleration(vposition, fspeedx);
 	}

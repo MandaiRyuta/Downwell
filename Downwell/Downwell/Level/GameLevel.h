@@ -2,6 +2,7 @@
 #include "Level.h"
 #include "../Constant.h"
 #include "../Actor/Actor.h"
+#include "../Widget/Widget.h"
 
 class GameLevel : public Level
 {
@@ -14,4 +15,5 @@ public:
 
 private:
 	std::list<Actor*> obj_[10];
+	std::list<Widget*> widgetobj_[3];
 };

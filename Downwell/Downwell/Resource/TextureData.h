@@ -4,6 +4,18 @@
 
 namespace TextureDataBase
 {
+	enum TextureNumber
+	{
+		BackgroundBlock = 0,
+		OutBlock,
+		Block,
+		Bullet,
+		Player,
+		Bird,
+		Urchin,
+		Turtle,
+	};
+
 	class TextureData
 	{
 	private:
@@ -18,9 +30,9 @@ namespace TextureDataBase
 
 		void Init();
 		void Loading(int& scenetype);
-		
-		const int& GetTextureData(String name);
+		void Release(int& scenetype);
+		const int& GetTextureData(TextureDataBase::TextureNumber number);
 	private:
-		std::unordered_map<String, int> Texture_;
+		std::array<int,8> Texture_;
 	};
 }

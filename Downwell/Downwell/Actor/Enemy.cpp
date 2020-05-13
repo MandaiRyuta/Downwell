@@ -1,13 +1,6 @@
 #include "Enemy.h"
-#include "EnemyBigSeaUrchin.h"
 #include "EnemyBird.h"
-#include "EnemyMask.h"
 #include "EnemySeaUrchin.h"
-#include "EnemySkeleton.h"
-#include "EnemySlime.h"
-#include "EnemySnake.h"
-#include "EnemySoul.h"
-#include "EnemySquid.h"
 #include "EnemyTurtle.h"
 
 Enemy::Enemy(int enemynumber, int ntype, int nhp, int nspeed, VECTOR vposition)

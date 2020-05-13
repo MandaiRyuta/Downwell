@@ -18,5 +18,5 @@ private:
 	BehaviorTree AITree_;
 	Node* Activenode_;
 	int nTexhandle_;
-	int nThisEnemyNumber_;
+	bool bHitAction_;
 };
