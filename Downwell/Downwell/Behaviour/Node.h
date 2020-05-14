@@ -5,7 +5,7 @@
 class BehaviorTree;
 class BehaviorData;
 
-enum TREE_RULE
+enum class TREE_RULE
 {
 	NONE,
 	PRIORITY,
@@ -18,7 +18,7 @@ enum TREE_RULE
 class Node
 {
 public:
-	Node() {}
+	//Node() {}
 	//エントリー名、登録したノードの検索、兄弟ノード、優先度、ビヘイビアツリーの選択ルール、切り替える判断クラス(残ったHPで行動を判断)、行動クラス、子要素にいれているものに登録するヒエラルキー
 	Node(std::string entry_name, Node* parent_node, Node* sibling, int priority, TREE_RULE select_rule, JudgmentBase* judgment, ActionBase* action, int hierarchy_number) :
 		Name_(entry_name),
@@ -107,7 +107,7 @@ protected:
 	TREE_RULE BTRuleBase_;
 	JudgmentBase* JudgementBase_;
 	ActionBase* ActionBase_;
-	unsigned int Priority_;
+	int Priority_;
 	Node* Parent_;
 	std::vector<Node*> ChildNode_;
 	Node* Sibiling_;

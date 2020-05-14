@@ -48,8 +48,9 @@ Node* Node::SelectRandom(std::vector<Node*>* list)
 {
 	std::mt19937 mt;
 	std::random_device rnd;
-	std::uniform_int_distribution<> rand(0, list->size());
-	//int selectnumber = 
+	int lastlist = static_cast<int>(list->size());
+	std::uniform_int_distribution<> rand(0, lastlist);
+
 	return (*list)[rand(mt)];
 }
 
@@ -187,5 +188,5 @@ ActionBase::STATE Node::Run(EnemyParameter* enemy)
 		return ActionBase_->Run(enemy);
 	}
 
-	return ActionBase::FAILED;
+	return ActionBase::STATE::FAILED;
 }

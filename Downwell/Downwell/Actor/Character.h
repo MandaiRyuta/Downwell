@@ -9,31 +9,29 @@
 class Character : public Actor
 {
 public:
-	Character();
+	Character(int nscenenumber);
 	~Character();
 	virtual void Update() override;
 	virtual void Draw() override;
 
-	static VECTOR& GetPos();
+	static const VECTOR& GetPos();
 	static void SetHitEnemy(bool bhit);
 	static void SetHitDamage(bool bdamage);
 	static void SetHitLeftDamage(bool bdamage);
 	static void SetHitRightDamage(bool bdamage);
+	static const int& GetCharacterLife();
 private:
-	int nLife_;
+	int nNowScene_;
+	static int nLife_;
 	int nCharacterActionState_;
-	int ntexhandle;
+	int nTexhandle_;
 	static VECTOR vPosition_;
-	VECTOR vScale_;
-	float fSizeX_;
-	float fSizeY_;
-	bool bGround;
-	CharacterAttack cAttackState_;
-	CharacterJump cJumpState_;
-	CharacterMove cMoveState_;
+	float fSize_;
+	CharacterAttack AttackState_;
+	CharacterJump JumpState_;
+	CharacterMove MoveState_;
 	VECTOR vSpeed_;
 	VECTOR vOldPosition_;
-	Rect rPlayer_;
 	float fGravity_;
 	float fPlayershake_;
 	bool bPlayershake_;

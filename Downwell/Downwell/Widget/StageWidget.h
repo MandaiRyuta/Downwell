@@ -9,4 +9,7 @@ public:
 
 	virtual void Update() override;
 	virtual void Draw() override;
+private:
+	int nClearTexture_;
+	int nFailedTexture_;
 };

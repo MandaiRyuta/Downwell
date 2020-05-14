@@ -9,7 +9,7 @@ std::array<std::array<int, StageWidth>, StageHeigh> Stage::Stage_ = {};
 std::array<std::array<VECTOR, StageWidth>, StageHeigh> Stage::Blockpos_ = {};
 std::array<std::array<Rect, StageWidth>, StageHeigh> Stage::Blockrect_ = {};
 
-Stage::Stage()
+Stage::Stage(int nscenenumber) : nSceneNumber_(nscenenumber)
 {
 	int nx = 0, ny = 0, stagetype = 0;
 	StageDataBase::GetInstance().InitStage();
@@ -52,9 +52,24 @@ Stage::Stage()
 		}
 	}
 
-	BlockTexture_ = TextureDataBase::TextureData::GetInstance().GetTextureData(TextureDataBase::TextureNumber::BackgroundBlock);
-	InSideBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetTextureData(TextureDataBase::TextureNumber::OutBlock);
-	NonBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetTextureData(TextureDataBase::TextureNumber::Block);
+	if (nSceneNumber_ == 0)
+	{
+		nBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetTitleTextureData(TextureDataBase::TitleTextureNumber::TBackgroundBlock);
+		nInSideBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetTitleTextureData(TextureDataBase::TitleTextureNumber::TOutBlock);
+	}
+	else if (nSceneNumber_ == 1)
+	{
+		nBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GBackgroundBlock);
+		nInSideBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GOutBlock);
+		nNonBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GBlock);
+		nSideBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GSideBlock);
+		nBlockSideBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GBlockInSideBlock);
+	}
+	else if (nSceneNumber_ == 2)
+	{
+		nBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetResultTextureData(TextureDataBase::ResultTextureNumber::RBackgroundBlock);
+		nInSideBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetResultTextureData(TextureDataBase::ResultTextureNumber::ROutBlock);
+	}
 }
 
 Stage::~Stage()
@@ -69,47 +84,51 @@ void Stage::Update()
 	/// 各マップチップの座標とカメラの矩形を判定して、フラグを指定する　true || false 
 	/// true の場合　描画、　false の場合　描画させない。
 	/// </summary>
-
-	for (int i = 0; i < 10; i++)
+	if (nSceneNumber_ == 1)
 	{
-		if (MapHitCheck::GetChipParam(VGet(Bullet::GetPosition(i).x - 2.0f, Bullet::GetPosition(i).y - 1.0f, 0.0f)) == 3 ||
-			MapHitCheck::GetChipParam(VGet(Bullet::GetPosition(i).x + 2.0f, Bullet::GetPosition(i).y - 1.0f, 0.0f)) == 3)
+		for (int i = 0; i < 10; i++)
 		{
-			int x = Bullet::GetPosition(i).x / BlockSize - (BlockSize * 0.5f);
-			int y = Bullet::GetPosition(i).y / -BlockSize;
-
-			Stage_[y][x] = 0;
-
-			if (Stage_[y][x + 1] == 0)
+			if (MapHitCheck::GetChipParam(VGet(Bullet::GetPosition(i).x - 2.0f, Bullet::GetPosition(i).y - 1.0f, 0.0f)) == 3 ||
+				MapHitCheck::GetChipParam(VGet(Bullet::GetPosition(i).x + 2.0f, Bullet::GetPosition(i).y - 1.0f, 0.0f)) == 3)
 			{
-				Stage_[y - 1][x + 1] = 7;
-			}
-			else if (Stage_[y][x - 1] == 0)
-			{
-				Stage_[y - 1][x - 1] = 8;
-			}
-			else if (Stage_[y][x + 1] == 0 && Stage_[y][x - 1] == 1)
-			{
-				Stage_[y - 1][x + 1] = 7;
-			}
-			else if (Stage_[y][x - 1] == 0 && Stage_[y][x + 1] == 1)
-			{
-				Stage_[y - 1][x - 1] = 8;
-			}
-				
+				int x = static_cast<int>(Bullet::GetPosition(i).x / BlockSize - (BlockSize * 0.5f));
+				int y = static_cast<int>(Bullet::GetPosition(i).y / -BlockSize);
 
-			//if (EnemySeaUrchin::GetPosition().x < Bullet::GetPosition(i).x)
-			//{
-			//	Stage_[y + 1][x] = 11;
-			//	Stage_[y - 1][x] = 10;
-			//}
-			//if (EnemySeaUrchin::GetPosition().x >= Bullet::GetPosition(i).x)
-			//{
-			//	Stage_[y + 1][x] = 12;
-			//	Stage_[y - 1][x] = 13;
-			//}
+				Stage_[y][x] = 0;
+				int up = y - 1;
+				int right = x + 1;
+				int left = x - 1;
+				if (Stage_[y][right] == 0)
+				{
+					Stage_[up][right] = 7;
+				}
+				else if (Stage_[y][left] == 0)
+				{
+					Stage_[up][left] = 8;
+				}
+				else if (Stage_[y][right] == 0 && Stage_[y][left] == 1)
+				{
+					Stage_[up][right] = 7;
+				}
+				else if (Stage_[y][left] == 0 && Stage_[y][right] == 1)
+				{
+					Stage_[up][left] = 8;
+				}
 
-			Bullet::ResetSetPosition(i);
+
+				//if (EnemySeaUrchin::GetPosition().x < Bullet::GetPosition(i).x)
+				//{
+				//	Stage_[y + 1][x] = 11;
+				//	Stage_[y - 1][x] = 10;
+				//}
+				//if (EnemySeaUrchin::GetPosition().x >= Bullet::GetPosition(i).x)
+				//{
+				//	Stage_[y + 1][x] = 12;
+				//	Stage_[y - 1][x] = 13;
+				//}
+
+				Bullet::ResetSetPosition(i);
+			}
 		}
 	}
 }
@@ -129,21 +148,54 @@ void Stage::Draw()
 			//画面外のステージオブジェクトはカリング
 			if (y + MapDrawPointY < 0 || y + MapDrawPointY >= y + MapDrawPointY + 50)	continue;
 			
-			if (Stage_[y][x] == 0)
+			if (nSceneNumber_ == 0)
 			{
-				DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, BlockTexture_,false);
-			}																 
-			if (Stage_[y][x] == 1)											 
-			{																 
-				DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, InSideBlockTexture_, false);
-			}																 
-			if (Stage_[y][x] == 2)											 
-			{
-				DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, NonBlockTexture_, false);
+				if (Stage_[y][x] == 1)
+				{
+					DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, nInSideBlockTexture_, false);
+				}
+				else
+				{
+					DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, nBlockTexture_, false);
+				}
 			}
-			if (Stage_[y][x] == 3)
+			if (nSceneNumber_ == 1)
 			{
-				DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, NonBlockTexture_, false);
+				if (Stage_[y][x] == 1)
+				{
+					DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, nInSideBlockTexture_, false);
+				}
+				else if (Stage_[y][x] == 2)
+				{
+					DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, nNonBlockTexture_, false);
+				}
+				else if (Stage_[y][x] == 3)
+				{
+					DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, nNonBlockTexture_, false);
+				}
+				else if (Stage_[y][x] == 4)
+				{
+					DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, nSideBlockTexture_, false);
+				}
+				else if (Stage_[y][x] == 5)
+				{
+					DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, nSideBlockTexture_, false);
+				}
+				else
+				{
+					DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, nBlockTexture_, false);
+				}
+			}
+			if (nSceneNumber_ == 2)
+			{
+				if (Stage_[y][x] == 1)
+				{
+					DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, nInSideBlockTexture_, false);
+				}
+				else
+				{
+					DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, nBlockTexture_, false);
+				}
 			}
 			numcount++;
 		}

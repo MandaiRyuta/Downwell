@@ -25,7 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	Application application;
 	FPS::FpsCounter fps;
-	Camera::GetInstance().Init(VGet(ScreenWidth / 2, -300.0f, -30.0));
+	Camera::GetInstance().Init(VGet(ScreenWidth / 2 + 20.0f, -300.0f, -30.0));
 	SetDrawValidGraphCreateFlag(TRUE);
 	int screen = MakeGraph(256, 256);
 	SetDrawValidGraphCreateFlag(FALSE);
@@ -43,11 +43,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			bool bEnabledProcess = ProcessMessage() == 0;
 
-			bool bEnabledLevel = LevelsResponsible::GetInstance().GetNowLevel() != 0;
-			bool bTitleLevelCheck = (LevelsResponsible::GetInstance().GetNowLevel() == 0 && TextureDataBase::TextureData::GetInstance().GetTextureData(TextureDataBase::TextureNumber::Player) > 0);
-			bool bGameLevelCheck = (LevelsResponsible::GetInstance().GetNowLevel() == 1 && TextureDataBase::TextureData::GetInstance().GetTextureData(TextureDataBase::TextureNumber::Turtle) > 0);
-			bool bResultLevelCheck = (LevelsResponsible::GetInstance().GetNowLevel() == 2 && TextureDataBase::TextureData::GetInstance().GetTextureData(TextureDataBase::TextureNumber::Player) > 0);
-			bool bLoop = bEnabledProcess && bEnabledLevel && !bEscape && (bTitleLevelCheck || bGameLevelCheck || bResultLevelCheck);
+			bool bEnabledLevel = LevelsResponsible::GetInstance().GetNowLevel() != 3;
+			bool bTitleLevelCheck = TextureDataBase::TextureData::GetInstance().GetTitleTextureData(TextureDataBase::TitleTextureNumber::TTitleLogo) > 0;
+			bool bGameLevelCheck = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GCharacterLife) > 0;
+			bool bResultLevelCheck = TextureDataBase::TextureData::GetInstance().GetResultTextureData(TextureDataBase::ResultTextureNumber::RFailed) > 0;
+			bool bLoop = bEnabledProcess && bEnabledLevel && !bEscape && bTitleLevelCheck ||
+						bEnabledProcess && bEnabledLevel && !bEscape && bGameLevelCheck ||
+						bEnabledProcess && bEnabledLevel && !bEscape && bResultLevelCheck;
+
 
 			return bLoop;
 		};
@@ -67,6 +70,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			ScreenFlip();
 		}
+		//bool ischeck = isLoop();
 
 		LevelsResponsible::GetInstance().Release();
 

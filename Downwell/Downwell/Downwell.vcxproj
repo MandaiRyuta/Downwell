@@ -180,6 +180,11 @@
     <ClCompile Include="Level\LevelsResponsible.cpp" />
     <ClCompile Include="Resource\StageDataBase.cpp" />
     <ClCompile Include="Resource\TextureData.cpp" />
+    <ClCompile Include="Widget\BulletShotWidget.cpp" />
+    <ClCompile Include="Widget\LifeWidget.cpp" />
+    <ClCompile Include="Widget\ResultWidget.cpp" />
+    <ClCompile Include="Widget\StageWidget.cpp" />
+    <ClCompile Include="Widget\TitleWidget.cpp" />
     <ClCompile Include="Window\main.cpp" />
   </ItemGroup>
   <ItemGroup>

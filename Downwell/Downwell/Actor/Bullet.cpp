@@ -5,24 +5,29 @@
 #include "Stage.h"
 #include "Character.h"
 #include "../Resource/TextureData.h"
-
+#include "../Level/LevelsResponsible.h"
 VECTOR Bullet::vPosition_[10] = {};
 bool Bullet::bBullet_[10] = {};
 float Bullet::fBulletspeed_[10] = {};
 
-Bullet::Bullet() : nSpeed_(0),nRotate_(0)
+Bullet::Bullet()
 {
 	for (int i = 0; i < 10; i++)
 	{
 		bBullet_[i] = false;
 	}
-	vScale_.x = 12.0f;
-	vScale_.y = 12.0f;
-
+	fScale_ = 12.0f;
 	nBulletFrame_ = 0;
 	nBulletNumber = 0;
 
-	nBulletTexture_ = TextureDataBase::TextureData::GetInstance().GetTextureData(TextureDataBase::TextureNumber::Bullet);
+	if (LevelsResponsible::GetInstance().GetNowLevel() == 0)
+	{
+		nBulletTexture_ = TextureDataBase::TextureData::GetInstance().GetTitleTextureData(TextureDataBase::TitleTextureNumber::TBullet);
+	}
+	else if (LevelsResponsible::GetInstance().GetNowLevel() == 1)
+	{
+		nBulletTexture_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GBullet);
+	}
 	nBulletType_ = 0;
 }
 
@@ -34,8 +39,6 @@ void Bullet::Update()
 {
 	float dammy = 0.0f;
 
-	
-	float halfsize = vScale_.x * 0.5f;
 	if (Input::GetInstance().GetKeyPress(KEY_INPUT_SPACE) == 0x001)
 	{
 		bBullet_[nBulletNumber] = true;
@@ -65,14 +68,14 @@ void Bullet::Update()
 					fBulletspeed_[i] = 0.0f;
 					vPosition_[i] = VGet(0.0f, 0.0f, 0.0f);
 				}
-				if (MapHitCheck::GetChipParam(VGet(vPosition_[i].x - 12 * 0.5f, vPosition_[i].y - (12 * 0.5f + 1.0f), 0.0f)) == 1 ||
-					MapHitCheck::GetChipParam(VGet(vPosition_[i].x + 12 * 0.5f, vPosition_[i].y - (12 * 0.5f + 1.0f), 0.0f)) == 1 ||
-					MapHitCheck::GetChipParam(VGet(vPosition_[i].x - 12 * 0.5f, vPosition_[i].y - (12 * 0.5f + 1.0f), 0.0f)) == 2 ||
-					MapHitCheck::GetChipParam(VGet(vPosition_[i].x + 12 * 0.5f, vPosition_[i].y - (12 * 0.5f + 1.0f), 0.0f)) == 2 ||
-					MapHitCheck::GetChipParam(VGet(vPosition_[i].x - 12 * 0.5f, vPosition_[i].y - (12 * 0.5f + 1.0f), 0.0f)) == 4 ||
-					MapHitCheck::GetChipParam(VGet(vPosition_[i].x + 12 * 0.5f, vPosition_[i].y - (12 * 0.5f + 1.0f), 0.0f)) == 4 ||
-					MapHitCheck::GetChipParam(VGet(vPosition_[i].x - 12 * 0.5f, vPosition_[i].y - (12 * 0.5f + 1.0f), 0.0f)) == 5 ||
-					MapHitCheck::GetChipParam(VGet(vPosition_[i].x + 12 * 0.5f, vPosition_[i].y - (12 * 0.5f + 1.0f), 0.0f)) == 5)
+				if (MapHitCheck::GetChipParam(VGet(vPosition_[i].x - fScale_ * 0.5f, vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 1 ||
+					MapHitCheck::GetChipParam(VGet(vPosition_[i].x + fScale_ * 0.5f, vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 1 ||
+					MapHitCheck::GetChipParam(VGet(vPosition_[i].x - fScale_ * 0.5f, vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
+					MapHitCheck::GetChipParam(VGet(vPosition_[i].x + fScale_ * 0.5f, vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
+					MapHitCheck::GetChipParam(VGet(vPosition_[i].x - fScale_ * 0.5f, vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
+					MapHitCheck::GetChipParam(VGet(vPosition_[i].x + fScale_ * 0.5f, vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
+					MapHitCheck::GetChipParam(VGet(vPosition_[i].x - fScale_ * 0.5f, vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5 ||
+					MapHitCheck::GetChipParam(VGet(vPosition_[i].x + fScale_ * 0.5f, vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5)
 				{
 					bBullet_[i] = false;
 					fBulletspeed_[i] = 0.0f;
@@ -91,14 +94,14 @@ void Bullet::Draw()
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			DrawBillboard3D(vPosition_[i], 0.5f, 0.5f, 12, 0, nBulletTexture_, false);
+			DrawBillboard3D(vPosition_[i], 0.5f, 0.5f, fScale_, 0, nBulletTexture_, false);
 		}
 	}
 }
 
 void Bullet::Create(const VECTOR& vpos)
 {
-	if (nBulletNumber >= 10)
+	if (nBulletNumber > 10)
 	{
 		nBulletNumber = 0;
 	}
@@ -107,15 +110,12 @@ void Bullet::Create(const VECTOR& vpos)
   	vPosition_[nBulletNumber].y = vpos.y;
 	vPosition_[nBulletNumber].z = 0.0f;
 
-	if (nBulletNumber < 10)
-	{
-		nBulletNumber++;
-	}
+	nBulletNumber++;
 }
 
-const VECTOR& Bullet::Scale()
+const float& Bullet::Scale()
 {
-	return vScale_;
+	return fScale_;
 }
 
 const VECTOR& Bullet::GetPosition(int nbulletnumber)
@@ -128,4 +128,9 @@ void Bullet::ResetSetPosition(int nbulletnumber)
 	bBullet_[nbulletnumber] = false;
 	fBulletspeed_[nbulletnumber] = 0.0f;
 	vPosition_[nbulletnumber] = VGet(0.0f, 0.0f, 0.0f);
+}
+
+const bool& Bullet::GetBulletExist(int num)
+{
+	return bBullet_[num];
 }

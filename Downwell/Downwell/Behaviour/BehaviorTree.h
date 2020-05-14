@@ -11,7 +11,7 @@ class JudgmentBase;
 class BehaviorTree
 {
 public:
-	BehaviorTree() : Root_(nullptr) {}
+	BehaviorTree() : Root_(nullptr), Add_Node_(nullptr) {}
 	~BehaviorTree() {}
 	void Release();
 	Node* Inference(EnemyParameter* enemy, BehaviorData* data);

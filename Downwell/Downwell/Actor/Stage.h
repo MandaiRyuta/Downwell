@@ -16,7 +16,7 @@ constexpr int BlockSize = 18;
 class Stage : public Actor
 {
 public:
-	Stage();
+	Stage(int nscenenumber);
 	~Stage();
 public:
 	virtual void Update() override;
@@ -31,7 +31,10 @@ private:
 	static std::array<std::array<VECTOR, StageWidth>, StageHeigh> Blockpos_;
 	static std::array<std::array<Rect, StageWidth>, StageHeigh> Blockrect_;
 
-	int BlockTexture_;
-	int NonBlockTexture_;
-	int InSideBlockTexture_;
+	int nSceneNumber_;
+	int nBlockTexture_;
+	int nNonBlockTexture_;
+	int nInSideBlockTexture_;
+	int nSideBlockTexture_;
+	int nBlockSideBlockTexture_;
 };

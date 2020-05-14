@@ -53,6 +53,16 @@ ActionBase::STATE TrackingMoveAction::Run(EnemyParameter* enemy)
 			vMove_[enemy->GetEnemyNumber()].y = -fmovey;
 		}
 	}
+	MapHitCheck::MapHitCollision(VGet(enemy->GetPosition().x - 5.0f, enemy->GetPosition().y + 9.0f, 0.0f), dammy, vMove_[enemy->GetEnemyNumber()].y);
+	MapHitCheck::MapHitCollision(VGet(enemy->GetPosition().x + 5.0f, enemy->GetPosition().y + 9.0f, 0.0f), dammy, vMove_[enemy->GetEnemyNumber()].y);
+	MapHitCheck::MapHitCollision(VGet(enemy->GetPosition().x - 5.0f, enemy->GetPosition().y + 9.0f, 0.0f), dammy, vMove_[enemy->GetEnemyNumber()].y);
+	MapHitCheck::MapHitCollision(VGet(enemy->GetPosition().x + 5.0f, enemy->GetPosition().y + 9.0f, 0.0f), dammy, vMove_[enemy->GetEnemyNumber()].y);
+
+	MapHitCheck::MapHitCollision(VGet(enemy->GetPosition().x - 5.0f, enemy->GetPosition().y - 9.0f, 0.0f), dammy, vMove_[enemy->GetEnemyNumber()].y);
+	MapHitCheck::MapHitCollision(VGet(enemy->GetPosition().x + 5.0f, enemy->GetPosition().y - 9.0f, 0.0f), dammy, vMove_[enemy->GetEnemyNumber()].y);
+	MapHitCheck::MapHitCollision(VGet(enemy->GetPosition().x - 5.0f, enemy->GetPosition().y - 9.0f, 0.0f), dammy, vMove_[enemy->GetEnemyNumber()].y);
+	MapHitCheck::MapHitCollision(VGet(enemy->GetPosition().x + 5.0f, enemy->GetPosition().y - 9.0f, 0.0f), dammy, vMove_[enemy->GetEnemyNumber()].y);
+
 
 	MapHitCheck::MapHitCollision(VGet(enemy->GetPosition().x - 9.0f, enemy->GetPosition().y + 9.0f, 0.0f), fmovex, dammy);
 	MapHitCheck::MapHitCollision(VGet(enemy->GetPosition().x + 9.0f, enemy->GetPosition().y + 9.0f, 0.0f), fmovex, dammy);

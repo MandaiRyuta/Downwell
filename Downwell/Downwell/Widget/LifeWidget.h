@@ -9,4 +9,7 @@ public:
 public:
 	virtual void Update() override;
 	virtual void Draw() override;
+private:
+	int nTextureWidth_;
+	int nGameCharacterLifeTexture_;
 };

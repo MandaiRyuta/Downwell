@@ -10,4 +10,8 @@ public:
 public:
 	virtual void Update() override;
 	virtual void Draw() override;
+private:
+	int nBulletTexture_;
+	int nNonBulletTexture_;
+	int nBulletCount_;
 };

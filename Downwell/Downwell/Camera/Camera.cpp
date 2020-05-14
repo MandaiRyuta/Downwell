@@ -14,11 +14,11 @@ void Camera::Init(VECTOR pos)
 void Camera::Update()
 {
 	//指定の左右座標の範囲内にはいってるときのみ、Y座標を同期
-	if (Character::GetPos().x > 150 && Character::GetPos().x < 500 && !bShake_)
+	if (Character::GetPos().x > 150 && Character::GetPos().x < 550 && !bShake_)
 	{
 		Position_.y = Character::GetPos().y;
 	}
-	else if (Character::GetPos().x > 150 && Character::GetPos().x < 500 && !bShake_)
+	else if (Character::GetPos().x > 150 && Character::GetPos().x < 550 && !bShake_)
 	{
 		Position_.y = Character::GetPos().y + (fShakePower_ * -1.0f);
 	}

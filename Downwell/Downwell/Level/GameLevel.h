@@ -14,6 +14,7 @@ public:
 	virtual void Draw() override;
 
 private:
-	std::list<Actor*> obj_[10];
+	int nNowLevel_;
+	std::list<Actor*> obj_[3];
 	std::list<Widget*> widgetobj_[3];
 };

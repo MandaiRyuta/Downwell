@@ -35,7 +35,7 @@ void CharacterMove::SideAcceleration(VECTOR& vPos, float fspeedx)
 	}
 
 	//指定の左座標＋画像の幅の半分
-	if (vPos.x > 150 + 10)
+	if (vPos.x > 150 + 25)
 	{
 		switch (unLeftAcceleration_)
 		{
@@ -51,7 +51,7 @@ void CharacterMove::SideAcceleration(VECTOR& vPos, float fspeedx)
 	}
 
 	//指定の右座標＋画像の幅の半分
-	if (vPos.x < 500 - 10)
+	if (vPos.x < 505)
 	{
 		switch (unRightAcceleration_)
 		{
@@ -69,7 +69,7 @@ void CharacterMove::SideAcceleration(VECTOR& vPos, float fspeedx)
 
 }
 
-void CharacterMove::SideMove(VECTOR& vposition, float& fspeedx, float& fspeedy, float& fgravitypower, float fsize, bool bjumpflag)
+void CharacterMove::SideMove(VECTOR& vposition, float& fspeedx, float& fspeedy, float& fgravitypower, float fsize)
 {
 
 	if (Input::GetInstance().GetKeyPress(KEY_INPUT_LEFT))

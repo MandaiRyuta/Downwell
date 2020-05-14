@@ -1,0 +1,55 @@
+﻿  Bullet.cpp
+  Character.cpp
+  CharacterAttack.cpp
+  CharacterJump.cpp
+  CharacterMove.cpp
+  Enemy.cpp
+C:\Users\tjddy\source\repos\Downwell\Downwell\Downwell\Behaviour\Node.h(48,28): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+  EnemyBird.cpp
+C:\Users\tjddy\source\repos\Downwell\Downwell\Downwell\Behaviour\Node.h(48,28): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+  EnemyParameter.cpp
+  EnemySeaUrchin.cpp
+C:\Users\tjddy\source\repos\Downwell\Downwell\Downwell\Behaviour\Node.h(48,28): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+  EnemyTurtle.cpp
+C:\Users\tjddy\source\repos\Downwell\Downwell\Downwell\Behaviour\Node.h(48,28): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+  Factory.cpp
+C:\Users\tjddy\source\repos\Downwell\Downwell\Downwell\Behaviour\Node.h(48,28): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+  Stage.cpp
+C:\Users\tjddy\source\repos\Downwell\Downwell\Downwell\Behaviour\Node.h(48,28): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+  Application.cpp
+  BehaviorData.cpp
+C:\Users\tjddy\source\repos\Downwell\Downwell\Downwell\Behaviour\Node.h(48,28): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+  BehaviorTree.cpp
+C:\Users\tjddy\source\repos\Downwell\Downwell\Downwell\Behaviour\Node.h(48,28): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+  LifeJudgment.cpp
+C:\Users\tjddy\source\repos\Downwell\Downwell\Downwell\Behaviour\Node.h(48,28): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+  LoiteringMoveAction.cpp
+  Node.cpp
+C:\Users\tjddy\source\repos\Downwell\Downwell\Downwell\Behaviour\Node.h(48,28): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+C:\Users\tjddy\source\repos\Downwell\Downwell\Downwell\Behaviour\Node.cpp(84,19): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+C:\Users\tjddy\source\repos\Downwell\Downwell\Downwell\Behaviour\Node.cpp(135,20): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+  TrackingMoveAction.cpp
+  TurnMoveAction.cpp
+  コードを生成中...
+C:\Users\tjddy\source\repos\Downwell\Downwell\Downwell\Behaviour\Node.h(73): warning C4172: ローカル変数またはテンポラリのアドレスを返します
+  コンパイル中...
+  Camera.cpp
+  MapHitCheck.cpp
+  QuadTree.cpp
+C:\Users\tjddy\source\repos\Downwell\Downwell\Downwell\Collision\QuadTree.cpp(35,22): warning C4018: '>': signed と unsigned の数値を比較しようとしました。
+C:\Users\tjddy\source\repos\Downwell\Downwell\Downwell\Collision\QuadTree.cpp(67,21): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+  FpsCounter.cpp
+  Input.cpp
+  GameLevel.cpp
+C:\Users\tjddy\source\repos\Downwell\Downwell\Downwell\Behaviour\Node.h(48,28): warning C4018: '>=': signed と unsigned の数値を比較しようとしました。
+  LevelsResponsible.cpp
+  StageDataBase.cpp
+  TextureData.cpp
+  BulletShotWidget.cpp
+  LifeWidget.cpp
+  ResultWidget.cpp
+  TitleWidget.cpp
+  main.cpp
+  コードを生成中...
+C:\Users\tjddy\source\repos\Downwell\Downwell\Downwell\Level\LevelsResponsible.cpp(88): warning C4715: '<lambda_cbefdd3ef6160c801b8edc1c6e9ba2fd>::operator()': 値を返さないコントロール パスがあります。
+  Downwell.vcxproj -> C:\Users\tjddy\source\repos\Downwell\Downwell\Debug\Downwell.exe

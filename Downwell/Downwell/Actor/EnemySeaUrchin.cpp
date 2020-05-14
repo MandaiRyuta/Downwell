@@ -23,7 +23,7 @@ EnemySeaUrchin::EnemySeaUrchin(int enemynumber, BehaviorTree aitree, int nhp, in
 	vMove_ = VGet(1.0f, 0.0f, 0.0f);
 	vPosition_ = vposition;
 	AIData_ = new BehaviorData;
-	nTexhandle_ = TextureDataBase::TextureData::GetInstance().GetTextureData(TextureDataBase::TextureNumber::Urchin);
+	nTexhandle_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GUrchin);
 	nEnemyNumber_ = enemynumber;
 	bHitAction_ = true;
 }
@@ -74,8 +74,8 @@ void EnemySeaUrchin::Update()
 
 		for (int i = 0; i < 10; i++)
 		{
-			if (Bullet::GetPosition(i).x >= vPosition_.x - 14.0f && Bullet::GetPosition(i).y < vPosition_.y + 7.0f &&
-				Bullet::GetPosition(i).x <= vPosition_.x + 14.0f && Bullet::GetPosition(i).y > vPosition_.y)
+			if (Bullet::GetPosition(i).x - 6.0f >= vPosition_.x - 14.0f && Bullet::GetPosition(i).y < vPosition_.y + 7.0f &&
+				Bullet::GetPosition(i).x + 6.0f <= vPosition_.x + 14.0f && Bullet::GetPosition(i).y > vPosition_.y)
 			{
 				if (nHp_ > 0)
 				{

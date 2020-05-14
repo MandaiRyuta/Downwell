@@ -6,7 +6,7 @@ class EnemyParameter;
 class ActionBase
 {
 public:
-	enum STATE
+	enum class STATE
 	{
 		MOVE,
 		FAILED,

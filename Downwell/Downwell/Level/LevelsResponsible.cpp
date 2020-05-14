@@ -1,23 +1,58 @@
 #include "LevelsResponsible.h"
 #include "GameLevel.h"
 #include "../Resource/TextureData.h"
+#include "../Input/Input.h"
+
 
 void LevelsResponsible::Init()
 {
-	NowLevel_ = 1;
+	bLevelState_ = false;
+	nNowLevel_ = 2;
+	bChangeScene_ = false;
 	TextureDataBase::TextureData::GetInstance().Init();
-	TextureDataBase::TextureData::GetInstance().Loading(NowLevel_);
 
-	Level_ = new GameLevel(1);
+	Level_ = new GameLevel(2);
 }
 
 void LevelsResponsible::Update()
 {
+	if (nNowLevel_ == 2 && bChangeScene_ == false)
+	{
+		if (Input::GetInstance().GetKeyDown(KEY_INPUT_SPACE) == 0x001)
+		{
+			nNowLevel_ = 0;
+			bChangeScene_ = true;
+		}
+	}
+	     
+	if (bChangeScene_)
+	{
+		switch (nNowLevel_)
+		{
+		case 0:
+			ChangeLevel(0);
+			bChangeScene_ = false;
+			break;
+		case 1:
+			ChangeLevel(1);
+			bChangeScene_ = false;
+			break;
+		case 2:
+			ChangeLevel(2);
+			bChangeScene_ = false;
+			break;
+		default:
+			break;
+		}
+	}
+
+	if (Level_ == nullptr) return;
 	Level_->Update();
 }
 
 void LevelsResponsible::Draw()
 {
+	if (Level_ == nullptr) return;
 	Level_->Draw();
 }
 
@@ -26,10 +61,13 @@ void LevelsResponsible::Release()
 	delete Level_;
 }
 
+void LevelsResponsible::Exit()
+{
+	nNowLevel_ = 3;
+}
+
 void LevelsResponsible::ChangeLevel(int type)
 {
-	NowLevel_ = type;
-
 	if (Level_ != nullptr)
 	{
 		delete Level_;
@@ -37,31 +75,16 @@ void LevelsResponsible::ChangeLevel(int type)
 
 	auto chengelevel = [](int type)
 	{
-		int defaultnumber = 0;
-		int titlenumber = 0;
-		int gamenumber = 1;
-		int resultnumber = 2;
 		switch (type)
 		{
 		case 0:
-			TextureDataBase::TextureData::GetInstance().Release(resultnumber);
-			TextureDataBase::TextureData::GetInstance().Loading(type);
-			return new GameLevel(0);
+			return new GameLevel(type);
 			break;
 		case 1:
-			TextureDataBase::TextureData::GetInstance().Release(titlenumber);
-			TextureDataBase::TextureData::GetInstance().Loading(type);
-			return new GameLevel(1);
+			return new GameLevel(type);
 			break;
 		case 2:
-			TextureDataBase::TextureData::GetInstance().Release(gamenumber);
-			TextureDataBase::TextureData::GetInstance().Loading(type);
-			return new GameLevel(2);
-			break;
-		default:
-			TextureDataBase::TextureData::GetInstance().Release(type);
-			TextureDataBase::TextureData::GetInstance().Loading(defaultnumber);
-			return new GameLevel(0);
+			return new GameLevel(type);
 			break;
 		}
 	};
@@ -70,7 +93,32 @@ void LevelsResponsible::ChangeLevel(int type)
 
 }
 
-int& LevelsResponsible::GetNowLevel()
+const int& LevelsResponsible::GetNowLevel()
 {
-	return NowLevel_;
+	return nNowLevel_;
+}
+
+void LevelsResponsible::SetChangeScene(bool bchangescene)
+{
+	bChangeScene_ = bchangescene;
+}
+
+const bool& LevelsResponsible::GetChengeSceneExist()
+{
+	return bChangeScene_;
+}
+
+void LevelsResponsible::SetNowLevel(int nlevel)
+{
+	nNowLevel_ = nlevel;
+}
+
+const bool& LevelsResponsible::GetLevelState()
+{
+	return bLevelState_;
+}
+
+void LevelsResponsible::SetLevelState(bool bstate)
+{
+	bLevelState_ = bstate;
 }
