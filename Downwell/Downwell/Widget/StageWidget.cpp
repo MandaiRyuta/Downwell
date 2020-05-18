@@ -2,32 +2,30 @@
 #include "../Resource/TextureData.h"
 #include "../Level/LevelsResponsible.h"
 #include "../Constant.h"
-
-StageWidget::StageWidget() : nClearTexture_(0), nFailedTexture_(0)
+/// <summary>
+/// コンストラクター
+/// </summary>
+StageWidget::StageWidget()
 {
-	nClearTexture_ = TextureDataBase::TextureData::GetInstance().GetResultTextureData(TextureDataBase::ResultTextureNumber::RClear);
-	nFailedTexture_ = TextureDataBase::TextureData::GetInstance().GetResultTextureData(TextureDataBase::ResultTextureNumber::RFailed);
-}
 
+}
+/// <summary>
+/// デストラクター
+/// </summary>
 StageWidget::~StageWidget()
 {
 }
-
+/// <summary>
+/// 更新関数
+/// </summary>
 void StageWidget::Update()
 {
 }
-
+/// <summary>
+/// 描画関数
+/// </summary>
 void StageWidget::Draw()
 {
-	VECTOR vposition = VGet(ScreenWidth / 2 + 18.0f, -800.0f, 0.0f);
-
-	//確認
-	if (LevelsResponsible::GetInstance().GetLevelState() == true)
-	{
-		DrawBillboard3D(vposition, 0.5f, 0.5f, 200.0f, 0.0f, nClearTexture_, false);
-	}
-	else
-	{
-		DrawBillboard3D(vposition, 0.5f, 0.5f, 200.0f, 0.0f, nFailedTexture_, false);
-	}
+	int nowlevel = LevelsResponsible::GetInstance().GetNowStage();
+	DrawFormatString(0, 50, GetColor(255, 255, 255), "NowStage : %d / 7", nowlevel);
 }

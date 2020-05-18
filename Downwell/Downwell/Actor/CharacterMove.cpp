@@ -2,7 +2,11 @@
 #include "../Input/Input.h"
 #include "../Collision/MapHitCheck.h"
 #include "CharacterAttack.h"
-
+/// <summary>
+/// 左右の加速移動関数
+/// </summary>
+/// <param name="vPos">座標</param>
+/// <param name="fspeedx">X座標の移動量</param>
 void CharacterMove::SideAcceleration(VECTOR& vPos, float fspeedx)
 {
 
@@ -68,16 +72,22 @@ void CharacterMove::SideAcceleration(VECTOR& vPos, float fspeedx)
 
 
 }
-
+/// <summary>
+/// 左右移動関数
+/// </summary>
+/// <param name="vposition">プレイヤー座標</param>
+/// <param name="fspeedx">X座標の移動量</param>
+/// <param name="fspeedy">Y座標の移動量</param>
+/// <param name="fgravitypower">重力</param>
+/// <param name="fsize">画像サイズ</param>
 void CharacterMove::SideMove(VECTOR& vposition, float& fspeedx, float& fspeedy, float& fgravitypower, float fsize)
 {
 
 	if (Input::GetInstance().GetKeyPress(KEY_INPUT_LEFT))
 	{
-		//fspeedx -= 1.0f;
 		nSideType_ = 0;
-		if (unLeftAcceleration_ == 0) fspeedx = -2.0f;
-		if (unLeftAcceleration_ == 1) fspeedx = -5.0f;
+		if (unLeftAcceleration_ == 0) fspeedx = -1.0f;
+		if (unLeftAcceleration_ == 1) fspeedx = -3.0f;
 		nMoveFrame_++;
 	}
 	else if (!Input::GetInstance().GetKeyPress(KEY_INPUT_LEFT))
@@ -86,10 +96,9 @@ void CharacterMove::SideMove(VECTOR& vposition, float& fspeedx, float& fspeedy, 
 	}
 	if (Input::GetInstance().GetKeyPress(KEY_INPUT_RIGHT))
 	{
-		//fspeedx += 1.0f;
 		nSideType_ = 1;
-		if (unRightAcceleration_ == 0) fspeedx = 2.0f;
-		if (unRightAcceleration_ == 1) fspeedx = 5.0f;
+		if (unRightAcceleration_ == 0) fspeedx = 1.0f;
+		if (unRightAcceleration_ == 1) fspeedx = 3.0f;
 		nMoveFrame_++;
 	}
 	else if (!Input::GetInstance().GetKeyPress(KEY_INPUT_RIGHT))
@@ -99,7 +108,6 @@ void CharacterMove::SideMove(VECTOR& vposition, float& fspeedx, float& fspeedy, 
 
 	if (!Input::GetInstance().GetKeyPress(KEY_INPUT_LEFT) && !Input::GetInstance().GetKeyPress(KEY_INPUT_RIGHT))
 	{
-		//fspeedx = 0.0f;
 		fspeedx = 0.0f;
 		nMoveFrame_ = 0;
 	}

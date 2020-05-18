@@ -31,7 +31,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetDrawValidGraphCreateFlag(FALSE);
 	application
 		.SetWindowMode(true)
-		.SetWaitVSyncFlag(false)
+		.SetWaitVSyncFlag(true)
 		.SetUse3DFlag(true)
 		.Run([&]()
 	{

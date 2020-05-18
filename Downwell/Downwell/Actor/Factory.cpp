@@ -8,7 +8,15 @@
 #include "../Behaviour/LoiteringMoveAction.h"
 #include "../Behaviour/TrackingMoveAction.h"
 #include "../Behaviour/LifeJudgment.h"
-
+/// <summary>
+/// “G¶¬ŠÖ”
+/// </summary>
+/// <param name="enemynumber">“G‚Ì•`‰æ”Ô†</param>
+/// <param name="ntype">“G‚Ìí—Ş</param>
+/// <param name="nhp">“G‚ÌHP</param>
+/// <param name="nspeed">“G‚ÌˆÚ“®—Ê</param>
+/// <param name="vposition">“G‚ÌoŒ»À•W</param>
+/// <returns></returns>
 EnemyParameter* CreateFactory::CreateInstance(int enemynumber, int ntype, int nhp, int nspeed, VECTOR vposition)
 {
 	BehaviorTree behavior;

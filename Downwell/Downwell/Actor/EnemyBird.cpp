@@ -8,6 +8,16 @@
 #include "Character.h"
 #include "CharacterJump.h"
 #include "../Resource/TextureData.h"
+#include "../Level/LevelsResponsible.h"
+#include "../Collision/Collision.h"
+/// <summary>
+/// コンストラクター
+/// </summary>
+/// <param name="enemynumber">敵の描画番号</param>
+/// <param name="aitree">ビヘイビアツリー</param>
+/// <param name="nhp">鳥のHP</param>
+/// <param name="nspeed">鳥の移動量</param>
+/// <param name="vposition">鳥が出現する座標</param>
 EnemyBird::EnemyBird(int enemynumber, BehaviorTree aitree, int nhp, int nspeed, VECTOR vposition) :
 	Activenode_(nullptr),
 	AIData_(nullptr)
@@ -25,8 +35,11 @@ EnemyBird::EnemyBird(int enemynumber, BehaviorTree aitree, int nhp, int nspeed, 
 	nTexhandle_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GBird);
 	nEnemyNumber_ = enemynumber;
 	bHitAction_ = false;
+	bActive_ = false;
 }
-
+/// <summary>
+/// デストラクター
+/// </summary>
 EnemyBird::~EnemyBird()
 {
 	if (AIData_ != nullptr)
@@ -37,67 +50,87 @@ EnemyBird::~EnemyBird()
 
 	AITree_.Release();
 }
-
+/// <summary>
+/// 更新関数
+/// </summary>
 void EnemyBird::Update()
 {
-	if (bLife_)
+	bActive_ = false;
+	bool bactive = false;
+	Rect rc(vPosition_.x - 9.0f, vPosition_.y - 9.0f, 18.0f, 18.0f);
+	for (int i = 0; i < 4; i++)
 	{
-		bHitAction_ = false;
-		if (Character::GetPos().x - 9.0f <= vPosition_.x + 9.0f && Character::GetPos().y + 8.0f < vPosition_.y + 9.0f &&
-			Character::GetPos().x - 9.0f >= vPosition_.x + 6.0f && Character::GetPos().y - 8.0f > vPosition_.y - 9.0f && bHitAction_ == false)
+		bactive = LevelsResponsible::GetInstance().GetQuadTree(i).HitCheck(rc);
+
+		if (bactive)
 		{
-			Character::SetHitLeftDamage(true);
-			bHitAction_ = true;
+			bActive_ = true;
 		}
-		if (Character::GetPos().x + 9.0f <= vPosition_.x -6.0f && Character::GetPos().y + 8.0f < vPosition_.y + 9.0f &&
-			Character::GetPos().x + 9.0f >= vPosition_.x -9.0f && Character::GetPos().y - 8.0f > vPosition_.y - 9.0f && bHitAction_ == false)
+	}
+
+	if (bActive_)
+	{
+		if (bLife_)
 		{
-			Character::SetHitRightDamage(true);
-			bHitAction_ = true;
-		}
-		if (Character::GetPos().x + 9.0f >= vPosition_.x + -9.0f && Character::GetPos().y + 7.0f < vPosition_.y - 6.0f &&
-			Character::GetPos().x - 9.0f <= vPosition_.x + 9.0f && Character::GetPos().y + 7.0f > vPosition_.y - 9.0f && bHitAction_ == false)
-		{
- 			Character::SetHitDamage(true);
-			bHitAction_ = true;
-		}
-		if (Character::GetPos().x >= vPosition_.x + -9.0f && Character::GetPos().y + 7.0f < vPosition_.y + 14.0f &&
-			Character::GetPos().x <= vPosition_.x + 9.0f && Character::GetPos().y + 7.0f > vPosition_.y + 9.0f&& CharacterJump::GetJumpExist() == false && bHitAction_ == false)
-		{
-			Character::SetHitEnemy(true);
-			if (nHp_ > 0)
+			bHitAction_ = false;
+			if (Character::GetPos().x - 9.0f <= vPosition_.x + 9.0f && Character::GetPos().y + 8.0f < vPosition_.y + 9.0f &&
+				Character::GetPos().x - 9.0f >= vPosition_.x + 6.0f && Character::GetPos().y - 8.0f > vPosition_.y - 9.0f && bHitAction_ == false)
 			{
-				nHp_--;
+				Character::SetHitLeftDamage(true);
+				bHitAction_ = true;
 			}
-			bHitAction_ = true;
-		}
-		
-		for (int i = 0; i < 10; i++)
-		{
-			if (Bullet::GetPosition(i).x - 6.0f >= vPosition_.x + -14.0f && Bullet::GetPosition(i).y < vPosition_.y + 7.0f &&
-				Bullet::GetPosition(i).x + 6.0f <= vPosition_.x + 14.0f && Bullet::GetPosition(i).y > vPosition_.y)
+			if (Character::GetPos().x + 9.0f <= vPosition_.x - 6.0f && Character::GetPos().y + 8.0f < vPosition_.y + 9.0f &&
+				Character::GetPos().x + 9.0f >= vPosition_.x - 9.0f && Character::GetPos().y - 8.0f > vPosition_.y - 9.0f && bHitAction_ == false)
 			{
+				Character::SetHitRightDamage(true);
+				bHitAction_ = true;
+			}
+			if (Character::GetPos().x + 9.0f >= vPosition_.x + -9.0f && Character::GetPos().y + 7.0f < vPosition_.y - 6.0f &&
+				Character::GetPos().x - 9.0f <= vPosition_.x + 9.0f && Character::GetPos().y + 7.0f > vPosition_.y - 9.0f && bHitAction_ == false)
+			{
+				Character::SetHitDamage(true);
+				bHitAction_ = true;
+			}
+			if (Character::GetPos().x >= vPosition_.x + -9.0f && Character::GetPos().y + 7.0f < vPosition_.y + 14.0f &&
+				Character::GetPos().x <= vPosition_.x + 9.0f && Character::GetPos().y + 7.0f > vPosition_.y + 9.0f && CharacterJump::GetJumpExist() == false && bHitAction_ == false)
+			{
+				Character::SetHitEnemy(true);
 				if (nHp_ > 0)
 				{
- 					nHp_--;
+					nHp_--;
+				}
+				bHitAction_ = true;
+			}
+
+			for (int i = 0; i < 10; i++)
+			{
+				if (Bullet::GetPosition(i).x - 6.0f >= vPosition_.x - 18.0f && Bullet::GetPosition(i).y < vPosition_.y + 7.0f &&
+					Bullet::GetPosition(i).x + 6.0f <= vPosition_.x + 18.0f && Bullet::GetPosition(i).y > vPosition_.y)
+				{
+					if (nHp_ > 0)
+					{
+						nHp_--;
+					}
 				}
 			}
-		}
 
-		if (Activenode_ == nullptr)
-		{
-			Activenode_ = AITree_.Inference(this, AIData_);
-		}
-		if (Activenode_ != nullptr)
-		{
-			Activenode_ = AITree_.Run(this, Activenode_, AIData_);
-		}
+			if (Activenode_ == nullptr)
+			{
+				Activenode_ = AITree_.Inference(this, AIData_);
+			}
+			if (Activenode_ != nullptr)
+			{
+				Activenode_ = AITree_.Run(this, Activenode_, AIData_);
+			}
 
-		vPosition_.x += vMove_.x;
-		vPosition_.y += vMove_.y;
+			vPosition_.x += vMove_.x;
+			vPosition_.y += vMove_.y;
+		}
 	}
 }
-
+/// <summary>
+/// 描画関数
+/// </summary>
 void EnemyBird::Draw()
 {
 	if (bLife_)

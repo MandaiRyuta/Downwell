@@ -4,8 +4,11 @@
 #include "../DownwellConstant.h"
 #include "../Actor/Character.h"
 
-//float TrackingMoveAction::fmovey = 0.0f;
-
+/// <summary>
+/// 更新関数
+/// </summary>
+/// <param name="enemy">敵情報</param>
+/// <returns>ステート情報</returns>
 ActionBase::STATE TrackingMoveAction::Run(EnemyParameter* enemy)
 {
 	float dammy = 0.0f;
@@ -21,6 +24,8 @@ ActionBase::STATE TrackingMoveAction::Run(EnemyParameter* enemy)
 	}
 	fmovey = flypower;
 	fmovex = movespeed;
+	//修正
+	//MapHitCheck::MapHitCollision()　を使用してめり込みを防いでみる
 	MapHitCheck::MapHitCollision(VGet(enemy->GetPosition().x - 5.0f, enemy->GetPosition().y + 9.0f, 0.0f), dammy, fmovey);
 	MapHitCheck::MapHitCollision(VGet(enemy->GetPosition().x + 5.0f, enemy->GetPosition().y + 9.0f, 0.0f), dammy, fmovey);
 	MapHitCheck::MapHitCollision(VGet(enemy->GetPosition().x - 5.0f, enemy->GetPosition().y + 9.0f, 0.0f), dammy, fmovey);

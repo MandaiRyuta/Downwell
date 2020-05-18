@@ -1,5 +1,7 @@
 #include "Input.h"
-
+/// <summary>
+/// 初期化関数
+/// </summary>
 void Input::Init()
 {
 	for (int i = 0; i < 256; i++)
@@ -12,15 +14,19 @@ void Input::Init()
 		PressKeyNum_[i] = 0;
 	}
 }
-
+/// <summary>
+/// キーを押した時の判定関数
+/// </summary>
+/// <param name="Key">入力キー</param>
+/// <returns>true : 押している	false : 押していない</returns>
 signed short int Input::GetKeyPress(int Key)
 {
 	PressKeyNum_[Key] = Key;
-	PressKey_[Key] = False;
+	PressKey_[Key] = 0x000;
 	
 	if (CheckHitKey(Key) == 1)
 	{
-		PressKey_[Key] = True;
+		PressKey_[Key] = 0x001;
 #ifdef DEBUG
 		DebugFont(Key);
 #endif // DEBUG
@@ -29,7 +35,11 @@ signed short int Input::GetKeyPress(int Key)
 
 	return PressKey_[Key];
 }
-
+/// <summary>
+/// キーを押した時に1度だけ判定を返す関数
+/// </summary>
+/// <param name="Key">入力キー</param>
+/// <returns>true : 押している	false : 押していない</returns>
 signed short int Input::GetKeyDown(int Key)
 {
 	DownKey_[Key] = 0x000;
@@ -60,7 +70,11 @@ signed short int Input::GetKeyDown(int Key)
 	}
 	return DownKey_[Key];
 }
-
+/// <summary>
+/// キーを離した時に1度だけ判定を返す関数
+/// </summary>
+/// <param name="Key">入力キー</param>
+/// <returns>true : 離している	false : 離していない</returns>
 signed short int Input::GetKeyUp(int Key)
 {
 	UpKeyNum_[Key] = Key;
@@ -91,6 +105,10 @@ signed short int Input::GetKeyUp(int Key)
 	return 0x000;
 }
 #ifdef DEBUG
+/// <summary>
+/// デバッグ関数
+/// </summary>
+/// <param name="Key">入力キー</param>
 void Input::DebugFont(int Key)
 {
 	DrawFormatString(0, 50, GetColor(0, 0, 0), "%d Key : %d", PressKeyNum_[Key], PressKey_[Key]);

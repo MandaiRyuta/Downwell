@@ -15,10 +15,10 @@
 #include <array>
 #include <DxLib.h>
 
-constexpr double ScreenWidth = 640.0;
-constexpr double ScreenHeight = 480.0;
-constexpr signed short int True = 0x001;
-constexpr signed short int False = 0x000;
+constexpr double ScreenWidth = 640.0;	//âÊñ â°ïù
+constexpr double ScreenHeight = 480.0;	//âÊñ ècïù
+constexpr signed short int True = 0x001;	//true
+constexpr signed short int False = 0x000;	//false
 
 template<typename T, size_t size>
 using Array = std::array<T, size>;

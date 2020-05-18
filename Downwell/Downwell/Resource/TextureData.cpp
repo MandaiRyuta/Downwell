@@ -1,6 +1,8 @@
 #include "TextureData.h"
 #include "../Constant.h"
-
+/// <summary>
+/// 初期化関数
+/// </summary>
 void TextureDataBase::TextureData::Init()
 {
 	for (auto itr : TitleTexture_)
@@ -16,10 +18,13 @@ void TextureDataBase::TextureData::Init()
 		itr = 0;
 	}
 }
-
-void TextureDataBase::TextureData::Loading(int& scenetype)
+/// <summary>
+/// ローディング関数
+/// </summary>
+/// <param name="scenetype">レベル番号</param>
+void TextureDataBase::TextureData::Loading(int& level)
 {
-	switch (scenetype)
+	switch (level)
 	{
 	case 0:
 		TitleTexture_[0] = LoadGraph("Resource/block.png");
@@ -55,10 +60,13 @@ void TextureDataBase::TextureData::Loading(int& scenetype)
 		break;
 	}
 }
-
-void TextureDataBase::TextureData::Release(int& scenetype)
+/// <summary>
+/// 解放関数
+/// </summary>
+/// <param name="scenetype">レベル番号</param>
+void TextureDataBase::TextureData::Release(int& level)
 {
-	switch (scenetype)
+	switch (level)
 	{
 	case 0:
 		DeleteGraph(TitleTexture_[0]);
@@ -94,19 +102,31 @@ void TextureDataBase::TextureData::Release(int& scenetype)
 		break;
 	}
 }
-
+/// <summary>
+/// タイトルのテクスチャーハンドル取得関数
+/// </summary>
+/// <param name="number">テクスチャーハンドル番号</param>
+/// <returns>テクスチャーハンドル</returns>
 const int& TextureDataBase::TextureData::GetTitleTextureData(TextureDataBase::TitleTextureNumber number)
 {
 	int texturenumber = static_cast<int>(number);
 	return TitleTexture_[texturenumber];
 }
-
+/// <summary>
+/// ゲームのテクスチャーハンドル取得関数
+/// </summary>
+/// <param name="number">テクスチャーハンドル番号</param>
+/// <returns>テクスチャーハンドル</returns>
 const int& TextureDataBase::TextureData::GetGameTextureData(TextureDataBase::GameTextureNumber number)
 {
 	int texturenumber = static_cast<int>(number);
 	return GameTexture_[texturenumber];
 }
-
+/// <summary>
+/// リザルトのテクスチャーハンドル取得関数
+/// </summary>
+/// <param name="number">テクスチャーハンドル番号</param>
+/// <returns>テクスチャーハンドル</returns>
 const int& TextureDataBase::TextureData::GetResultTextureData(TextureDataBase::ResultTextureNumber number)
 {
 	int texturenumber = static_cast<int>(number);

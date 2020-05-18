@@ -5,8 +5,16 @@
 #include "../Camera/Camera.h"
 #include <random>
 
-int CharacterAttack::nBullet_ = 0;
-
+int CharacterAttack::nBullet_ = 0;	//弾の数
+/// <summary>
+/// 攻撃開始する関数
+/// </summary>
+/// <param name="vpos">座標</param>
+/// <param name="bJump">ジャンプフラグ</param>
+/// <param name="bAttackjump">攻撃ジャンプフラグ</param>
+/// <param name="nstate">行動ステート</param>
+/// <param name="fgravity">重力</param>
+/// <param name="bshake">振動フラグ</param>
 void CharacterAttack::Attack(VECTOR& vpos, const bool& bJump, const bool& bAttackjump, int& nstate, float& fgravity, bool& bshake)
 {
 	Camera::GetInstance().SetShake(false);
@@ -66,27 +74,33 @@ void CharacterAttack::Attack(VECTOR& vpos, const bool& bJump, const bool& bAttac
 
 	cBullet_.Update();
 }
-
+/// <summary>
+/// 描画関数
+/// </summary>
 void CharacterAttack::Draw()
 {
 	cBullet_.Draw();
 }
-
+/// <summary>
+/// 攻撃フラグ設定関数
+/// </summary>
+/// <param name="battack">攻撃フラグ　true : 攻撃する　false : 攻撃しない </param>
 void CharacterAttack::SetAttackExist(bool battack)
 {
 	bAttack_ = battack;
 }
-
+/// <summary>
+/// 弾補充関数
+/// </summary>
+/// <param name="nbullet">補充する弾の量</param>
 void CharacterAttack::SetBullet(int nbullet)
 {
 	nBullet_ = nbullet;
 }
-
-void CharacterAttack::SetAttackFrame(int nframe)
-{
-	nAttackFrame_ = nframe;
-}
-
+/// <summary>
+/// 弾の残弾数を受け取る関数
+/// </summary>
+/// <returns>弾の残弾数</returns>
 const int& CharacterAttack::GetBullet()
 {
 	return nBullet_;

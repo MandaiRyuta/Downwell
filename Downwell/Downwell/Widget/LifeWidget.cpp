@@ -2,20 +2,28 @@
 #include "../Resource/TextureData.h"
 #include "../Constant.h"
 #include "../Actor/Character.h"
-
+/// <summary>
+/// コンストラクター
+/// </summary>
 LifeWidget::LifeWidget() : nGameCharacterLifeTexture_(0), nTextureWidth_(25)
 {
 	nGameCharacterLifeTexture_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GCharacterLife);
 }
-
+/// <summary>
+/// デストラクター
+/// </summary>
 LifeWidget::~LifeWidget()
 {
 }
-
+/// <summary>
+/// 更新関数
+/// </summary>
 void LifeWidget::Update()
 {
 }
-
+/// <summary>
+/// 描画関数
+/// </summary>
 void LifeWidget::Draw()
 {
 	int nowlife = Character::GetCharacterLife();

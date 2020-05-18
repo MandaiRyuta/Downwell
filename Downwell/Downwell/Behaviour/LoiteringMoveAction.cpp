@@ -4,7 +4,11 @@
 #include "../Constant.h"
 #include "../DownwellConstant.h"
 #include "../Actor/Stage.h"
-
+/// <summary>
+/// 更新関数
+/// </summary>
+/// <param name="enemy">敵情報</param>
+/// <returns>ステート情報</returns>
 ActionBase::STATE LoiterningMoveAction::Run(EnemyParameter* enemy)
 {
 	float dammy = 0.0f;

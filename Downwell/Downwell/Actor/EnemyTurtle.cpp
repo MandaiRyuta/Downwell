@@ -8,10 +8,20 @@
 #include "Character.h"
 #include "CharacterJump.h"
 #include "../Resource/TextureData.h"
-
+#include "../Collision/Collision.h"
+#include "../Level/LevelsResponsible.h"
+/// <summary>
+/// コンストラクター
+/// </summary>
+/// <param name="enemynumber">敵の描画番号</param>
+/// <param name="aitree">ビヘイビアツリー</param>
+/// <param name="nhp">亀のHP</param>
+/// <param name="nspeed">亀の移動量</param>
+/// <param name="vposition">亀が出現する座標</param>
 EnemyTurtle::EnemyTurtle(int enemynumber, BehaviorTree aitree, int nhp, int nspeed, VECTOR vposition) :
 	Activenode_(nullptr),
-	AIData_(nullptr)
+	AIData_(nullptr),
+	bActive_(false)
 {
 	bLife_ = true;
 	AITree_ = aitree;
@@ -30,7 +40,9 @@ EnemyTurtle::EnemyTurtle(int enemynumber, BehaviorTree aitree, int nhp, int nspe
 
 	bHitAction_ = false;
 }
-
+/// <summary>
+/// デストラクター
+/// </summary>
 EnemyTurtle::~EnemyTurtle()
 {
 	if (AIData_ != nullptr)
@@ -40,64 +52,82 @@ EnemyTurtle::~EnemyTurtle()
 
 	AITree_.Release();
 }
-
+/// <summary>
+/// 更新関数
+/// </summary>
 void EnemyTurtle::Update()
 {
-	if (bLife_)
+	bActive_ = false;
+	bool bactive = false;
+	Rect rc(vPosition_.x - 9.0f, vPosition_.y - 9.0f, 18.0f, 18.0f);
+	for (int i = 0; i < 4; i++)
 	{
-		bHitAction_ = false;
+		bactive = LevelsResponsible::GetInstance().GetQuadTree(i).HitCheck(rc);
 
-		for (int i = 0; i < 10; i++)
+		if (bactive)
 		{
-			if (Bullet::GetPosition(i).x - 6.0f >= vPosition_.x - 14.0f && Bullet::GetPosition(i).y < vPosition_.y + 7.0f &&
-				Bullet::GetPosition(i).x + 6.0f <= vPosition_.x +14.0f && Bullet::GetPosition(i).y > vPosition_.y)
+			bActive_ = true;
+		}
+	}
+
+	if (bActive_)
+	{
+		if (bLife_)
+		{
+			bHitAction_ = false;
+
+			for (int i = 0; i < 10; i++)
 			{
-				if (nHp_ > 0)
+				if (Bullet::GetPosition(i).x - 6.0f >= vPosition_.x - 14.0f && Bullet::GetPosition(i).y < vPosition_.y + 7.0f &&
+					Bullet::GetPosition(i).x + 6.0f <= vPosition_.x + 14.0f && Bullet::GetPosition(i).y > vPosition_.y)
 				{
-          			nHp_--;
+					if (nHp_ > 0)
+					{
+						nHp_--;
+					}
 				}
 			}
-		}
 
-		if (Character::GetPos().x - 9.0f <= vPosition_.x + 9.0f && Character::GetPos().y + 8.0f < vPosition_.y + 9.0f &&
-			Character::GetPos().x - 9.0f >= vPosition_.x + 6.0f && Character::GetPos().y - 8.0f > vPosition_.y - 9.0f && bHitAction_ == false)
-		{
-			Character::SetHitLeftDamage(true);
-			bHitAction_ = true;
-		}
-		if (Character::GetPos().x + 9.0f <= vPosition_.x - 6.0f && Character::GetPos().y + 8.0f < vPosition_.y + 9.0f &&
-			Character::GetPos().x + 9.0f >= vPosition_.x - 9.0f && Character::GetPos().y - 8.0f > vPosition_.y - 9.0f && bHitAction_ == false)
-		{
-			Character::SetHitRightDamage(true);
-			bHitAction_ = true;
-		}
-
-		if (Character::GetPos().x >= vPosition_.x + -14.0f && Character::GetPos().y < vPosition_.y + 7.0f &&
-			Character::GetPos().x <= vPosition_.x + 14.0f && Character::GetPos().y > vPosition_.y && CharacterJump::GetJumpExist() == false)
-		{
-			Character::SetHitEnemy(true);
-			if (nHp_ > 0)
+			if (Character::GetPos().x - 9.0f <= vPosition_.x + 9.0f && Character::GetPos().y + 8.0f < vPosition_.y + 9.0f &&
+				Character::GetPos().x - 9.0f >= vPosition_.x + 6.0f && Character::GetPos().y - 8.0f > vPosition_.y - 9.0f && bHitAction_ == false)
 			{
-				nHp_--;
+				Character::SetHitLeftDamage(true);
+				bHitAction_ = true;
 			}
+			if (Character::GetPos().x + 9.0f <= vPosition_.x - 6.0f && Character::GetPos().y + 8.0f < vPosition_.y + 9.0f &&
+				Character::GetPos().x + 9.0f >= vPosition_.x - 9.0f && Character::GetPos().y - 8.0f > vPosition_.y - 9.0f && bHitAction_ == false)
+			{
+				Character::SetHitRightDamage(true);
+				bHitAction_ = true;
+			}
+
+			if (Character::GetPos().x - 6.0f >= vPosition_.x - 16.0f && Character::GetPos().y < vPosition_.y + 7.0f &&
+				Character::GetPos().x + 6.0f <= vPosition_.x + 16.0f && Character::GetPos().y > vPosition_.y && CharacterJump::GetJumpExist() == false)
+			{
+				Character::SetHitEnemy(true);
+				if (nHp_ > 0)
+				{
+					nHp_--;
+				}
+			}
+
+			if (Activenode_ == nullptr)
+			{
+				Activenode_ = AITree_.Inference(this, AIData_);
+			}
+			if (Activenode_ != nullptr)
+			{
+				Activenode_ = AITree_.Run(this, Activenode_, AIData_);
+			}
+
+			vPosition_.x += vMove_.x;
+			vPosition_.y += vMove_.y;
 		}
-
-
-
-		if (Activenode_ == nullptr)
-		{
-			Activenode_ = AITree_.Inference(this, AIData_);
-		}
-		if (Activenode_ != nullptr)
-		{
-			Activenode_ = AITree_.Run(this, Activenode_, AIData_);
-		}
-
-		vPosition_.x += vMove_.x;
-		vPosition_.y += vMove_.y;
 	}
 }
-
+/// <summary>
+/// 描画関数
+/// </summary>
 void EnemyTurtle::Draw()
 {
 	if (bLife_)

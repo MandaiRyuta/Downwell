@@ -3,13 +3,17 @@
 #include "Character.h"
 #include "EnemySeaUrchin.h"
 #include "../Resource/TextureData.h"
+#include "Bullet.h"
+#include "../Collision/MapHitCheck.h"
 #include <random>
 
-std::array<std::array<int, StageWidth>, StageHeigh> Stage::Stage_ = {};
-std::array<std::array<VECTOR, StageWidth>, StageHeigh> Stage::Blockpos_ = {};
-std::array<std::array<Rect, StageWidth>, StageHeigh> Stage::Blockrect_ = {};
-
-Stage::Stage(int nscenenumber) : nSceneNumber_(nscenenumber)
+std::array<std::array<int, StageWidth>, StageHeigh> Stage::Stage_ = {};	//ステージ上のブロック種類を管理
+std::array<std::array<VECTOR, StageWidth>, StageHeigh> Stage::Blockpos_ = {};	//ステージ上のブロックを配置する座標を管理
+/// <summary>
+/// コンストラクター
+/// </summary>
+/// <param name="nscenenumber">シーン番号</param>
+Stage::Stage(int nscenenumber) : nSceneNumber_(nscenenumber), nBlockSideBlockTexture_(0), nNonBlockTexture_(0), nSideBlockTexture_(0),nBlockTexture_(0),nInSideBlockTexture_(0)
 {
 	int nx = 0, ny = 0, stagetype = 0;
 	StageDataBase::GetInstance().InitStage();
@@ -43,11 +47,6 @@ Stage::Stage(int nscenenumber) : nSceneNumber_(nscenenumber)
 					Stage_[ny][x] = (StageDataBase::GetInstance().GetStageType(stagetype, x, y));
 					Blockpos_[ny][x] = VGet(171.0f + static_cast<float>(x) * (float)blockwidth, (static_cast<float>(-ny) * blockheight) + (blockheight * -0.5f), 0.0f);
 				}
-
-				Blockrect_[ny][x].x = Blockpos_[ny][x].x;
-				Blockrect_[ny][x].y = Blockpos_[ny][x].y;
-				Blockrect_[ny][x].width = blockwidth;
-				Blockrect_[ny][x].height = blockheight;
 			}
 		}
 	}
@@ -71,13 +70,15 @@ Stage::Stage(int nscenenumber) : nSceneNumber_(nscenenumber)
 		nInSideBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetResultTextureData(TextureDataBase::ResultTextureNumber::ROutBlock);
 	}
 }
-
+/// <summary>
+/// デストラクター
+/// </summary>
 Stage::~Stage()
 {
 }
-#include "Bullet.h"
-#include "../Collision/MapHitCheck.h"
-
+/// <summary>
+/// 更新関数
+/// </summary>
 void Stage::Update()
 {
 	/// <summary>
@@ -88,8 +89,8 @@ void Stage::Update()
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			if (MapHitCheck::GetChipParam(VGet(Bullet::GetPosition(i).x - 2.0f, Bullet::GetPosition(i).y - 1.0f, 0.0f)) == 3 ||
-				MapHitCheck::GetChipParam(VGet(Bullet::GetPosition(i).x + 2.0f, Bullet::GetPosition(i).y - 1.0f, 0.0f)) == 3)
+			if (MapHitCheck::GetChipParam(VGet(Bullet::GetPosition(i).x - 3.0f, Bullet::GetPosition(i).y - 6.0f, 0.0f)) == 3 ||
+				MapHitCheck::GetChipParam(VGet(Bullet::GetPosition(i).x + 3.0f, Bullet::GetPosition(i).y - 6.0f, 0.0f)) == 3 )
 			{
 				int x = static_cast<int>(Bullet::GetPosition(i).x / BlockSize - (BlockSize * 0.5f));
 				int y = static_cast<int>(Bullet::GetPosition(i).y / -BlockSize);
@@ -98,6 +99,7 @@ void Stage::Update()
 				int up = y - 1;
 				int right = x + 1;
 				int left = x - 1;
+
 				if (Stage_[y][right] == 0)
 				{
 					Stage_[up][right] = 7;
@@ -115,24 +117,14 @@ void Stage::Update()
 					Stage_[up][left] = 8;
 				}
 
-
-				//if (EnemySeaUrchin::GetPosition().x < Bullet::GetPosition(i).x)
-				//{
-				//	Stage_[y + 1][x] = 11;
-				//	Stage_[y - 1][x] = 10;
-				//}
-				//if (EnemySeaUrchin::GetPosition().x >= Bullet::GetPosition(i).x)
-				//{
-				//	Stage_[y + 1][x] = 12;
-				//	Stage_[y - 1][x] = 13;
-				//}
-
 				Bullet::ResetSetPosition(i);
 			}
 		}
 	}
 }
-
+/// <summary>
+/// 描画関数
+/// </summary>
 void Stage::Draw()
 {
 	int MapDrawPointX, MapDrawPointY;
@@ -150,7 +142,7 @@ void Stage::Draw()
 			
 			if (nSceneNumber_ == 0)
 			{
-				if (Stage_[y][x] == 1)
+				if (Stage_[y][x] == 1 || Stage_[y][x] == 100)
 				{
 					DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, nInSideBlockTexture_, false);
 				}
@@ -201,22 +193,32 @@ void Stage::Draw()
 		}
 	}
 }
-
+/// <summary>
+/// ステージの座標関数
+/// </summary>
+/// <param name="x">プレイヤーもしくは敵のX座標</param>
+/// <param name="y">プレイヤーもしくは敵のY座標</param>
+/// <returns></returns>
 const VECTOR& Stage::GetStagePos(int x, int y)
 {
 	return Blockpos_[y][x];
 }
-
+/// <summary>
+/// ステージのブロック種類を調べる関数
+/// </summary>
+/// <param name="x">プレイヤーもしくは敵のX座標</param>
+/// <param name="y">プレイヤーもしくは敵のY座標</param>
+/// <returns></returns>
 const int& Stage::GetStageType(int x, int y)
 {
 	return Stage_[y][x];
 }
-
-const Rect& Stage::GetStageRect(int x, int y)
-{
-	return Blockrect_[y][x];
-}
-
+/// <summary>
+/// ブロックの種類を変更する関数
+/// </summary>
+/// <param name="type">変更する種類の番号</param>
+/// <param name="x">ブロックの横列</param>
+/// <param name="y">ブロックの縦列</param>
 void Stage::SetStageType(int type, int x, int y)
 {
 	Stage_[y][x] = type;

@@ -2,33 +2,40 @@
 #include "../Input/Input.h"
 #include "../Constant.h"
 #include "../Actor/Character.h"
-
+/// <summary>
+/// 初期化関数
+/// </summary>
+/// <param name="pos">初期座標</param>
 void Camera::Init(VECTOR pos)
 {
-	Position_.x = pos.x;
-	Position_.y = pos.y;
+	vPosition_.x = pos.x;
+	vPosition_.y = pos.y;
 	fShakePower_ = 2.0f;
 	bShake_ = false;
 }
-
+/// <summary>
+/// 更新関数
+/// </summary>
 void Camera::Update()
 {
 	//指定の左右座標の範囲内にはいってるときのみ、Y座標を同期
 	if (Character::GetPos().x > 150 && Character::GetPos().x < 550 && !bShake_)
 	{
-		Position_.y = Character::GetPos().y;
+		vPosition_.y = Character::GetPos().y;
 	}
 	else if (Character::GetPos().x > 150 && Character::GetPos().x < 550 && !bShake_)
 	{
-		Position_.y = Character::GetPos().y + (fShakePower_ * -1.0f);
+		vPosition_.y = Character::GetPos().y + (fShakePower_ * -1.0f);
 	}
 
-	SetCameraPositionAndTarget_UpVecY(VGet(Position_.x, Position_.y, -300.0f),VGet(Position_.x, Position_.y, 0.0f));
+	SetCameraPositionAndTarget_UpVecY(VGet(vPosition_.x, vPosition_.y, -300.0f),VGet(vPosition_.x, vPosition_.y, 0.0f));
 }
-
+/// <summary>
+/// デバッグ用関数
+/// </summary>
 void Camera::DebugCamera()
 {
-	#ifdef DEBUG
+#ifdef DEBUG
 	DrawFormatString(0, 32 * 8, GetColor(255, 255, 255), "Player座標 : %f, %f, %f", Character::GetPos().x, Character::GetPos().y, Character::GetPos().z);
 	DrawFormatString(0, 32 * 5, GetColor(255, 255, 255), "Targetが範囲内に入っているか : %d", CheckCameraViewClip_Dir(Character::GetPos()));
 	DrawFormatString(0, 32 * 6, GetColor(255, 255, 255), "カメラの位置　: %f, %f, %f", GetCameraPosition().x, GetCameraPosition().y, GetCameraPosition().z);
@@ -44,17 +51,26 @@ void Camera::DebugCamera()
 		GetCameraViewMatrix().m[3][0], GetCameraViewMatrix().m[3][1], GetCameraViewMatrix().m[3][2], GetCameraViewMatrix().m[3][3]);
 #endif
 }
-
+/// <summary>
+/// カメラ行列取得関数
+/// </summary>
+/// <returns>カメラ行列</returns>
 MATRIX Camera::GetMatrix()
 {
 	return GetCameraViewMatrix();
 }
-
+/// <summary>
+/// カメラ座標を設定する関数
+/// </summary>
+/// <param name="pos">設定するカメラ座標</param>
 void Camera::SetPosition(VECTOR pos)
 {
-	Position_ = pos;
+	vPosition_ = pos;
 }
-
+/// <summary>
+/// カメラを振動させる関数
+/// </summary>
+/// <param name="bshake">カメラの振動フラグ	true : 振動させる	false : 振動させない</param>
 void Camera::SetShake(bool bshake)
 {
 	bShake_ = bshake;

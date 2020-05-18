@@ -1,20 +1,11 @@
 #include "Node.h"
 #include <random>
 #include "BehaviorData.h"
-
-Node::~Node()
-{
-	//for (auto itr : ChildNode_)
-	//{
-	//	delete itr;
-	//}
-}
-
-void Node::Release()
-{
-	//delete JudgementBase_;
-}
-
+/// <summary>
+/// 実行確認関数
+/// </summary>
+/// <param name="enemy">敵情報</param>
+/// <returns>true : 実行	false : 中断</returns>
 bool Node::Judgment(EnemyParameter* enemy)
 {
 	if (JudgementBase_ != nullptr)
@@ -24,7 +15,11 @@ bool Node::Judgment(EnemyParameter* enemy)
 
 	return true;
 }
-
+/// <summary>
+/// 優先順位選択関数
+/// </summary>
+/// <param name="list">ノードリスト</param>
+/// <returns>優先順位を比較し終えたノード</returns>
 Node* Node::SelectPriority(std::vector<Node*>* list)
 {
 	if (list == nullptr) return nullptr;
@@ -43,7 +38,11 @@ Node* Node::SelectPriority(std::vector<Node*>* list)
 	
 	return selectnode;
 }
-
+/// <summary>
+/// ランダム選択関数
+/// </summary>
+/// <param name="list">ノードリスト</param>
+/// <returns>ランダム選択を終えたノード</returns>
 Node* Node::SelectRandom(std::vector<Node*>* list)
 {
 	std::mt19937 mt;
@@ -53,7 +52,12 @@ Node* Node::SelectRandom(std::vector<Node*>* list)
 
 	return (*list)[rand(mt)];
 }
-
+/// <summary>
+/// オンオフ選択関数
+/// </summary>
+/// <param name="list">ノードリスト</param>
+/// <param name="data">ビヘイビアデータ</param>
+/// <returns>実行していないノード</returns>
 Node* Node::SelectOnOff(std::vector<Node*>* list, BehaviorData* data)
 {
 	std::vector<Node*> offlist;
@@ -76,7 +80,12 @@ Node* Node::SelectOnOff(std::vector<Node*>* list, BehaviorData* data)
 
 	return offlist[0];
 }
-
+/// <summary>
+/// シーケンス選択関数
+/// </summary>
+/// <param name="list">ノードリスト</param>
+/// <param name="data">ビヘイビアデータ</param>
+/// <returns>順番に従ったノード</returns>
 Node* Node::SelectSequence(std::vector<Node*>* list, BehaviorData* data)
 {
 	int SequenceStep = data->GetSequenceStep(GetName());
@@ -105,10 +114,14 @@ Node* Node::SelectSequence(std::vector<Node*>* list, BehaviorData* data)
 
 	return nullptr;
 }
-
+/// <summary>
+/// ノード検索関数
+/// </summary>
+/// <param name="search_name">探しているノード名</param>
+/// <returns>探しているノード</returns>
 Node* Node::SearchNode(std::string search_name)
 {
-	if (Name_ == search_name)
+	if (sName_ == search_name)
 	{
 		return this;
 	}
@@ -126,7 +139,12 @@ Node* Node::SearchNode(std::string search_name)
 	}
 	return nullptr;
 }
-
+/// <summary>
+/// ノード推論関数
+/// </summary>
+/// <param name="enemy">敵情報</param>
+/// <param name="data">ビヘイビアデータ</param>
+/// <returns>推論し終えたノード</returns>
 Node* Node::Inference(EnemyParameter* enemy, BehaviorData* data)
 {
 	std::vector<Node*> list;
@@ -180,7 +198,11 @@ Node* Node::Inference(EnemyParameter* enemy, BehaviorData* data)
 
 	return result;
 }
-
+/// <summary>
+/// 更新関数
+/// </summary>
+/// <param name="enemy">敵情報</param>
+/// <returns>ActionBaseのステート</returns>
 ActionBase::STATE Node::Run(EnemyParameter* enemy)
 {
 	if (ActionBase_ != nullptr)

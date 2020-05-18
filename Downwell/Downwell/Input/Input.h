@@ -3,6 +3,9 @@
 class Input
 {
 private:
+	/// <summary>
+	/// コンストラクター
+	/// </summary>
 	Input() : DownKeyNum_(),UpKeyNum_(),PressKeyNum_(),DownKey_(),UpKey_(),PressKey_()
 	{
 		for (int i = 0; i < 256; i++)
@@ -15,27 +18,54 @@ private:
 			PressKey_[i] = 0x000;
 		}
 	}
+	/// <summary>
+	/// デストラクター
+	/// </summary>
 	~Input(){}
 public:
-
+	/// <summary>
+	/// インスタンス取得関数
+	/// </summary>
+	/// <returns>静的なInputインスタンス</returns>
 	static Input& GetInstance()
 	{
 		static Input Inst;
 		return Inst;
 	}
+	/// <summary>
+	/// 初期化関数
+	/// </summary>
 	void Init();
-
+	/// <summary>
+	/// キーを押した時の判定関数
+	/// </summary>
+	/// <param name="Key">入力キー</param>
+	/// <returns>true : 押している	false : 押していない</returns>
 	signed short int GetKeyPress(int Key);
+	/// <summary>
+	/// キーを押した時に1度だけ判定を返す関数
+	/// </summary>
+	/// <param name="Key">入力キー</param>
+	/// <returns>true : 押している	false : 押していない</returns>
 	signed short int GetKeyDown(int Key);
+	/// <summary>
+	/// キーを離した時に1度だけ判定を返す関数
+	/// </summary>
+	/// <param name="Key">入力キー</param>
+	/// <returns>true : 離している	false : 離していない</returns>
 	signed short int GetKeyUp(int Key);
 #ifdef DEBUG
+	/// <summary>
+	/// デバッグ関数
+	/// </summary>
+	/// <param name="Key">入力キー</param>
 	void DebugFont(int Key);
 #endif	
 private:
-	Array<int, 256> DownKeyNum_;
-	Array<int, 256> UpKeyNum_;
-	Array<int, 256> PressKeyNum_;
-	Array<signed short int, 256> DownKey_;
-	Array<signed short int, 256> UpKey_;
-	Array<signed short int, 256> PressKey_;
+	Array<int, 256> DownKeyNum_;	//押した時用のキー番号
+	Array<int, 256> UpKeyNum_;	//離した時用のキー番号
+	Array<int, 256> PressKeyNum_;	//押しっぱなしの時のキー番号
+	Array<signed short int, 256> DownKey_;	//押した時用のキーフラグ
+	Array<signed short int, 256> UpKey_;	//離した時用のキーフラグ
+	Array<signed short int, 256> PressKey_;	//押しっぱなしの時のキーフラグ
 };

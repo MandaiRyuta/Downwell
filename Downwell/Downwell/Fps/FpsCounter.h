@@ -2,29 +2,43 @@
 
 namespace FPS
 {
-	constexpr int Fps_N = 60;
-	constexpr int FpsFrame = 60;
+	constexpr int FpsFrame = 60;	//フレーム最大値
 
 	class FpsCounter
 	{
 	public:
+		/// <summary>
+		/// コンストラクター
+		/// </summary>
 		FpsCounter() {
-			StartTime_ = 0;
-			TimeCount_ = 0;
-			Fps_ = 0;
+			unStartTime_ = 0;
+			unTimeCount_ = 0;
+			fFps_ = 0;
 		}
+		/// <summary>
+		/// デストラクター
+		/// </summary>
 		~FpsCounter()
 		{
-			StartTime_ = 0;
-			TimeCount_ = 0;
-			Fps_ = 0;
+			unStartTime_ = 0;
+			unTimeCount_ = 0;
+			fFps_ = 0;
 		}
+		/// <summary>
+		/// 更新関数
+		/// </summary>
 		void Update();
+		/// <summary>
+		/// 描画関数
+		/// </summary>
 		void Draw();
+		/// <summary>
+		/// 待機時間
+		/// </summary>
 		void WaitTime();
 	private:
-		unsigned int StartTime_;
-		unsigned int TimeCount_;
-		float Fps_;
+		unsigned int unStartTime_;	//開始時間
+		unsigned int unTimeCount_;	//時間
+		float fFps_;	//現在のフレーム
 	};
 }

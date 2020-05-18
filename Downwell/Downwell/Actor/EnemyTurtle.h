@@ -7,16 +7,32 @@ class Node;
 class EnemyTurtle : public EnemyParameter
 {
 public:
+	/// <summary>
+	/// コンストラクター
+	/// </summary>
+	/// <param name="enemynumber">敵の描画番号</param>
+	/// <param name="aitree">ビヘイビアツリー</param>
+	/// <param name="nhp">亀のHP</param>
+	/// <param name="nspeed">亀の移動量</param>
+	/// <param name="vposition">亀が出現する座標</param>
 	EnemyTurtle(int enemynumber, BehaviorTree aitree, int nhp, int nspeed, VECTOR vposition);
+	/// <summary>
+	/// デストラクター
+	/// </summary>
 	~EnemyTurtle();
-
+	/// <summary>
+	/// 更新関数
+	/// </summary>
 	virtual void Update() override;
+	/// <summary>
+	/// 描画関数
+	/// </summary>
 	virtual void Draw() override;
-
 private:
-	BehaviorData* AIData_;
-	BehaviorTree AITree_;
-	Node* Activenode_;
-	int nTexhandle_;
-	bool bHitAction_;
+	BehaviorData* AIData_;	//ビヘイビアデータクラス
+	BehaviorTree AITree_;	//ビヘイビアツリークラス
+	Node* Activenode_;	//ノードクラス
+	int nTexhandle_;	//テクスチャーハンドル
+	bool bHitAction_;	//衝突フラグ
+	bool bActive_;	//アクティブフラグ
 };

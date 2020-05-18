@@ -1,33 +1,39 @@
 #include "FpsCounter.h"
 #include "../Constant.h"
-
+/// <summary>
+/// çXêVä÷êî
+/// </summary>
 void FPS::FpsCounter::Update()
 {
-	if (TimeCount_ == 0)
+	if (unTimeCount_ == 0)
 	{
-		StartTime_ = GetNowCount();
+		unStartTime_ = GetNowCount();
 	}
-	else if (TimeCount_ == Fps_N)
+	else if (unTimeCount_ == FPS::FpsFrame)
 	{
 		int t = GetNowCount();
-		Fps_ = 1000.f / ((t - StartTime_) / (float)Fps_N);
-		TimeCount_ = 0;
-		StartTime_ = t;
+		fFps_ = 1000.f / ((t - unStartTime_) / (float)FPS::FpsFrame);
+		unTimeCount_ = 0;
+		unStartTime_ = t;
 	}
-	TimeCount_++;
+	unTimeCount_++;
 }
-
+/// <summary>
+/// ï`âÊä÷êî
+/// </summary>
 void FPS::FpsCounter::Draw()
 {
 #ifdef DEBUG
-	DrawFormatString(0, 0, GetColor(255,255,255), "%.1f", Fps_);
+	DrawFormatString(0, 0, GetColor(255,255,255), "%.1f", fFps_);
 #endif
 }
-
+/// <summary>
+/// ë“ã@éûä‘
+/// </summary>
 void FPS::FpsCounter::WaitTime()
 {
-	int passagetime = GetNowCount() - StartTime_;
-	int waittime = TimeCount_ * 1000 / FPS::FpsFrame - passagetime;
+	int passagetime = GetNowCount() - unStartTime_;
+	int waittime = unTimeCount_ * 1000 / FPS::FpsFrame - passagetime;
 
 	if (waittime > 0)
 	{

@@ -173,7 +173,6 @@
     <ClCompile Include="Behaviour\TurnMoveAction.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Collision\MapHitCheck.cpp" />
-    <ClCompile Include="Collision\QuadTree.cpp" />
     <ClCompile Include="Fps\FpsCounter.cpp" />
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="Level\GameLevel.cpp" />
@@ -215,7 +214,6 @@
     <ClInclude Include="Application\Application.h" />
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="Collision\Collision.h" />
-    <ClInclude Include="Collision\QuadTree.h" />
     <ClInclude Include="Constant.h" />
     <ClInclude Include="Fps\FpsCounter.h" />
     <ClInclude Include="Input\Input.h" />
