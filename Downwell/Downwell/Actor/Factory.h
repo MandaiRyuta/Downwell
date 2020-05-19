@@ -15,8 +15,8 @@ public:
 	/// <param name="nspeed">“G‚ÌˆÚ“®—Ê</param>
 	/// <param name="vposition">“G‚ÌoŒ»À•W</param>
 	/// <returns></returns>
-	EnemyParameter* Create(int enemynumber, int ntype, int nhp, int nspeed, VECTOR vposition) {
-		return CreateInstance(enemynumber, ntype, nhp, nspeed, vposition);
+	EnemyParameter* Create(int enemynumber, int ntype, int nhp, VECTOR vposition) {
+		return CreateInstance(enemynumber, ntype, nhp, vposition);
 	}
 private:
 	/// <summary>
@@ -28,7 +28,7 @@ private:
 	/// <param name="nspeed">“G‚ÌˆÚ“®—Ê</param>
 	/// <param name="vposition">“G‚ÌoŒ»À•W</param>
 	/// <returns></returns>
-	virtual EnemyParameter* CreateInstance(int enemynumber, int ntype, int nhp, int nspeed, VECTOR vposition) = 0;
+	virtual EnemyParameter* CreateInstance(int enemynumber, int ntype, int nhp, VECTOR vposition) = 0;
 };
 
 class CreateFactory : public Factory
@@ -43,5 +43,5 @@ private:
 	/// <param name="nspeed">“G‚ÌˆÚ“®—Ê</param>
 	/// <param name="vposition">“G‚ÌoŒ»À•W</param>
 	/// <returns></returns>
-	EnemyParameter* CreateInstance(int enemynumber, int ntype, int nhp, int nspeed, VECTOR vposition);
+	EnemyParameter* CreateInstance(int enemynumber, int ntype, int nhp, VECTOR vposition);
 };

@@ -57,6 +57,12 @@ public:
 	/// </summary>
 	/// <returns>残りHP</returns>
 	static const int& GetCharacterLife();
+
+	/// <summary>
+	/// ジャンプフラグ取得関数
+	/// </summary>
+	/// <returns>ジャンプフラグ true : ジャンプしている		false : ジャンプしていない</returns>
+	static const bool& GetJumpExist();
 private:
 	int nNowScene_;	//現在の表示シーン番号
 	static int nLife_;	//プレイヤーHP
@@ -78,4 +84,5 @@ private:
 	static bool bDamage_;	//ダメージフラグ
 	int nHitCooltime_;	//衝突してからのプレイヤー無敵時間用の変数
 	bool bInvincible_;	//プレイヤーの無敵状態フラグ
+	static bool bJump_;	//ジャンプフラグ
 };

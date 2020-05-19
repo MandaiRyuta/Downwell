@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "../DownwellConstant.h"
 
 /// <summary>
 /// コンストラクター
@@ -19,7 +20,7 @@ Application::~Application()
 /// <param name="OnRejected">未解決処理が処理されなかった時の関数</param>
 void Application::Run(const Function<void()>& OnResolved, const Function<void()>& OnRejected)
 {
-	if (DxLib_Init() == -1)
+	if (DxLib_Init() == Error)
 	{
 		ErrorLogAdd("Dxlib初期化失敗");
 		return;
@@ -64,7 +65,7 @@ Application& Application::SetWaitVSyncFlag(bool bEnabled)
 /// </summary>
 void Application::Init()
 {
-	SetGraphMode(640, 480, 32);
+	SetGraphMode(static_cast<int>(ScreenWidth), static_cast<int>(ScreenHeight), 32);
 	SetDrawScreen(DX_SCREEN_BACK);
 }
 /// <summary>

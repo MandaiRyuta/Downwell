@@ -9,7 +9,7 @@ public:
 	/// <summary>
 	/// コンストラクター
 	/// </summary>
-	CharacterJump() : bBulletJump_(false) {}
+	CharacterJump() : bBulletJump_(bInitBulletJump), bJump_(bInitJump){}
 	/// <summary>
 	/// デストラクター
 	/// </summary>
@@ -26,12 +26,8 @@ public:
 	/// <param name="vspeed">プレイヤー移動量</param>
 	/// <param name="fgravity">重力</param>
 	/// <param name="nstate">行動ステート</param>
-	void JumpState(VECTOR& vpos, VECTOR& vspeed, float& fgravity, int& nstate);
-	/// <summary>
-	/// ジャンプフラグ取得関数
-	/// </summary>
-	/// <returns>ジャンプフラグ true : ジャンプしている		false : ジャンプしていない</returns>
-	static const bool& GetJumpExist();
+	void JumpState(VECTOR& vpos, VECTOR& vspeed, float& fgravity, int& nstate, bool& bjump);
+
 	/// <summary>
 	/// ジャンプフラグ設定関数
 	/// </summary>
@@ -48,6 +44,6 @@ public:
 	/// <param name="bjump"> true : 攻撃ジャンプする	false : 攻撃ジャンプしない</param>
 	void SetBulletJumpExist(bool bjump);
 private:
-	static bool bJump;	//ジャンプフラグ
+	bool bJump_;	//ジャンプフラグ
 	bool bBulletJump_;	//攻撃ジャンプフラグ
 };

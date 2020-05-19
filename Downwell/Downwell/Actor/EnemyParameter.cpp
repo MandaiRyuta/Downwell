@@ -8,10 +8,8 @@ EnemyParameter::EnemyParameter() :
 	nEnemyNumber_(0),
 	nHp_(0),
 	nMaxHp_(0),
-	nMaxSpeed_(0),
 	nMoveType_(0),
-	nSpeed_(0),
-	vMove_(VGet(0.0f,0.0f,0.0f)),
-	vPosition_(VGet(0.0f,0.0f,0.0f))
+	vMove_(VGet(fDefaultPos, fDefaultPos, fDefaultPos)),
+	vPosition_(VGet(fDefaultPos, fDefaultPos, fDefaultPos))
 {
 }

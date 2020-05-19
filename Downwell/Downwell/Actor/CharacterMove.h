@@ -8,12 +8,12 @@ public:
 	/// <summary>
 	/// コンストラクター
 	/// </summary>
-	CharacterMove() : vSpeed(VGet(0.0f,0.0f,0.0f))
+	CharacterMove() : vSpeed(VGet(fDefaultPos, fDefaultPos, fDefaultPos))
 	{
-		nSideType_ = -1;
-		unLeftAcceleration_ = -1;
-		unRightAcceleration_ = -1;
-		nMoveFrame_ = 0;
+		nSideType_ = nInitSideType;
+		unLeftAcceleration_ = nInitLeftAcceleration;
+		unRightAcceleration_ = nInitRightAcceleration;
+		nMoveFrame_ = nInitMoveFrame;
 	}
 	/// <summary>
 	/// デストラクター

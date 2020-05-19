@@ -1,11 +1,14 @@
 #include "BulletShotWidget.h"
 #include "../Resource/TextureData.h"
 #include "../Actor/CharacterAttack.h"
-
+#include "../DownwellConstant.h"
 /// <summary>
 /// コンストラクター
 /// </summary>
-BulletShotWidget::BulletShotWidget() : nBulletTexture_(0),nNonBulletTexture_(0), nBulletCount_(10)
+BulletShotWidget::BulletShotWidget() :
+	nBulletTexture_(nInitBulletTexture),
+	nNonBulletTexture_(nInitNonBulletTexture),
+	nBulletCount_(nBulletMaxCount)
 {
 	nBulletTexture_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GBulletUI);
 	nNonBulletTexture_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GNonBulletUI);
@@ -30,7 +33,7 @@ void BulletShotWidget::Draw()
 	nBulletCount_ = CharacterAttack::GetBullet();
 	int npositiony = 240;
 	int npositionx = 540;
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < nBulletMaxCount; i++)
 	{
 		if (i < nBulletCount_)
 		{

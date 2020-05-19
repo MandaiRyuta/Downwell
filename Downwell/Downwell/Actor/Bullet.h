@@ -56,4 +56,5 @@ private:
 	static bool bBullet_[10];	//’e‚Ì•\¦ƒtƒ‰ƒO
 	static float fBulletspeed_[10];	//’e‚ÌˆÚ“®—Ê
 	unsigned int nBulletNumber;	//’e‚Ì”Ô†
+	int nBulletCount_[10];	//’e‚ª¶¬‚³‚ê‚Ä‚©‚çÁ‚¦‚é‚Ü‚Å‚ÌŠÔ
 };

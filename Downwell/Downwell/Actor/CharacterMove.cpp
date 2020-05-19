@@ -13,25 +13,25 @@ void CharacterMove::SideAcceleration(VECTOR& vPos, float fspeedx)
 	switch (nSideType_)
 	{
 	case 0:
-		if (unLeftAcceleration_ == -1)
+		if (unLeftAcceleration_ == nInitLeftAcceleration)
 		{
-			unLeftAcceleration_ = 0;
+			unLeftAcceleration_ = nFirstAcceleration;
 		}
-		else if (nMoveFrame_ > 3 && unLeftAcceleration_ == 0)
+		else if (nMoveFrame_ > nMaxMoveFrame&& unLeftAcceleration_ == nFirstAcceleration)
 		{
-			unLeftAcceleration_ = 1;
-			nMoveFrame_ = 0;
+			unLeftAcceleration_ = nSecondAcceleration;
+			nMoveFrame_ = nInitMoveFrame;
 		}
 		break;
 	case 1:
-		if (unRightAcceleration_ == -1)
+		if (unRightAcceleration_ == nInitRightAcceleration)
 		{
-			unRightAcceleration_ = 0;
+			unRightAcceleration_ = nFirstAcceleration;
 		}
-		if (nMoveFrame_ > 3 && unRightAcceleration_ == 0)
+		if (nMoveFrame_ > nMaxMoveFrame && unRightAcceleration_ == nFirstAcceleration)
 		{
-			unRightAcceleration_ = 1;
-			nMoveFrame_ = 0;
+			unRightAcceleration_ = nSecondAcceleration;
+			nMoveFrame_ = nInitMoveFrame;
 		}
 		break;
 	default:
@@ -39,7 +39,7 @@ void CharacterMove::SideAcceleration(VECTOR& vPos, float fspeedx)
 	}
 
 	//指定の左座標＋画像の幅の半分
-	if (vPos.x > 150 + 25)
+	if (vPos.x > nGameLeftLine)
 	{
 		switch (unLeftAcceleration_)
 		{
@@ -55,7 +55,7 @@ void CharacterMove::SideAcceleration(VECTOR& vPos, float fspeedx)
 	}
 
 	//指定の右座標＋画像の幅の半分
-	if (vPos.x < 505)
+	if (vPos.x < nGameRightLine)
 	{
 		switch (unRightAcceleration_)
 		{
@@ -85,31 +85,31 @@ void CharacterMove::SideMove(VECTOR& vposition, float& fspeedx, float& fspeedy, 
 
 	if (Input::GetInstance().GetKeyPress(KEY_INPUT_LEFT))
 	{
-		nSideType_ = 0;
-		if (unLeftAcceleration_ == 0) fspeedx = -1.0f;
-		if (unLeftAcceleration_ == 1) fspeedx = -3.0f;
+		nSideType_ = nLeftType;
+		if (unLeftAcceleration_ == nFirstAcceleration) fspeedx = -fFirstAccelerationSpeed;
+		if (unLeftAcceleration_ == nSecondAcceleration) fspeedx = -fSecondAccelerationSpeed;
 		nMoveFrame_++;
 	}
 	else if (!Input::GetInstance().GetKeyPress(KEY_INPUT_LEFT))
 	{
-		unLeftAcceleration_ = -1;
+		unLeftAcceleration_ = nInitLeftAcceleration;
 	}
 	if (Input::GetInstance().GetKeyPress(KEY_INPUT_RIGHT))
 	{
-		nSideType_ = 1;
-		if (unRightAcceleration_ == 0) fspeedx = 1.0f;
-		if (unRightAcceleration_ == 1) fspeedx = 3.0f;
+		nSideType_ = nRightType;
+		if (unRightAcceleration_ == nFirstAcceleration) fspeedx = fFirstAccelerationSpeed;
+		if (unRightAcceleration_ == nSecondAcceleration) fspeedx = fSecondAccelerationSpeed;
 		nMoveFrame_++;
 	}
 	else if (!Input::GetInstance().GetKeyPress(KEY_INPUT_RIGHT))
 	{
-		unRightAcceleration_ = -1;
+		unRightAcceleration_ = nInitRightAcceleration;
 	}
 
 	if (!Input::GetInstance().GetKeyPress(KEY_INPUT_LEFT) && !Input::GetInstance().GetKeyPress(KEY_INPUT_RIGHT))
 	{
-		fspeedx = 0.0f;
-		nMoveFrame_ = 0;
+		fspeedx = fNonSpeed;
+		nMoveFrame_ = nInitMoveFrame;
 	}
 
 	float halfsize;
@@ -117,33 +117,33 @@ void CharacterMove::SideMove(VECTOR& vposition, float& fspeedx, float& fspeedy, 
 	halfsize = fsize * 0.5f;
 	
 	{
-		if (MapHitCheck::MapHitCollision(VGet(vposition.x - halfsize, vposition.y + halfsize, 0.0f), dammy, fspeedy) == 3)
+		if (MapHitChecker::MapHitCollision(VGet(vposition.x - halfsize, vposition.y + halfsize, 0.0f), dammy, fspeedy) == 3)
 		{
-			fgravitypower = 0.0f;
+			fgravitypower = fNonGravity;
 		}
-		if (MapHitCheck::MapHitCollision(VGet(vposition.x + halfsize, vposition.y + halfsize, 0.0f), dammy, fspeedy) == 3)
+		if (MapHitChecker::MapHitCollision(VGet(vposition.x + halfsize, vposition.y + halfsize, 0.0f), dammy, fspeedy) == 3)
 		{
-			fgravitypower = 0.0f;
+			fgravitypower = fNonGravity;
 		}
-		if (MapHitCheck::MapHitCollision(VGet(vposition.x - halfsize, vposition.y - halfsize, 0.0f), dammy, fspeedy) == 4)
+		if (MapHitChecker::MapHitCollision(VGet(vposition.x - halfsize, vposition.y - halfsize, 0.0f), dammy, fspeedy) == 4)
 		{
-			fgravitypower = 0.0f;
-			fspeedy = 0.0f;
-			CharacterAttack::SetBullet(10);
+			fgravitypower = fNonGravity;
+			fspeedy = fNonSpeed;
+			CharacterAttack::SetBullet(nBulletMaxCount);
 		}
-		if (MapHitCheck::MapHitCollision(VGet(vposition.x + halfsize, vposition.y - halfsize, 0.0f), dammy, fspeedy) == 4)
+		if (MapHitChecker::MapHitCollision(VGet(vposition.x + halfsize, vposition.y - halfsize, 0.0f), dammy, fspeedy) == 4)
 		{
-			fgravitypower = 0.0f;
-			fspeedy = 0.0f;
-			CharacterAttack::SetBullet(10);
+			fgravitypower = fNonGravity;
+			fspeedy = fNonSpeed;
+			CharacterAttack::SetBullet(nBulletMaxCount);
 		}
 	}
 
 	{
-		MapHitCheck::MapHitCollision(VGet(vposition.x - halfsize, vposition.y + halfsize, 0.0f), fspeedx, dammy);
-		MapHitCheck::MapHitCollision(VGet(vposition.x + halfsize, vposition.y + halfsize, 0.0f), fspeedx, dammy);
-		MapHitCheck::MapHitCollision(VGet(vposition.x - halfsize, vposition.y - halfsize, 0.0f), fspeedx, dammy);
-		MapHitCheck::MapHitCollision(VGet(vposition.x + halfsize, vposition.y - halfsize, 0.0f), fspeedx, dammy);
+		MapHitChecker::MapHitCollision(VGet(vposition.x - halfsize, vposition.y + halfsize, 0.0f), fspeedx, dammy);
+		MapHitChecker::MapHitCollision(VGet(vposition.x + halfsize, vposition.y + halfsize, 0.0f), fspeedx, dammy);
+		MapHitChecker::MapHitCollision(VGet(vposition.x - halfsize, vposition.y - halfsize, 0.0f), fspeedx, dammy);
+		MapHitChecker::MapHitCollision(VGet(vposition.x + halfsize, vposition.y - halfsize, 0.0f), fspeedx, dammy);
 	
 		SideAcceleration(vposition, fspeedx);
 	}

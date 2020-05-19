@@ -16,7 +16,7 @@ public:
 	/// <param name="nhp">鳥のHP</param>
 	/// <param name="nspeed">鳥の移動量</param>
 	/// <param name="vposition">鳥が出現する座標</param>
-	EnemyBird(int enemynumber, BehaviorTree aitree, int nhp, int nspeed, VECTOR vposition);
+	EnemyBird(int enemynumber, BehaviorTree aitree, int nhp, VECTOR vposition);
 	/// <summary>
 	/// デストラクター
 	/// </summary>

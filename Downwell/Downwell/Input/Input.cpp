@@ -1,4 +1,5 @@
 #include "Input.h"
+#include "../DownwellConstant.h"
 /// <summary>
 /// èâä˙âªä÷êî
 /// </summary>
@@ -22,11 +23,11 @@ void Input::Init()
 signed short int Input::GetKeyPress(int Key)
 {
 	PressKeyNum_[Key] = Key;
-	PressKey_[Key] = 0x000;
+	PressKey_[Key] = False;
 	
 	if (CheckHitKey(Key) == 1)
 	{
-		PressKey_[Key] = 0x001;
+		PressKey_[Key] = True;
 #ifdef DEBUG
 		DebugFont(Key);
 #endif // DEBUG
@@ -42,11 +43,11 @@ signed short int Input::GetKeyPress(int Key)
 /// <returns>true : âüÇµÇƒÇ¢ÇÈ	false : âüÇµÇƒÇ¢Ç»Ç¢</returns>
 signed short int Input::GetKeyDown(int Key)
 {
-	DownKey_[Key] = 0x000;
+	DownKey_[Key] = False;
 
 	if (CheckHitKey(Key) == 1 && DownKey_[Key] == 0x000)
 	{
-		DownKey_[Key] = 0x001;
+		DownKey_[Key] = True;
 #ifdef DEBUG
 		DebugFont(Key);
  #endif // DEBUG
@@ -54,7 +55,7 @@ signed short int Input::GetKeyDown(int Key)
 	}
 	else if (CheckHitKey(Key) == 0 && DownKey_[Key] == 0x001)
 	{
-		DownKey_[Key] = 0x000;  
+		DownKey_[Key] = False;
 #ifdef DEBUG
 		DebugFont(Key);
 #endif // DEBUG
@@ -62,7 +63,7 @@ signed short int Input::GetKeyDown(int Key)
 	}
 	else
 	{
-		DownKey_[Key] = 0x000;
+		DownKey_[Key] = False;
 #ifdef DEBUG
 		DebugFont(Key);
 #endif // DEBUG
@@ -80,7 +81,7 @@ signed short int Input::GetKeyUp(int Key)
 	UpKeyNum_[Key] = Key;
 	if (CheckHitKey(Key) == 1)
 	{
-		UpKey_[Key] = 0x001;
+		UpKey_[Key] = True;
 #ifdef DEBUG
 		DebugFont(Key);
 #endif // DEBUG
@@ -95,14 +96,14 @@ signed short int Input::GetKeyUp(int Key)
 	}
 	else
 	{
-		UpKey_[Key] = 0x000;
+		UpKey_[Key] = False;
 #ifdef DEBUG
 		DebugFont(Key);
 #endif // DEBUG
 		return UpKey_[Key];
 	}
 
-	return 0x000;
+	return False;
 }
 #ifdef DEBUG
 /// <summary>

@@ -6,56 +6,58 @@
 #include "../Resource/TextureData.h"
 #include "../Collision/MapHitCheck.h"
 #include "../Level/LevelsResponsible.h"
+#include "../DownwellConstant.h"
 #include <random>
 
-VECTOR Character::vPosition_ = VGet(0.0f, 0.0f, 0.0f);	//プレイヤー座標
-bool Character::bHitEnemy_ = false;	//プレイヤーの足元が敵の真上着地した際のフラグ
-bool Character::bDamage_ = false;	//ダメージフラグ
-bool Character::bLeftDamage_ = false;	//プレイヤーの左側面が敵に衝突した際のフラグ
-bool Character::bRightDamage_ = false;	//プレイヤーの右側面が敵に衝突した際のフラグ
-int Character::nLife_ = 0;	//プレイヤーHP
+VECTOR Character::vPosition_ = VGet(fDefaultPos, fDefaultPos, fDefaultPos);	//プレイヤー座標
+bool Character::bHitEnemy_ = bInitHitEnemy;	//プレイヤーの足元が敵の真上着地した際のフラグ
+bool Character::bDamage_ = bInitDamage;	//ダメージフラグ
+bool Character::bLeftDamage_ = bInitLeftDamage;	//プレイヤーの左側面が敵に衝突した際のフラグ
+bool Character::bRightDamage_ = bInitRightDamage;	//プレイヤーの右側面が敵に衝突した際のフラグ
+int Character::nLife_ = nCharacterLife;	//プレイヤーHP
+bool Character::bJump_ = bInitCharacterJump;	//ジャンプの初期化
 /// <summary>
 /// コンストラクター
 /// </summary>
 /// <param name="nscenenumber">シーン番号</param>
 Character::Character(int nscenenumber) : nNowScene_(nscenenumber)
 {
-	if (nNowScene_ == 0)
+	if (nNowScene_ == nTitleLevel)
 	{
 		vPosition_ = VGet(ScreenWidth / 2 - 150.0f, -300.0f, 0.0f);
 		vOldPosition_ = VGet(ScreenWidth / 2 - 150.0f, -300.0f, 0.0f);
 		nTexhandle_ = TextureDataBase::TextureData::GetInstance().GetTitleTextureData(TextureDataBase::TitleTextureNumber::TPlayer);
 	}
-	if (nNowScene_ == 1)
+	if (nNowScene_ == nGameLevel)
 	{
 		vPosition_ = VGet(ScreenWidth / 2 + 18.0f, -700.0f, 0.0f);
 		vOldPosition_ = VGet(ScreenWidth / 2 + 18.0f, -700.0f, 0.0f);
 		nTexhandle_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GPlayer);
 	}
-	if (nNowScene_ == 2)
+	if (nNowScene_ == nResultLevel)
 	{
 		vPosition_ = VGet(ScreenWidth / 2 + 18.0f, -900.0f, 0.0f);
 		vOldPosition_ = VGet(ScreenWidth / 2 + 18.0f, -900.0f, 0.0f);
 		nTexhandle_ = TextureDataBase::TextureData::GetInstance().GetResultTextureData(TextureDataBase::ResultTextureNumber::RPlayer);
 	}
 
-	nLife_ = 5;
-	fSize_ = 16;
-	bPlayershake_ = false;
-	fPlayershake_ = 2.5f;
+	nLife_ = nCharacterLife;
+	fSize_ = nCharacterSize;
+	bPlayershake_ = bInitShake;
+	fPlayershake_ = fCharacterShakePower;
 
 
-	vSpeed_.x = 0.0f;
-	vSpeed_.y = 0.0f;
-	vSpeed_.z = 0.0f;
+	vSpeed_.x = fDefaultPos;
+	vSpeed_.y = fDefaultPos;
+	vSpeed_.z = fDefaultPos;
 
-	bHitEnemy_ = false;
-	bLeftDamage_ = false;
-	bRightDamage_ = false;
-	fGravity_ = 0.0f;
-	nCharacterActionState_ = 0;
-	nHitCooltime_ = 0;
-	bInvincible_ = false;
+	bHitEnemy_ = bInitHitEnemy;
+	bLeftDamage_ = bInitLeftDamage;
+	bRightDamage_ = bInitRightDamage;
+	fGravity_ = fInitGravity;
+	nCharacterActionState_ = nInitCharacterActionState;
+	nHitCooltime_ = nInitCharacterHitCoolTime;
+	bInvincible_ = bInitInvincible;
 }
 /// <summary>
 /// デストラクター
@@ -68,29 +70,29 @@ Character::~Character()
 /// </summary>
 void Character::Update()
 {
-	if (nNowScene_ == 0)
+	if (nNowScene_ == nTitleLevel)
 	{
-		if (MapHitCheck::GetChipParam(VGet(vPosition_.x + 8, vPosition_.y + 8, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false ||
-			MapHitCheck::GetChipParam(VGet(vPosition_.x - 8, vPosition_.y - 8, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false)
+		if (MapHitChecker::GetChipParam(VGet(vPosition_.x + 8, vPosition_.y + 8, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false ||
+			MapHitChecker::GetChipParam(VGet(vPosition_.x - 8, vPosition_.y - 8, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false)
 		{
 			LevelsResponsible::GetInstance().SetNowLevel(1);
 			LevelsResponsible::GetInstance().SetChangeLevel(true);
 		}
 
-		if (MapHitCheck::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 0 && LevelsResponsible::GetInstance().GetNextStageExist() == true ||
-			MapHitCheck::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 0 && LevelsResponsible::GetInstance().GetNextStageExist() == true)
+		if (MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 0 && LevelsResponsible::GetInstance().GetNextStageExist() == true ||
+			MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 0 && LevelsResponsible::GetInstance().GetNextStageExist() == true)
 		{
 			LevelsResponsible::GetInstance().SetNextStage(false);
 		}
-		else if (MapHitCheck::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false ||
-			MapHitCheck::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false)
+		else if (MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false ||
+			MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false)
 		{
 			LevelsResponsible::GetInstance().NextStage();
 		}
 	}
-	if (nNowScene_ == 1)
+	if (nNowScene_ == nGameLevel)
 	{
-		if (MapHitCheck::GetChipParam(VGet(vPosition_.x + 8, vPosition_.y + 8, 0.0f)) == 18 || MapHitCheck::GetChipParam(VGet(vPosition_.x - 8, vPosition_.y - 8, 0.0f)) == 18)
+		if (MapHitChecker::GetChipParam(VGet(vPosition_.x + 8, vPosition_.y + 8, 0.0f)) == 18 || MapHitChecker::GetChipParam(VGet(vPosition_.x - 8, vPosition_.y - 8, 0.0f)) == 18)
 		{
 			LevelsResponsible::GetInstance().SetLevelState(false);
 			LevelsResponsible::GetInstance().SetNowLevel(2);
@@ -102,19 +104,19 @@ void Character::Update()
 			LevelsResponsible::GetInstance().SetNowLevel(2);
 			LevelsResponsible::GetInstance().SetChangeLevel(true);
 		}
-		if (MapHitCheck::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 0 && LevelsResponsible::GetInstance().GetNextStageExist() == true ||
-			MapHitCheck::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 0 && LevelsResponsible::GetInstance().GetNextStageExist() == true)
+		if (MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 0 && LevelsResponsible::GetInstance().GetNextStageExist() == true ||
+			MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 0 && LevelsResponsible::GetInstance().GetNextStageExist() == true)
 		{
 			LevelsResponsible::GetInstance().SetNextStage(false);
 		}
-		else if (MapHitCheck::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false ||
-			MapHitCheck::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false)
+		else if (MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false ||
+			MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false)
 		{
 			LevelsResponsible::GetInstance().NextStage();
 		}
 	}
 
-	if (nNowScene_ == 0 || nNowScene_ == 1)
+	if (nNowScene_ == nTitleLevel || nNowScene_ == nGameLevel)
 	{
 		if (bInvincible_)
 		{
@@ -181,8 +183,8 @@ void Character::Update()
 		}
 
 		MoveState_.SideMove(vPosition_,vSpeed_.x,vSpeed_.y, fGravity_, fSize_);
-		AttackState_.Attack(vPosition_, JumpState_.GetJumpExist(), JumpState_.GetBulletJumpExist(), nCharacterActionState_, fGravity_, bPlayershake_);
-		JumpState_.JumpState(vPosition_, vSpeed_, fGravity_, nCharacterActionState_);
+		AttackState_.Attack(vPosition_, bJump_, JumpState_.GetBulletJumpExist(), nCharacterActionState_, fGravity_, bPlayershake_);
+		JumpState_.JumpState(vPosition_, vSpeed_, fGravity_, nCharacterActionState_, bJump_);
 
 		vPosition_.y += vSpeed_.y;
 	}
@@ -245,4 +247,11 @@ const int& Character::GetCharacterLife()
 	return nLife_;
 }
 
-
+/// <summary>
+/// ジャンプフラグ取得関数
+/// </summary>
+/// <returns>ジャンプフラグ true : ジャンプしている		false : ジャンプしていない</returns>
+const bool& Character::GetJumpExist()
+{
+	return bJump_;
+}

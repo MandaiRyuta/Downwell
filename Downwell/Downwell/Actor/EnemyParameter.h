@@ -37,22 +37,6 @@ public:
 		return nMaxHp_;
 	}
 	/// <summary>
-	/// “G‚ÌˆÚ“®—Êæ“¾ŠÖ”
-	/// </summary>
-	/// <returns>“G‚ÌˆÚ“®—Ê</returns>
-	const int& GetSpeed()
-	{
-		return nSpeed_;
-	}
-	/// <summary>
-	/// “G‚ÌÅ‘åˆÚ“®—Êæ“¾ŠÖ”
-	/// </summary>
-	/// <returns>Å‘åˆÚ“®—Ê</returns>
-	const int& GetMaxSpeed()
-	{
-		return nMaxSpeed_;
-	}
-	/// <summary>
 	/// “G‚ÌÀ•Wæ“¾ŠÖ”
 	/// </summary>
 	/// <returns>“G‚ÌŒ»İ‚ÌÀ•W</returns>
@@ -158,8 +142,6 @@ protected:
 	int nMoveType_;	//“G‚ÌˆÚ“®í—Ş
 	int nHp_;	//“G‚ÌHP
 	int nMaxHp_;	//“G‚ÌÅ‘åHP
-	int nSpeed_;	//“G‚ÌˆÚ“®—Ê
-	int nMaxSpeed_;	//“G‚ÌÅ‘åˆÚ“®—Ê
 	bool bBottomtouch_;	//“G‚Ì’n–ÊÕ“Ëƒtƒ‰ƒO
 	VECTOR vPosition_;	//“G‚ÌÀ•W
 	VECTOR vMove_;	//“G‚ÌˆÚ“®—Ê

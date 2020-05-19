@@ -197,9 +197,6 @@
     <ClInclude Include="Behaviour\ActionBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Behaviour\JudgmentBase.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Behaviour\Node.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>

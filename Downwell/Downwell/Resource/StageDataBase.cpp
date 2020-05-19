@@ -1,5 +1,6 @@
 #include "StageDataBase.h"
-//1は　壁、　2　浮いてる地面　3 破壊可能な地面 4 壁際に置いてある地面、5　3の壁際に置いてある地面の別画像　6,左右に歩く敵, 
+#include "../DownwellConstant.h"
+//1は　壁、　2　浮いてる地面　3 破壊可能な地面 4 壁際に置いてある地面、5　4の壁際に置いてある地面の別画像　6,左右に歩く敵, 
 int Stage[12][50][20] =
 {
 	{//1
@@ -632,11 +633,11 @@ int Stage[12][50][20] =
 /// </summary>
 void StageDataBase::InitStage()
 {
-	for (int z = 0; z < 12; z++)
+	for (int z = 0; z < nStageMaxCount; z++)
 	{
-		for (int y = 0; y < 50; y++)
+		for (int y = 0; y < nStageHeight; y++)
 		{
-			for (int x = 0; x < 20; x++)
+			for (int x = 0; x < nStageWidth; x++)
 			{
 				nStage_[z][y][x] = Stage[z][y][x];
 			}

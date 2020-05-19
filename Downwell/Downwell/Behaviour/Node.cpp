@@ -1,20 +1,7 @@
 #include "Node.h"
 #include <random>
 #include "BehaviorData.h"
-/// <summary>
-/// ÀsŠm”FŠÖ”
-/// </summary>
-/// <param name="enemy">“Gî•ñ</param>
-/// <returns>true : Às	false : ’†’f</returns>
-bool Node::Judgment(EnemyParameter* enemy)
-{
-	if (JudgementBase_ != nullptr)
-	{
-		return JudgementBase_->Judgment(enemy);
-	}
 
-	return true;
-}
 /// <summary>
 /// —Dæ‡ˆÊ‘I‘ğŠÖ”
 /// </summary>
@@ -152,17 +139,7 @@ Node* Node::Inference(EnemyParameter* enemy, BehaviorData* data)
 
 	for (int i = 0; i < ChildNode_.size(); i++)
 	{
-		if (ChildNode_[i]->JudgementBase_ != nullptr)
-		{
-			if (ChildNode_[i]->JudgementBase_->Judgment(enemy) == true)
-			{
-				list.push_back(ChildNode_[i]);
-			}
-		}
-		else
-		{
-			list.push_back(ChildNode_[i]);
-		}
+		list.push_back(ChildNode_[i]);
 	}
 
 	switch (BTRuleBase_)

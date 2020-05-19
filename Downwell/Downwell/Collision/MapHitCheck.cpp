@@ -7,7 +7,7 @@
 /// <param name="fspeedx">対象のX移動量</param>
 /// <param name="fspeedy">対象のY移動量</param>
 /// <returns>衝突している部位</returns>
-int MapHitCheck::MapHitCollision(VECTOR vposition, float& fspeedx, float& fspeedy)
+int MapHitChecker::MapHitCollision(VECTOR vposition, float& fspeedx, float& fspeedy)
 {
 	float affterx, afftery;
 
@@ -58,7 +58,7 @@ int MapHitCheck::MapHitCollision(VECTOR vposition, float& fspeedx, float& fspeed
 /// </summary>
 /// <param name="vposition">調べたいステージ内の座標</param>
 /// <returns>配置されているブロックの種類</returns>
-int MapHitCheck::GetChipParam(VECTOR vposition)
+int MapHitChecker::GetChipParam(VECTOR vposition)
 {
 	int x,y;
 	x = (int)vposition.x / BlockSize  - (BlockSize / 2);
@@ -66,7 +66,7 @@ int MapHitCheck::GetChipParam(VECTOR vposition)
 
 	if (x >= StageWidth || y >= StageHeigh || x < 0 || y < 0) return 0;
 
-	int dd = Stage::GetStageType(x, y);
+	int dd = Stage::GetInstance().GetStageType(x, y);
 
-	return Stage::GetStageType(x,y);
+	return Stage::GetInstance().GetStageType(x,y);
 }

@@ -16,7 +16,7 @@ public:
 	/// <param name="nhp">ウニのHP</param>
 	/// <param name="nspeed">ウニの移動量</param>
 	/// <param name="vposition">ウニが出現する座標</param>
-	EnemySeaUrchin(int enemynumber, BehaviorTree aitree, int nhp, int nspeed, VECTOR vposition);
+	EnemySeaUrchin(int enemynumber, BehaviorTree aitree, int nhp, VECTOR vposition);
 	/// <summary>
 	/// デストラクター
 	/// </summary>

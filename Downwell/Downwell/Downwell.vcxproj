@@ -203,7 +203,6 @@
     <ClInclude Include="Behaviour\ActionBase.h" />
     <ClInclude Include="Behaviour\BehaviorData.h" />
     <ClInclude Include="Behaviour\BehaviorTree.h" />
-    <ClInclude Include="Behaviour\JudgmentBase.h" />
     <ClInclude Include="Behaviour\LifeJudgment.h" />
     <ClInclude Include="Behaviour\LoiteringMoveAction.h" />
     <ClInclude Include="Behaviour\TrackingMoveAction.h" />

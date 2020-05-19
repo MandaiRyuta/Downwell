@@ -15,7 +15,7 @@ public:
 	/// <param name="nhp">亀のHP</param>
 	/// <param name="nspeed">亀の移動量</param>
 	/// <param name="vposition">亀が出現する座標</param>
-	EnemyTurtle(int enemynumber, BehaviorTree aitree, int nhp, int nspeed, VECTOR vposition);
+	EnemyTurtle(int enemynumber, BehaviorTree aitree, int nhp, VECTOR vposition);
 	/// <summary>
 	/// デストラクター
 	/// </summary>

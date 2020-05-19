@@ -9,27 +9,29 @@
 VECTOR Bullet::vPosition_[10] = {};	//弾の座標
 bool Bullet::bBullet_[10] = {};	//弾の表示フラグ
 float Bullet::fBulletspeed_[10] = {};	//弾の移動距離
+
 /// <summary>
 /// コンストラクター
 /// </summary>
-Bullet::Bullet()
+Bullet::Bullet() : nBulletCount_()
 {
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < nBulletMaxCount; i++)
 	{
 		bBullet_[i] = false;
+		nBulletCount_[i] = nBulletInitCount;
 	}
-	fScale_ = 12.0f;
-	nBulletNumber = 0;
+	fScale_ = fBulletScale;
+	nBulletNumber = nBulletInitNumber;
 
-	if (LevelsResponsible::GetInstance().GetNowLevel() == 0)
+	if (LevelsResponsible::GetInstance().GetNowLevel() == nTitleLevel)
 	{
 		nBulletTexture_ = TextureDataBase::TextureData::GetInstance().GetTitleTextureData(TextureDataBase::TitleTextureNumber::TBullet);
 	}
-	else if (LevelsResponsible::GetInstance().GetNowLevel() == 1)
+	else if (LevelsResponsible::GetInstance().GetNowLevel() == nGameLevel)
 	{
 		nBulletTexture_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GBullet);
 	}
-	nBulletType_ = 0;
+	nBulletType_ = nBulletInitType;
 }
 /// <summary>
 /// デストラクター
@@ -54,47 +56,49 @@ void Bullet::Update()
 		switch (nBulletType_)
 		{
 		case 0:
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < nBulletMaxCount; i++)
 			{
-				fBulletspeed_[i] = 17.5f;
+				fBulletspeed_[i] = fBulletSpeed;
 
-				if (vPosition_[i].y < Character::GetPos().y + -250.0f)
+				if (nBulletCount_[i] > nBulletDeadMaxCount)
 				{
+					nBulletCount_[i] = 0;
 					bBullet_[i] = false;
-					fBulletspeed_[i] = 0.0f;
-					vPosition_[i] = VGet(0.0f, 0.0f, 0.0f);
+					fBulletspeed_[i] = fBulletInitSpeed;
+					vPosition_[i] = VGet(fDefaultPos, fDefaultPos, fDefaultPos);
 				}
 				if (LevelsResponsible::GetInstance().GetNowLevel() == 0)
 				{
-					if (MapHitCheck::GetChipParam(VGet(vPosition_[i].x - (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 1 ||
-						MapHitCheck::GetChipParam(VGet(vPosition_[i].x + (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 1 ||
-						MapHitCheck::GetChipParam(VGet(vPosition_[i].x - (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
-						MapHitCheck::GetChipParam(VGet(vPosition_[i].x + (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
-						MapHitCheck::GetChipParam(VGet(vPosition_[i].x - (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
-						MapHitCheck::GetChipParam(VGet(vPosition_[i].x + (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
-						MapHitCheck::GetChipParam(VGet(vPosition_[i].x - (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5 ||
-						MapHitCheck::GetChipParam(VGet(vPosition_[i].x + (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5)
+					if (MapHitChecker::GetChipParam(VGet(vPosition_[i].x - (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 1 ||
+						MapHitChecker::GetChipParam(VGet(vPosition_[i].x + (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 1 ||
+						MapHitChecker::GetChipParam(VGet(vPosition_[i].x - (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
+						MapHitChecker::GetChipParam(VGet(vPosition_[i].x + (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
+						MapHitChecker::GetChipParam(VGet(vPosition_[i].x - (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
+						MapHitChecker::GetChipParam(VGet(vPosition_[i].x + (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
+						MapHitChecker::GetChipParam(VGet(vPosition_[i].x - (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5 ||
+						MapHitChecker::GetChipParam(VGet(vPosition_[i].x + (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5)
 					{
 						bBullet_[i] = false;
-						fBulletspeed_[i] = 0.0f;
-						vPosition_[i] = VGet(0.0f, 0.0f, 0.0f);
+						fBulletspeed_[i] = fBulletInitSpeed;
+						vPosition_[i] = VGet(fDefaultPos, fDefaultPos, fDefaultPos);
 					}
 				}
 				else
 				{
-					if (MapHitCheck::GetChipParam(VGet(vPosition_[i].x - (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
-						MapHitCheck::GetChipParam(VGet(vPosition_[i].x + (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
-						MapHitCheck::GetChipParam(VGet(vPosition_[i].x - (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
-						MapHitCheck::GetChipParam(VGet(vPosition_[i].x + (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
-						MapHitCheck::GetChipParam(VGet(vPosition_[i].x - (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5 ||
-						MapHitCheck::GetChipParam(VGet(vPosition_[i].x + (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5)
+					if (MapHitChecker::GetChipParam(VGet(vPosition_[i].x - (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
+						MapHitChecker::GetChipParam(VGet(vPosition_[i].x + (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
+						MapHitChecker::GetChipParam(VGet(vPosition_[i].x - (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
+						MapHitChecker::GetChipParam(VGet(vPosition_[i].x + (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
+						MapHitChecker::GetChipParam(VGet(vPosition_[i].x - (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5 ||
+						MapHitChecker::GetChipParam(VGet(vPosition_[i].x + (fScale_ * 0.5f), vPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5)
 					{
 						bBullet_[i] = false;
-						fBulletspeed_[i] = 0.0f;
-						vPosition_[i] = VGet(0.0f, 0.0f, 0.0f);
+						fBulletspeed_[i] = fBulletInitSpeed;
+						vPosition_[i] = VGet(fDefaultPos, fDefaultPos, fDefaultPos);
 					}
 				}
 				vPosition_[i].y -= fBulletspeed_[i];
+				nBulletCount_[i]++;
 			}
 			break;
 		}
@@ -107,7 +111,7 @@ void Bullet::Draw()
 {
 	if (bBullet_[nBulletNumber])
 	{
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < nBulletMaxCount; i++)
 		{
 			DrawBillboard3D(vPosition_[i], 0.5f, 0.5f, fScale_, 0, nBulletTexture_, false);
 		}
@@ -119,7 +123,7 @@ void Bullet::Draw()
 /// <param name="vpos">弾の出現座標</param>
 void Bullet::Create(const VECTOR& vpos)
 {
-	if (nBulletNumber > 9)
+	if (nBulletNumber > nBulletMaxCount - 1)
 	{
 		nBulletNumber = 0;
 	}
@@ -127,7 +131,7 @@ void Bullet::Create(const VECTOR& vpos)
 	{
 		vPosition_[nBulletNumber].x = vpos.x;
 		vPosition_[nBulletNumber].y = vpos.y;
-		vPosition_[nBulletNumber].z = 0.0f;
+		vPosition_[nBulletNumber].z = fDefaultPos;
 	}
 	
 	nBulletNumber++;
@@ -156,8 +160,8 @@ const VECTOR& Bullet::GetPosition(int nbulletnumber)
 void Bullet::ResetSetPosition(int nbulletnumber)
 {
 	bBullet_[nbulletnumber] = false;
-	fBulletspeed_[nbulletnumber] = 0.0f;
-	vPosition_[nbulletnumber] = VGet(0.0f, 0.0f, 0.0f);
+	fBulletspeed_[nbulletnumber] = fBulletInitSpeed;
+	vPosition_[nbulletnumber] = VGet(fDefaultPos, fDefaultPos, fDefaultPos);
 }
 /// <summary>
 /// 弾の表示フラグ取得関数

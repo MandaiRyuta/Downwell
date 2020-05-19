@@ -17,24 +17,22 @@
 /// <param name="nhp">ウニのHP</param>
 /// <param name="nspeed">ウニの移動量</param>
 /// <param name="vposition">ウニが出現する座標</param>
-EnemySeaUrchin::EnemySeaUrchin(int enemynumber, BehaviorTree aitree, int nhp, int nspeed, VECTOR vposition) :
+EnemySeaUrchin::EnemySeaUrchin(int enemynumber, BehaviorTree aitree, int nhp, VECTOR vposition) :
 	Activenode_(nullptr),
 	AIData_(nullptr),
-	bActive_(false)
+	bActive_(bInitActive)
 {
-	bLife_ = true;
+	bLife_ = bInitEnemyLife;
 	AITree_ = aitree;
 	nHp_ = nhp;
 	nMaxHp_ = nhp;
-	nSpeed_ = nspeed;
-	nMaxSpeed_ = nspeed;
-	nMoveType_ = 0;
-	vMove_ = VGet(1.0f, 0.0f, 0.0f);
+	nMoveType_ = nInitEnemyMoveType;
+	vMove_ = VGet(fDefaultPos, fDefaultPos, fDefaultPos);
 	vPosition_ = vposition;
 	AIData_ = new BehaviorData;
 	nTexhandle_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GUrchin);
 	nEnemyNumber_ = enemynumber;
-	bHitAction_ = true;
+	bHitAction_ = bInitEnemyHitAction;
 }
 /// <summary>
 /// デストラクター
@@ -56,8 +54,8 @@ void EnemySeaUrchin::Update()
 {
 	bActive_ = false;
 	bool bactive = false;
-	Rect rc(vPosition_.x - 8.0f, vPosition_.y - 8.0f, 16.0f, 16.0f);
-	for (int i = 0; i < 4; i++)
+	Rect rc(vPosition_.x - fUrchinRectPadding, vPosition_.y - fUrchinRectPadding, fUrchinTextureScale, fUrchinTextureScale);
+	for (int i = 0; i < nQuadTreeMaxCount; i++)
 	{
 		bactive = LevelsResponsible::GetInstance().GetQuadTree(i).HitCheck(rc);
 
@@ -98,12 +96,12 @@ void EnemySeaUrchin::Update()
 				bHitAction_ = true;
 			}
 
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < nBulletMaxCount; i++)
 			{
 				if (Bullet::GetPosition(i).x - 6.0f >= vPosition_.x - 14.0f && Bullet::GetPosition(i).y < vPosition_.y + 7.0f &&
 					Bullet::GetPosition(i).x + 6.0f <= vPosition_.x + 14.0f && Bullet::GetPosition(i).y > vPosition_.y)
 				{
-					if (nHp_ > 0)
+					if (nHp_ > nZeroLife)
 					{
 						nHp_--;
 					}

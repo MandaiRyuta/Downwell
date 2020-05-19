@@ -1,5 +1,6 @@
 #include "BehaviorData.h"
 #include "Node.h"
+#include "../DownwellConstant.h"
 /// <summary>
 /// デストラクター
 /// </summary>
@@ -8,7 +9,7 @@ BehaviorData::~BehaviorData()
 	UpdateSequenceStep_.clear();
 	UsedNode_.clear();
 
-	while (SequenceStack_.size() > 0)
+	while (SequenceStack_.size() > nZeroSize)
 	{
 		SequenceStack_.pop();
 	}
@@ -19,7 +20,7 @@ BehaviorData::~BehaviorData()
 void BehaviorData::Init()
 {
 	UpdateSequenceStep_.clear();
-	while (SequenceStack_.size() > 0)
+	while (SequenceStack_.size() > nZeroSize)
 	{
 		SequenceStack_.pop();
 	}

@@ -1,5 +1,6 @@
 #include "GameLevel.h"
 #include <DxLib.h>
+#include "../DownwellConstant.h"
 #include "../Actor/Character.h"
 #include "../Actor/Stage.h"
 #include "../Actor/Enemy.h"
@@ -26,7 +27,7 @@ GameLevel::GameLevel(int type)
 	int enemybirdcount = 0;
 	std::random_device rnd;
 	std::default_random_engine engine(rnd());
-	std::normal_distribution<> dist(0.0, 1.0);
+	std::normal_distribution<> dist(dMinDis, dMaxDis);
 	double probability = 0;
 	LevelsResponsible::GetInstance().SetChangeLevel(false);
 
@@ -44,8 +45,8 @@ GameLevel::GameLevel(int type)
 		Widgetobj_[0].push_back(new StageWidget);
 		Widgetobj_[0].push_back(new TitleWidget);
 		TextureDataBase::TextureData::GetInstance().Release(resulttexture);
-		Obj_[0].push_back(new Stage(type));
-		Obj_[1].push_back(new Character(type));
+		Stage::GetInstance().Init(type);
+		Obj_[0].push_back(new Character(type));
 		break;
 	case 1:
 		//îwåi 0
@@ -55,36 +56,36 @@ GameLevel::GameLevel(int type)
 		Widgetobj_[0].push_back(new LifeWidget);
 		Widgetobj_[0].push_back(new BulletShotWidget);
 		TextureDataBase::TextureData::GetInstance().Release(titletexture);
-		Obj_[0].push_back(new Stage(type));
-		Obj_[1].push_back(new Character(type));
+		Stage::GetInstance().Init(type); 
+		Obj_[0].push_back(new Character(type));
 		for (int i = 0; i < 350; i++)
 		{
 			for (int t = 0; t < 20; t++)
 			{
-				if (Stage::GetStageType(t, i) == 9)
+				if (Stage::GetInstance().GetStageType(t, i) == 9)
 				{
 					probability = dist(engine);
 					if (probability > 0.0 && probability < 1.0)
 					{
-						Obj_[2].push_back(new Enemy(enemyturtlecount, 0, 1, 1, Stage::GetStagePos(t, i)));
+						Obj_[1].push_back(new Enemy(enemyturtlecount, 0, 1, Stage::GetInstance().GetStagePos(t, i)));
 						enemyturtlecount++;
 					}
 				}
-				if (Stage::GetStageType(t, i) == 14)
+				if (Stage::GetInstance().GetStageType(t, i) == 14)
 				{
 					probability = dist(engine);
 					if (probability > 0.0 && probability < 1.0)
 					{
-						Obj_[2].push_back(new Enemy(enemyseaurchincount, 1, 1, 1, Stage::GetStagePos(t, i)));
+						Obj_[1].push_back(new Enemy(enemyseaurchincount, 1, 1, Stage::GetInstance().GetStagePos(t, i)));
 						enemyseaurchincount++;
 					}
 				}
-				if (Stage::GetStageType(t, i) == 20)
+				if (Stage::GetInstance().GetStageType(t, i) == 20)
 				{
 					probability = dist(engine);
 					if (probability > 0.0 && probability < 1.0)
 					{
-						Obj_[2].push_back(new Enemy(enemybirdcount, 2, 1, 1, Stage::GetStagePos(t, i)));
+						Obj_[1].push_back(new Enemy(enemybirdcount, 2, 1, Stage::GetInstance().GetStagePos(t, i)));
 						enemybirdcount++;
 					}
 				}
@@ -94,8 +95,8 @@ GameLevel::GameLevel(int type)
 	case 2:
 		TextureDataBase::TextureData::GetInstance().Release(gametexture);
 		Widgetobj_[0].push_back(new ResultWidget);
-		Obj_[0].push_back(new Stage(type));
-		Obj_[1].push_back(new Character(type));
+		Stage::GetInstance().Init(type);
+		Obj_[0].push_back(new Character(type));
 		break;
 	}
 }
@@ -104,7 +105,7 @@ GameLevel::GameLevel(int type)
 /// </summary>
 GameLevel::~GameLevel()
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < nMaxLevel; i++)
 	{
 		for (auto itr : Obj_[i])
 		{
@@ -125,7 +126,8 @@ void GameLevel::Update()
 	{
 		LevelsResponsible::GetInstance().Exit();
 	}
-	for (int i = 0; i < 3; i++)
+	Stage::GetInstance().Update();
+	for (int i = 0; i < nMaxLevel; i++)
 	{
 		for (auto itr : Obj_[i])
 		{
@@ -144,6 +146,7 @@ void GameLevel::Update()
 /// </summary>
 void GameLevel::Draw()
 {
+	Stage::GetInstance().Draw();
 	for (int i = 0; i < 3; i++)
 	{
 		for (auto itr : Obj_[i])

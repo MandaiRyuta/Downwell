@@ -1,7 +1,6 @@
 #include "BehaviorTree.h"
 #include "ActionBase.h"
 #include "Node.h"
-#include "JudgmentBase.h"
 #include "../Actor/EnemyParameter.h"
 #include "BehaviorData.h"
 /// <summary>
@@ -49,11 +48,11 @@ Node* BehaviorTree::SequenceBack(Node* sequence_node, EnemyParameter* enemy, Beh
 /// <param name="select_rule">ルール</param>
 /// <param name="judgment">判定クラス</param>
 /// <param name="action">行動クラス</param>
-void BehaviorTree::AddNode(std::string search_name, std::string entry_name, int priority, TREE_RULE select_rule, JudgmentBase* judgment, ActionBase* action)
+void BehaviorTree::AddNode(std::string search_name, std::string entry_name, int priority, TREE_RULE select_rule, ActionBase* action)
 {
 	if (search_name == "")
 	{
-		Root_ = new Node(entry_name, NULL, NULL, priority, select_rule, judgment, action, 1);
+		Root_ = new Node(entry_name, NULL, NULL, priority, select_rule, action, 1);
 	}
 	else
 	{
@@ -62,7 +61,7 @@ void BehaviorTree::AddNode(std::string search_name, std::string entry_name, int 
 		if (search != nullptr)
 		{
 			Node* sibling = search->GetLastChild();
-			Add_Node_ = new Node(entry_name, search, sibling, priority, select_rule, judgment, action, search->GetHierarchyNumber() + 1);
+			Add_Node_ = new Node(entry_name, search, sibling, priority, select_rule, action, search->GetHierarchyNumber() + 1);
 
 			search->AddChild(Add_Node_);
 		}

@@ -14,7 +14,7 @@ ActionBase::STATE TurnMoveAction::Run(EnemyParameter* enemy)
 
 	if (enemy->GetMoveType() == 0)
 	{
-		vMove_[enemy->GetEnemyNumber()] = VGet(1.0f, 0.0f, 0.0f);
+		vMove_[enemy->GetEnemyNumber()] = VGet(1.0f, fDefaultPos, fDefaultPos);
 		enemy->SetMoveType(1);
 	}
 
@@ -23,26 +23,26 @@ ActionBase::STATE TurnMoveAction::Run(EnemyParameter* enemy)
 		vMove_[enemy->GetEnemyNumber()].y += gravity;
 	}
 
-	MapHitCheck::MapHitCollision(VGet(enemy->GetPosition().x - 5.0f, enemy->GetPosition().y - 9.0f, 0.0f), dammy, vMove_[enemy->GetEnemyNumber()].y);
-	MapHitCheck::MapHitCollision(VGet(enemy->GetPosition().x + 5.0f, enemy->GetPosition().y - 9.0f, 0.0f), dammy, vMove_[enemy->GetEnemyNumber()].y);
-	MapHitCheck::MapHitCollision(VGet(enemy->GetPosition().x - 5.0f, enemy->GetPosition().y - 9.0f, 0.0f), dammy, vMove_[enemy->GetEnemyNumber()].y);
-	MapHitCheck::MapHitCollision(VGet(enemy->GetPosition().x + 5.0f, enemy->GetPosition().y - 9.0f, 0.0f), dammy, vMove_[enemy->GetEnemyNumber()].y);
+	MapHitChecker::MapHitCollision(VGet(enemy->GetPosition().x - 5.0f, enemy->GetPosition().y - 9.0f, 0.0f), dammy, vMove_[enemy->GetEnemyNumber()].y);
+	MapHitChecker::MapHitCollision(VGet(enemy->GetPosition().x + 5.0f, enemy->GetPosition().y - 9.0f, 0.0f), dammy, vMove_[enemy->GetEnemyNumber()].y);
+	MapHitChecker::MapHitCollision(VGet(enemy->GetPosition().x - 5.0f, enemy->GetPosition().y - 9.0f, 0.0f), dammy, vMove_[enemy->GetEnemyNumber()].y);
+	MapHitChecker::MapHitCollision(VGet(enemy->GetPosition().x + 5.0f, enemy->GetPosition().y - 9.0f, 0.0f), dammy, vMove_[enemy->GetEnemyNumber()].y);
 
-	if (MapHitCheck::GetChipParam(VGet(enemy->GetPosition().x - 9.0f, enemy->GetPosition().y, 0.0f)) == 8 && 
-		MapHitCheck::GetChipParam(VGet(enemy->GetPosition().x + 9.0f, enemy->GetPosition().y, 0.0f)) == 1 || 
-		MapHitCheck::GetChipParam(VGet(enemy->GetPosition().x + 9.0f, enemy->GetPosition().y, 0.0f)) == 1 ||
-		MapHitCheck::GetChipParam(VGet(enemy->GetPosition().x + 9.0f, enemy->GetPosition().y, 0.0f)) == 4 ||
-		MapHitCheck::GetChipParam(VGet(enemy->GetPosition().x + 9.0f, enemy->GetPosition().y, 0.0f)) == 3 || 
-		MapHitCheck::GetChipParam(VGet(enemy->GetPosition().x - 9.0f, enemy->GetPosition().y, 0.0f)) == 8)
+	if (MapHitChecker::GetChipParam(VGet(enemy->GetPosition().x - 9.0f, enemy->GetPosition().y, 0.0f)) == 8 && 
+		MapHitChecker::GetChipParam(VGet(enemy->GetPosition().x + 9.0f, enemy->GetPosition().y, 0.0f)) == 1 || 
+		MapHitChecker::GetChipParam(VGet(enemy->GetPosition().x + 9.0f, enemy->GetPosition().y, 0.0f)) == 1 ||
+		MapHitChecker::GetChipParam(VGet(enemy->GetPosition().x + 9.0f, enemy->GetPosition().y, 0.0f)) == 4 ||
+		MapHitChecker::GetChipParam(VGet(enemy->GetPosition().x + 9.0f, enemy->GetPosition().y, 0.0f)) == 3 || 
+		MapHitChecker::GetChipParam(VGet(enemy->GetPosition().x - 9.0f, enemy->GetPosition().y, 0.0f)) == 8)
 	{
 		vMove_[enemy->GetEnemyNumber()].x = -1.0f;
 	}
-	else if (MapHitCheck::GetChipParam(VGet(enemy->GetPosition().x + 9.0f, enemy->GetPosition().y, 0.0f)) == 7 && 
-		MapHitCheck::GetChipParam(VGet(enemy->GetPosition().x - 9.0f, enemy->GetPosition().y, 0.0f)) == 1 || 
-		MapHitCheck::GetChipParam(VGet(enemy->GetPosition().x - 9.0f, enemy->GetPosition().y, 0.0f)) == 1 || 
-		MapHitCheck::GetChipParam(VGet(enemy->GetPosition().x - 9.0f, enemy->GetPosition().y, 0.0f)) == 4 ||
-		MapHitCheck::GetChipParam(VGet(enemy->GetPosition().x - 9.0f, enemy->GetPosition().y, 0.0f)) == 3 ||
-		MapHitCheck::GetChipParam(VGet(enemy->GetPosition().x + 9.0f, enemy->GetPosition().y, 0.0f)) == 7)
+	else if (MapHitChecker::GetChipParam(VGet(enemy->GetPosition().x + 9.0f, enemy->GetPosition().y, 0.0f)) == 7 && 
+		MapHitChecker::GetChipParam(VGet(enemy->GetPosition().x - 9.0f, enemy->GetPosition().y, 0.0f)) == 1 || 
+		MapHitChecker::GetChipParam(VGet(enemy->GetPosition().x - 9.0f, enemy->GetPosition().y, 0.0f)) == 1 || 
+		MapHitChecker::GetChipParam(VGet(enemy->GetPosition().x - 9.0f, enemy->GetPosition().y, 0.0f)) == 4 ||
+		MapHitChecker::GetChipParam(VGet(enemy->GetPosition().x - 9.0f, enemy->GetPosition().y, 0.0f)) == 3 ||
+		MapHitChecker::GetChipParam(VGet(enemy->GetPosition().x + 9.0f, enemy->GetPosition().y, 0.0f)) == 7)
 	{
 		vMove_[enemy->GetEnemyNumber()].x = 1.0f;
 	}

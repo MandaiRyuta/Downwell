@@ -2,6 +2,7 @@
 #include "EnemyBird.h"
 #include "EnemySeaUrchin.h"
 #include "EnemyTurtle.h"
+#include "../Behaviour/LifeJudgment.h"
 /// <summary>
 /// コンストラクター
 /// </summary>
@@ -10,12 +11,12 @@
 /// <param name="nhp">敵のHP</param>
 /// <param name="nspeed">敵の移動速度</param>
 /// <param name="vposition">敵が発生する座標</param>
-Enemy::Enemy(int enemynumber, int ntype, int nhp, int nspeed, VECTOR vposition)
+Enemy::Enemy(int enemynumber, int ntype, int nhp, VECTOR vposition)
 {
 	//単体で
 	cFactory_ = new CreateFactory();
 	//複数で
-	cProduct_ = cFactory_->Create(enemynumber, ntype, nhp, nspeed, vposition);
+	cProduct_ = cFactory_->Create(enemynumber, ntype, nhp, vposition);
 }
 /// <summary>
 /// デストラクター
@@ -36,7 +37,12 @@ Enemy::~Enemy()
 /// </summary>
 void Enemy::Update()
 {
-	cProduct_->Update();
+	bool bdead = AliveChecker::SetDead(cProduct_);
+
+	if (!bdead)
+	{
+		cProduct_->Update();
+	}
 }
 /// <summary>
 /// 描画関数

@@ -1,6 +1,5 @@
 #pragma once
 #include "../Constant.h"
-#include "JudgmentBase.h"
 #include "ActionBase.h"
 class BehaviorTree;
 class BehaviorData;
@@ -29,13 +28,12 @@ public:
 	/// <param name="judgment">切り替える判断クラス(残ったHPで行動を判断)</param>
 	/// <param name="action">行動クラス</param>
 	/// <param name="hierarchy_number">子要素にいれているものに登録するヒエラルキー</param>
-	Node(std::string entry_name, Node* parent_node, Node* sibling, int priority, TREE_RULE select_rule, JudgmentBase* judgment, ActionBase* action, int hierarchy_number) :
+	Node(std::string entry_name, Node* parent_node, Node* sibling, int priority, TREE_RULE select_rule, ActionBase* action, int hierarchy_number) :
 		sName_(entry_name),
 		Parent_(parent_node),
 		Sibiling_(sibling),
 		nPriority_(priority),
 		BTRuleBase_(select_rule),
-		JudgementBase_(judgment),
 		ActionBase_(action),
 		nHierarchyNumber_(hierarchy_number),
 		ChildNode_(NULL)
@@ -150,12 +148,6 @@ public:
 	}
 public:
 	/// <summary>
-	/// 実行確認関数
-	/// </summary>
-	/// <param name="enemy">敵情報</param>
-	/// <returns>true : 実行	false : 中断</returns>
-	bool Judgment(EnemyParameter* enemy);
-	/// <summary>
 	/// 優先順位選択関数
 	/// </summary>
 	/// <param name="list">ノードリスト</param>
@@ -203,7 +195,6 @@ public:
 protected:
 	std::string sName_;	//名前
 	TREE_RULE BTRuleBase_;	//選択ルール
-	JudgmentBase* JudgementBase_;	//判定クラス
 	ActionBase* ActionBase_;	//行動クラス
 	int nPriority_;	//優先度
 	Node* Parent_;	//親ノード

@@ -3,7 +3,6 @@
 #include <string>
 #include "Node.h"
 class ActionBase;	//アクションベースクラス
-class JudgmentBase;	//判定ベースクラス
 class BehaviorData;	//ビヘイビアデータクラス
 class EnemyParameter;	//敵パラメータークラス
 
@@ -46,7 +45,7 @@ public:
 	/// <param name="select_rule">ルール</param>
 	/// <param name="judgment">判定クラス</param>
 	/// <param name="action">行動クラス</param>
-	void AddNode(std::string search_name, std::string entry_name, int priority, TREE_RULE select_rule, JudgmentBase* judgment, ActionBase* action);
+	void AddNode(std::string search_name, std::string entry_name, int priority, TREE_RULE select_rule, ActionBase* action);
 	/// <summary>
 	/// 更新関数
 	/// </summary>

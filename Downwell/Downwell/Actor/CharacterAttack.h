@@ -1,6 +1,7 @@
 #pragma once
 #include "../Constant.h"
 #include "Bullet.h"
+#include "../DownwellConstant.h"
 
 class CharacterAttack
 {
@@ -9,9 +10,9 @@ public:
 	/// コンストラクター
 	/// </summary>
 	CharacterAttack() : 
-		bAttack_(false), nAttackFrame_(0), nSideAttackFrame_(0)
+		bAttack_(bInitAttack), nAttackFrame_(nInitAttackFrame), nSideAttackFrame_(nInitSideAttackFrame)
 	{
-		nBullet_ = 10;
+		nBullet_ = nBulletMaxCount;
 	}
 	/// <summary>
 	/// デストラクター

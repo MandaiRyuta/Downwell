@@ -14,7 +14,7 @@ public:
 	/// <param name="nhp">敵のHP</param>
 	/// <param name="nspeed">敵の移動速度</param>
 	/// <param name="vposition">敵が発生する座標</param>
-	Enemy(int enemynumber, int ntype, int nhp, int nspeed, VECTOR vposition);
+	Enemy(int enemynumber, int ntype, int nhp, VECTOR vposition);
 	/// <summary>
 	/// デストラクター
 	/// </summary>

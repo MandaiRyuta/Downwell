@@ -10,11 +10,11 @@
 void LevelsResponsible::Init()
 {
 	bLevelState_ = false;
-	nNowLevel_ = 2;
+	nNowLevel_ = nTitleLevel;
 	bChangeLevel_ = false;
 	TextureDataBase::TextureData::GetInstance().Init();
-	nNowStage_ = 1;
-	Level_ = new GameLevel(2);
+	nNowStage_ = nFirstStage;
+	Level_ = new GameLevel(nTitleLevel);
 }
 /// <summary>
 /// 更新関数
@@ -57,23 +57,23 @@ void LevelsResponsible::Update()
 	{
 		Quadtree_[0].x = 0.0f;
 		Quadtree_[0].y = Character::GetPos().y + 0.0f;
-		Quadtree_[0].width = Character::GetPos().x + ScreenWidth * 0.5f;
+		Quadtree_[0].width = Character::GetPos().x + static_cast<float>(ScreenWidth) * 0.5f;
 		Quadtree_[0].height = ScreenHeight * 0.5f;
 
-		Quadtree_[1].x = (ScreenWidth * 0.5f) + Character::GetPos().x;
-		Quadtree_[1].y = (-ScreenHeight * 0.5f) + Character::GetPos().y;
-		Quadtree_[1].width = ScreenWidth * 0.5f;
-		Quadtree_[1].height = ScreenHeight * 0.5f;
+		Quadtree_[1].x = (static_cast<float>(ScreenWidth) * 0.5f) + Character::GetPos().x;
+		Quadtree_[1].y = (static_cast<float>(-ScreenHeight) * 0.5f) + Character::GetPos().y;
+		Quadtree_[1].width = static_cast<float>(ScreenWidth) * 0.5f;
+		Quadtree_[1].height = static_cast<float>(ScreenHeight) * 0.5f;
 
 		Quadtree_[2].x = 0.0f;
-		Quadtree_[2].y = (-ScreenHeight * 0.5f) + Character::GetPos().y;
-		Quadtree_[2].width = Character::GetPos().x + ScreenWidth * 0.5f;
-		Quadtree_[2].height = ScreenHeight * 0.5f;
+		Quadtree_[2].y = (static_cast<float>(-ScreenHeight) * 0.5f) + Character::GetPos().y;
+		Quadtree_[2].width = Character::GetPos().x + static_cast<float>(ScreenWidth) * 0.5f;
+		Quadtree_[2].height = static_cast<float>(ScreenHeight) * 0.5f;
 		
-		Quadtree_[3].x = (ScreenWidth * 0.5f) + Character::GetPos().x;
+		Quadtree_[3].x = (static_cast<float>(ScreenWidth) * 0.5f) + Character::GetPos().x;
 		Quadtree_[3].y = 0.0f + Character::GetPos().y;
-		Quadtree_[3].width = ScreenWidth * 0.5f;
-		Quadtree_[3].height = ScreenHeight * 0.5f;
+		Quadtree_[3].width = static_cast<float>(ScreenWidth) * 0.5f;
+		Quadtree_[3].height = static_cast<float>(ScreenHeight) * 0.5f;
 	}
 
 	Level_->Update();
@@ -98,7 +98,7 @@ void LevelsResponsible::Release()
 /// </summary>
 void LevelsResponsible::Exit()
 {
-	nNowLevel_ = 3;
+	nNowLevel_ = nMaxLevel;
 }
 /// <summary>
 /// レベル切り替え関数
@@ -131,7 +131,6 @@ void LevelsResponsible::ChangeLevel(int type)
 	};
 
 	Level_ = chengelevel(type);
-
 }
 /// <summary>
 /// レベル取得関数
@@ -197,7 +196,7 @@ void LevelsResponsible::NextStage()
 /// </summary>
 void LevelsResponsible::ResetNowStage()
 {
-	nNowStage_ = 1;
+	nNowStage_ = nFirstStage;
 }
 /// <summary>
 /// 現在プレイヤーがいる区画を取得する関数
