@@ -48,6 +48,7 @@ void TextureDataBase::TextureData::Loading(int& level)
 		GameTexture_[10] = LoadGraph("Resource/uibullet.png");
 		GameTexture_[11] = LoadGraph("Resource/uinonbullet.png");
 		GameTexture_[12] = LoadGraph("Resource/hp.png");
+		GameTexture_[13] = LoadGraph("Resource/NotBlokenBlock.png");
 		break;
 	case 2:
 		Resulttexture_[0] = LoadGraph("Resource/block.png");

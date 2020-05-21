@@ -39,12 +39,14 @@ int MapHitChecker::MapHitCollision(VECTOR vposition, float& fspeedx, float& fspe
 		}
 		if (fspeedy > 0.0f)
 		{
-			fspeedy = 0.0f;
+			fspeedy = bty - vposition.y - 1.0f;
 			return 3;
 		}
 		if (fspeedy < 0.0f)
 		{
-			fspeedy = 0.0f;
+			float set = vposition.y - bby;
+
+			fspeedy = bby - vposition.y + (set);
 			return 4;
 		}
 

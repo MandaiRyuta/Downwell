@@ -153,8 +153,7 @@
   <ItemGroup>
     <ClCompile Include="Actor\Bullet.cpp" />
     <ClCompile Include="Actor\Character.cpp" />
-    <ClCompile Include="Actor\CharacterAttack.cpp" />
-    <ClCompile Include="Actor\CharacterJump.cpp" />
+    <ClCompile Include="Actor\CharacterState.cpp" />
     <ClCompile Include="Actor\CharacterMove.cpp" />
     <ClCompile Include="Actor\Enemy.cpp" />
     <ClCompile Include="Actor\EnemyBird.cpp" />
@@ -190,8 +189,7 @@
     <ClInclude Include="Actor\Actor.h" />
     <ClInclude Include="Actor\Bullet.h" />
     <ClInclude Include="Actor\Character.h" />
-    <ClInclude Include="Actor\CharacterAttack.h" />
-    <ClInclude Include="Actor\CharacterJump.h" />
+    <ClInclude Include="Actor\CharacterState.h" />
     <ClInclude Include="Actor\CharacterMove.h" />
     <ClInclude Include="Actor\Enemy.h" />
     <ClInclude Include="Actor\EnemyBird.h" />

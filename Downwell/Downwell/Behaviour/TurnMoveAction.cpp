@@ -17,6 +17,10 @@ ActionBase::STATE TurnMoveAction::Run(EnemyParameter* enemy)
 		vMove_[enemy->GetEnemyNumber()] = VGet(1.0f, fDefaultPos, fDefaultPos);
 		enemy->SetMoveType(1);
 	}
+	MapHitChecker::MapHitCollision(VGet(enemy->GetPosition().x - 5.0f, enemy->GetPosition().y - 9.0f, 0.0f), dammy, gravity);
+	MapHitChecker::MapHitCollision(VGet(enemy->GetPosition().x + 5.0f, enemy->GetPosition().y - 9.0f, 0.0f), dammy, gravity);
+	MapHitChecker::MapHitCollision(VGet(enemy->GetPosition().x - 5.0f, enemy->GetPosition().y - 9.0f, 0.0f), dammy, gravity);
+	MapHitChecker::MapHitCollision(VGet(enemy->GetPosition().x + 5.0f, enemy->GetPosition().y - 9.0f, 0.0f), dammy, gravity);
 
 	if (vMove_[enemy->GetEnemyNumber()].y >= -2.25f)
 	{

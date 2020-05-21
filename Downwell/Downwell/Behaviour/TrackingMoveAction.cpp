@@ -40,22 +40,22 @@ ActionBase::STATE TrackingMoveAction::Run(EnemyParameter* enemy)
 	{
 		if (fmovey == 0.0f)
 		{
-			vMove_[enemy->GetEnemyNumber()].y = -1.5f;
+			vMove_[enemy->GetEnemyNumber()].y = -1.0f;
 		}
 		else
 		{
-			vMove_[enemy->GetEnemyNumber()].y = fmovey;
+			vMove_[enemy->GetEnemyNumber()].y = 1.0f;
 		}
 	}
 	else if (Character::GetPos().y <= enemy->GetPosition().y)
 	{
 		if (fmovey == 0.0f)
 		{
-			vMove_[enemy->GetEnemyNumber()].y = 1.5f;
+			vMove_[enemy->GetEnemyNumber()].y = 1.0f;
 		}
 		else
 		{
-			vMove_[enemy->GetEnemyNumber()].y = -fmovey;
+			vMove_[enemy->GetEnemyNumber()].y = -1.0f;
 		}
 	}
 

@@ -99,7 +99,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			bool bEnabledLevel = LevelsResponsible::GetInstance().GetNowLevel() != 3;
 			bool bTitleLevelCheck = TextureDataBase::TextureData::GetInstance().GetTitleTextureData(TextureDataBase::TitleTextureNumber::TTitleLogo) > 0;
-			bool bGameLevelCheck = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GCharacterLife) > 0;
+			bool bGameLevelCheck = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GNotBrokenBlock) > 0;
 			bool bResultLevelCheck = TextureDataBase::TextureData::GetInstance().GetResultTextureData(TextureDataBase::ResultTextureNumber::RFailed) > 0;
 			bool bLoop = bEnabledProcess && bEnabledLevel && !bEscape && bTitleLevelCheck ||
 				bEnabledProcess && bEnabledLevel && !bEscape && bGameLevelCheck ||

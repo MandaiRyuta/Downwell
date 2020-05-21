@@ -1,6 +1,6 @@
 #include "BulletShotWidget.h"
 #include "../Resource/TextureData.h"
-#include "../Actor/CharacterAttack.h"
+#include "../Actor/CharacterState.h"
 #include "../DownwellConstant.h"
 /// <summary>
 /// コンストラクター
@@ -30,7 +30,7 @@ void BulletShotWidget::Update()
 /// </summary>
 void BulletShotWidget::Draw()
 {
-	nBulletCount_ = CharacterAttack::GetBullet();
+	nBulletCount_ = CharacterState::GetBullet();
 	int npositiony = 240;
 	int npositionx = 540;
 	for (int i = 0; i < nBulletMaxCount; i++)

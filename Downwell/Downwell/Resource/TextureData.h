@@ -34,6 +34,7 @@ namespace TextureDataBase
 		GBulletUI,
 		GNonBulletUI,
 		GCharacterLife,
+		GNotBrokenBlock,
 	};
 	/// <summary>
 	/// リザルトのテクスチャーハンドル番号
@@ -105,7 +106,7 @@ namespace TextureDataBase
 		const int& GetResultTextureData(TextureDataBase::ResultTextureNumber number);
 	private:
 		std::array<int, 6> TitleTexture_;	//タイトルのテクスチャーハンドル
-		std::array<int, 13> GameTexture_;	//ゲームのテクスチャーハンドル
+		std::array<int, 14> GameTexture_;	//ゲームのテクスチャーハンドル
 		std::array<int, 7> Resulttexture_;	//リザルトのテクスチャーハンドル
 	};
 }

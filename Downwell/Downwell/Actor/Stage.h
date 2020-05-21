@@ -79,4 +79,5 @@ private:
 	int nInSideBlockTexture_;	//外側に配置しているブロックテクスチャーハンドル
 	int nSideBlockTexture_;	//壁ブロックのテクスチャーハンドル
 	int nBlockSideBlockTexture_;	//外側に配置しているブロックの内側に用のテクスチャーハンドル
+	int nNotBrokenBlockTexture_;	//破壊されないブロック
 };

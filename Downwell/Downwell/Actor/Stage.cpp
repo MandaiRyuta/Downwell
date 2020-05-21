@@ -18,7 +18,8 @@ Stage::Stage():
 	nNonBlockTexture_(nInitNonBlockTexture),
 	nSideBlockTexture_(nInitSideBlockTexture),
 	nBlockTexture_(nInitBlockTexture),
-	nInSideBlockTexture_(nInitInSideBlockTexture)
+	nInSideBlockTexture_(nInitInSideBlockTexture),
+	nNotBrokenBlockTexture_(nInitNotBrokenBlockTexture)
 {}
 /// <summary>
 /// デストラクター
@@ -80,6 +81,7 @@ void Stage::Init(int nscenenumber)
 		nNonBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GBlock);
 		nSideBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GSideBlock);
 		nBlockSideBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GBlockInSideBlock);
+		nNotBrokenBlockTexture_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GNotBrokenBlock);
 	}
 	else if (nSceneNumber_ == nResultLevel)
 	{
@@ -100,8 +102,9 @@ void Stage::Update()
 	{
 		for (int i = 0; i < nBulletMaxCount; i++)
 		{
-			if (MapHitChecker::GetChipParam(VGet(Bullet::GetPosition(i).x - 3.0f, Bullet::GetPosition(i).y - 6.0f, 0.0f)) == 3 ||
-				MapHitChecker::GetChipParam(VGet(Bullet::GetPosition(i).x + 3.0f, Bullet::GetPosition(i).y - 6.0f, 0.0f)) == 3 )
+			if (MapHitChecker::GetChipParam(VGet(Bullet::GetPosition(i).x - 5.0f, Bullet::GetPosition(i).y - 8.0f, 0.0f)) == 3 ||
+				MapHitChecker::GetChipParam(VGet(Bullet::GetPosition(i).x + 5.0f, Bullet::GetPosition(i).y - 8.0f, 0.0f)) == 3 ||
+				MapHitChecker::GetChipParam(VGet(Bullet::GetPosition(i).x , Bullet::GetPosition(i).y - 8.0f, 0.0f)) == 3)
 			{
 				int x = static_cast<int>(Bullet::GetPosition(i).x / BlockSize - (BlockSize * 0.5f));
 				int y = static_cast<int>(Bullet::GetPosition(i).y / -BlockSize);
@@ -115,15 +118,15 @@ void Stage::Update()
 				{
 					Stage_[up][right] = nLeftChangeType;
 				}
-				else if (Stage_[y][left] == nBackGroundType)
+				if (Stage_[y][left] == nBackGroundType)
 				{
 					Stage_[up][left] = nRightChangeType;
 				}
-				else if (Stage_[y][right] == nBackGroundType && Stage_[y][left] == nMoveBlockType)
+				if (Stage_[y][right] == nBackGroundType && Stage_[y][left] == nMoveBlockType)
 				{
 					Stage_[up][right] = nLeftChangeType;
 				}
-				else if (Stage_[y][left] == nBackGroundType && Stage_[y][right] == nMoveBlockType)
+				if (Stage_[y][left] == nBackGroundType && Stage_[y][right] == nMoveBlockType)
 				{
 					Stage_[up][left] = nRightChangeType;
 				}
@@ -170,7 +173,7 @@ void Stage::Draw()
 				}
 				else if (Stage_[y][x] == nFloatingBlockType)
 				{
-					DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, nNonBlockTexture_, false);
+					DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, nNotBrokenBlockTexture_, false);
 				}
 				else if (Stage_[y][x] == nBlokenBlockType)
 				{

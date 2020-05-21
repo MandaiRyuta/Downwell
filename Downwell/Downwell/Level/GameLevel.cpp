@@ -129,12 +129,12 @@ void GameLevel::Update()
 	Stage::GetInstance().Update();
 	for (int i = 0; i < nMaxLevel; i++)
 	{
-		for (auto itr : Obj_[i])
+		for (auto itr : Widgetobj_[i])
 		{
 			if (itr == nullptr) return;
 			itr->Update();
 		}
-		for (auto itr : Widgetobj_[i])
+		for (auto itr : Obj_[i])
 		{
 			if (itr == nullptr) return;
 			itr->Update();
@@ -149,12 +149,12 @@ void GameLevel::Draw()
 	Stage::GetInstance().Draw();
 	for (int i = 0; i < 3; i++)
 	{
-		for (auto itr : Obj_[i])
+		for (auto itr : Widgetobj_[i])
 		{
 			if (itr == nullptr) return;
 			itr->Draw();
 		}
-		for (auto itr : Widgetobj_[i])
+		for (auto itr : Obj_[i])
 		{
 			if (itr == nullptr) return;
 			itr->Draw();

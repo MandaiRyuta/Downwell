@@ -3,6 +3,7 @@
 #include "../Camera/Camera.h"
 #include "Stage.h"
 #include "EnemyParameter.h"
+#include "CharacterState.h"
 #include "../Resource/TextureData.h"
 #include "../Collision/MapHitCheck.h"
 #include "../Level/LevelsResponsible.h"
@@ -20,7 +21,7 @@ bool Character::bJump_ = bInitCharacterJump;	//ジャンプの初期化
 /// コンストラクター
 /// </summary>
 /// <param name="nscenenumber">シーン番号</param>
-Character::Character(int nscenenumber) : nNowScene_(nscenenumber)
+Character::Character(int nscenenumber) : nNowScene_(nscenenumber), vSpeed_(VGet(fDefaultPos,fDefaultPos,fDefaultPos)), fJumpPower_(0.0f)
 {
 	if (nNowScene_ == nTitleLevel)
 	{
@@ -45,12 +46,9 @@ Character::Character(int nscenenumber) : nNowScene_(nscenenumber)
 	fSize_ = nCharacterSize;
 	bPlayershake_ = bInitShake;
 	fPlayershake_ = fCharacterShakePower;
-
-
-	vSpeed_.x = fDefaultPos;
-	vSpeed_.y = fDefaultPos;
-	vSpeed_.z = fDefaultPos;
-
+	bDamage_ = false;
+	bJump_ = false;
+	bAttackJump_ = false;
 	bHitEnemy_ = bInitHitEnemy;
 	bLeftDamage_ = bInitLeftDamage;
 	bRightDamage_ = bInitRightDamage;
@@ -72,15 +70,15 @@ void Character::Update()
 {
 	if (nNowScene_ == nTitleLevel)
 	{
-		if (MapHitChecker::GetChipParam(VGet(vPosition_.x + 8, vPosition_.y + 8, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false ||
-			MapHitChecker::GetChipParam(VGet(vPosition_.x - 8, vPosition_.y - 8, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false)
+		if (MapHitChecker::GetChipParam(VGet(vPosition_.x + 8, vPosition_.y, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false ||
+			MapHitChecker::GetChipParam(VGet(vPosition_.x - 8, vPosition_.y, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false)
 		{
 			LevelsResponsible::GetInstance().SetNowLevel(1);
 			LevelsResponsible::GetInstance().SetChangeLevel(true);
 		}
 
-		if (MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 0 && LevelsResponsible::GetInstance().GetNextStageExist() == true ||
-			MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 0 && LevelsResponsible::GetInstance().GetNextStageExist() == true)
+		if (MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 98 && LevelsResponsible::GetInstance().GetNextStageExist() == true ||
+			MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 98 && LevelsResponsible::GetInstance().GetNextStageExist() == true)
 		{
 			LevelsResponsible::GetInstance().SetNextStage(false);
 		}
@@ -98,48 +96,46 @@ void Character::Update()
 			LevelsResponsible::GetInstance().SetNowLevel(2);
 			LevelsResponsible::GetInstance().SetChangeLevel(true);
 		}
-		if (nLife_ == 0)
+		if (nLife_ <= 0)
 		{
 			LevelsResponsible::GetInstance().SetLevelState(true);
 			LevelsResponsible::GetInstance().SetNowLevel(2);
 			LevelsResponsible::GetInstance().SetChangeLevel(true);
 		}
-		if (MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 0 && LevelsResponsible::GetInstance().GetNextStageExist() == true ||
-			MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 0 && LevelsResponsible::GetInstance().GetNextStageExist() == true)
+		if (MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 98 && LevelsResponsible::GetInstance().GetNextStageExist() == true)
 		{
 			LevelsResponsible::GetInstance().SetNextStage(false);
 		}
-		else if (MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false ||
-			MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false)
+		else if (MapHitChecker::GetChipParam(VGet(vPosition_.x, vPosition_.y, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false)
 		{
 			LevelsResponsible::GetInstance().NextStage();
 		}
 	}
 
-	if (nNowScene_ == nTitleLevel || nNowScene_ == nGameLevel)
+	if (nNowScene_ == nGameLevel)
 	{
 		if (bInvincible_)
 		{
-			if (bDamage_)
-			{
-				bDamage_ = false;
-			}
 			if (bLeftDamage_)
 			{
-				bLeftDamage_ = false;
+				if (nHitCooltime_ > 200)
+				{
+					bLeftDamage_ = false;
+					bInvincible_ = false;
+					nHitCooltime_ = 0;
+				}
+				nHitCooltime_++;
 			}
 			if (bRightDamage_)
 			{
-				bRightDamage_ = false;
+				if (nHitCooltime_ > 200)
+				{
+					bRightDamage_ = false;
+					bInvincible_ = false;
+					nHitCooltime_ = 0;
+				}
+				nHitCooltime_++;
 			}
-
-			if (nHitCooltime_ > 120)
-			{
-				bInvincible_ = false;
-				nHitCooltime_ = 0;
-			}
-
-			nHitCooltime_++;
 		}
 		if (fGravity_ > -10.0f)
 		{
@@ -148,44 +144,58 @@ void Character::Update()
 
 		vSpeed_.y = fGravity_;
 
-		if (bPlayershake_)
-		{
-			vSpeed_.y = vSpeed_.y + (fPlayershake_ * -1.0f);
-		}
+		//if (bPlayershake_)
+		//{
+		//	vSpeed_.y = vSpeed_.y + (fPlayershake_ * -1.0f);
+		//}
 
 		if(bHitEnemy_)
 		{
 			vSpeed_.y += 20.0f;
 			bHitEnemy_ = false;
 		}
-		if (bDamage_)
+
+		float hitmove = 5.0f;
+		float dammy = 0.0f;
+		MapHitChecker::MapHitCollision(VGet(vPosition_.x - 8.0f, vPosition_.y + 8.0f, 0.0f), hitmove, dammy);
+		MapHitChecker::MapHitCollision(VGet(vPosition_.x + 8.0f, vPosition_.y + 8.0f, 0.0f), hitmove, dammy);
+		MapHitChecker::MapHitCollision(VGet(vPosition_.x - 8.0f, vPosition_.y - 8.0f, 0.0f), hitmove, dammy);
+		MapHitChecker::MapHitCollision(VGet(vPosition_.x + 8.0f, vPosition_.y - 8.0f, 0.0f), hitmove, dammy);
+
+		if (bLeftDamage_ && !bInvincible_)
 		{
+			nHitCooltime_ = 0;
 			nLife_ -= 1;
-			vPosition_.y += 5.0f;
-			bLeftDamage_ = false;
+			vPosition_.y += 1;
+			vPosition_.x += hitmove;
 			bInvincible_ = true;
 		}
-		if (bLeftDamage_)
+		if (bRightDamage_ && !bInvincible_)
 		{
+			nHitCooltime_ = 0;
 			nLife_ -= 1;
-			vPosition_.y += 5.0f;
-			vPosition_.x += 5.0f;
-			bLeftDamage_ = false;
-			bInvincible_ = true;
-		}
-		if (bRightDamage_)
-		{
-			nLife_ -= 1;
-			vPosition_.y += 5.0f;
-			vPosition_.x -= 5.0f;
-			bRightDamage_ = false;
+			vPosition_.y += 1.0f;
+			vPosition_.x -= hitmove;
 			bInvincible_ = true;
 		}
 
 		MoveState_.SideMove(vPosition_,vSpeed_.x,vSpeed_.y, fGravity_, fSize_);
-		AttackState_.Attack(vPosition_, bJump_, JumpState_.GetBulletJumpExist(), nCharacterActionState_, fGravity_, bPlayershake_);
-		JumpState_.JumpState(vPosition_, vSpeed_, fGravity_, nCharacterActionState_, bJump_);
+		CharacterState_.Attack(vPosition_, bJump_, nCharacterActionState_, fGravity_, bPlayershake_, bAttackJump_);
+		CharacterState_.Update();
+		vPosition_.y += vSpeed_.y;
+	}
+	else if (nNowScene_ == nTitleLevel)
+	{
 
+		if (fGravity_ > -10.0f)
+		{
+			fGravity_ += fGravity;
+		}	
+		vSpeed_.y = fGravity_;
+		
+		MoveState_.SideMove(vPosition_, vSpeed_.x, vSpeed_.y, fGravity_, fSize_);
+		CharacterState_.Attack(vPosition_, bJump_, nCharacterActionState_, fGravity_, bPlayershake_, bAttackJump_);
+		CharacterState_.Update();
 		vPosition_.y += vSpeed_.y;
 	}
 }
@@ -194,9 +204,21 @@ void Character::Update()
 /// </summary>
 void Character::Draw()
 {
+#ifdef DEBUG
+	if (bJump_)
+	{
+		DrawFormatString(0, 0, GetColor(255, 255, 255), "JumpON");
+		DrawFormatString(100, 0, GetColor(255, 255, 255), "Speed.Y :  %f", vSpeed_.y);
+	}
+	else
+	{
+		DrawFormatString(0, 0, GetColor(255, 255, 255), "JumpOFF");
+		DrawFormatString(100, 0, GetColor(255, 255, 255), "Speed.Y :  %f", vSpeed_.y);
+	}
+#endif
 	DrawBillboard3D(VGet(vPosition_.x, vPosition_.y, 0.0f), 0.5f, 0.5f, fSize_, 0, nTexhandle_,false);
 	
-	AttackState_.Draw(); 
+	CharacterState_.Draw(); 
 }
 /// <summary>
 /// 座標取得関数
@@ -221,6 +243,23 @@ void Character::SetHitEnemy(bool bhit)
 void Character::SetHitDamage(bool bdamage)
 {
 	bDamage_ = bdamage;
+}
+
+/// <summary>
+/// 左のダメージ判定取得関数
+/// </summary>
+/// <returns>左側のダメージ判定フラグ</returns>
+const bool Character::GetLeftDamageExist()
+{
+	return bLeftDamage_;
+}
+/// <summary>
+/// 右のダメージ判定取得関数
+/// </summary>
+/// <returns>右側のダメージ判定フラグ</returns>
+const bool Character::GetRightDamageExist()
+{
+	return bRightDamage_;
 }
 /// <summary>
 /// プレイヤーの側面と敵の衝突判定

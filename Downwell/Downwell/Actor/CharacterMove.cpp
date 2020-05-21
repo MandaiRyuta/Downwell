@@ -1,7 +1,7 @@
 #include "CharacterMove.h"
 #include "../Input/Input.h"
 #include "../Collision/MapHitCheck.h"
-#include "CharacterAttack.h"
+#include "CharacterState.h"
 /// <summary>
 /// ç∂âEÇÃâ¡ë¨à⁄ìÆä÷êî
 /// </summary>
@@ -120,22 +120,24 @@ void CharacterMove::SideMove(VECTOR& vposition, float& fspeedx, float& fspeedy, 
 		if (MapHitChecker::MapHitCollision(VGet(vposition.x - halfsize, vposition.y + halfsize, 0.0f), dammy, fspeedy) == 3)
 		{
 			fgravitypower = fNonGravity;
+			fspeedy = 0.0f;
 		}
 		if (MapHitChecker::MapHitCollision(VGet(vposition.x + halfsize, vposition.y + halfsize, 0.0f), dammy, fspeedy) == 3)
 		{
 			fgravitypower = fNonGravity;
+			fspeedy = 0.0f;
 		}
 		if (MapHitChecker::MapHitCollision(VGet(vposition.x - halfsize, vposition.y - halfsize, 0.0f), dammy, fspeedy) == 4)
 		{
 			fgravitypower = fNonGravity;
-			fspeedy = fNonSpeed;
-			CharacterAttack::SetBullet(nBulletMaxCount);
+			fspeedy = 0.0f;
+			CharacterState::SetBullet(nBulletMaxCount);
 		}
 		if (MapHitChecker::MapHitCollision(VGet(vposition.x + halfsize, vposition.y - halfsize, 0.0f), dammy, fspeedy) == 4)
 		{
 			fgravitypower = fNonGravity;
-			fspeedy = fNonSpeed;
-			CharacterAttack::SetBullet(nBulletMaxCount);
+			fspeedy = 0.0f;
+			CharacterState::SetBullet(nBulletMaxCount);
 		}
 	}
 

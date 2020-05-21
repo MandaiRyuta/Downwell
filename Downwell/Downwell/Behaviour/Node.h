@@ -67,7 +67,7 @@ public:
 	/// <returns>子ノード</returns>
 	const Node* GetChild(int index)
 	{
-		return ChildNode_.size() >= index ? nullptr : ChildNode_[index];
+		return ChildNode_.size() >= static_cast<size_t>(index) ? nullptr : ChildNode_[index];
 	}
 	/// <summary>
 	/// 末尾子ノード取得関数

@@ -71,35 +71,48 @@ void EnemySeaUrchin::Update()
 		{
 			bHitAction_ = false;
 
-			if (Character::GetPos().x - 9.0f <= vPosition_.x + 9.0f && Character::GetPos().y + 8.0f < vPosition_.y + 9.0f &&
-				Character::GetPos().x - 9.0f >= vPosition_.x + 6.0f && Character::GetPos().y - 8.0f > vPosition_.y - 9.0f && bHitAction_ == false)
+			if (Character::GetPos().x - 8.0f <= vPosition_.x + 8.0f && Character::GetPos().y - 8.0f < vPosition_.y + 8.0f &&
+				Character::GetPos().x - 8.0f >= vPosition_.x + 8.0f && Character::GetPos().y + 8.0f > vPosition_.y - 8.0f && bHitAction_ == false)
 			{
 				Character::SetHitLeftDamage(true);
 				bHitAction_ = true;
 			}
-			if (Character::GetPos().x + 9.0f <= vPosition_.x - 6.0f && Character::GetPos().y + 8.0f < vPosition_.y + 9.0f &&
-				Character::GetPos().x + 9.0f >= vPosition_.x - 9.0f && Character::GetPos().y - 8.0f > vPosition_.y - 9.0f && bHitAction_ == false)
+			if (Character::GetPos().x + 8.0f <= vPosition_.x - 8.0f && Character::GetPos().y - 8.0f < vPosition_.y + 8.0f &&
+				Character::GetPos().x + 8.0f >= vPosition_.x - 8.0f && Character::GetPos().y + 8.0f > vPosition_.y - 8.0f && bHitAction_ == false)
 			{
 				Character::SetHitRightDamage(true);
 				bHitAction_ = true;
 			}
-			if (Character::GetPos().x + 9.0f >= vPosition_.x + -9.0f && Character::GetPos().y + 7.0f < vPosition_.y - 6.0f &&
-				Character::GetPos().x - 9.0f <= vPosition_.x + 9.0f && Character::GetPos().y + 7.0f > vPosition_.y - 9.0f && bHitAction_ == false)
+
+			if (Character::GetPos().x + 11.0f >= vPosition_.x - 11.0f && Character::GetPos().y + 8.0f < vPosition_.y - 11.0f &&
+				Character::GetPos().x <= vPosition_.x - 2.0f && Character::GetPos().y + 8.0f > vPosition_.y - 11.0f && bHitAction_ == false)
 			{
-				Character::SetHitDamage(true);
+				Character::SetHitRightDamage(true);
 				bHitAction_ = true;
 			}
-			if (Character::GetPos().x + 9.0f >= vPosition_.x + -9.0f && Character::GetPos().y - 7.0f < vPosition_.y + 6.0f &&
-				Character::GetPos().x - 9.0f <= vPosition_.x + 9.0f && Character::GetPos().y - 7.0f > vPosition_.y + 9.0f && bHitAction_ == false)
+			if (Character::GetPos().x - 8.0f >= vPosition_.x + 11.0f && Character::GetPos().y + 8.0f < vPosition_.y - 11.0f &&
+				Character::GetPos().x <= vPosition_.x + 2.0f && Character::GetPos().y + 11.0f > vPosition_.y - 11.0f && bHitAction_ == false)
 			{
-				Character::SetHitDamage(true);
+				Character::SetHitLeftDamage(true);
+				bHitAction_ = true;
+			}
+			if (Character::GetPos().x + 8.0f >= vPosition_.x - 11.0f && Character::GetPos().y - 8.0f < vPosition_.y + 11.0f &&
+				Character::GetPos().x <= vPosition_.x - 2.0f && Character::GetPos().y - 8.0f > vPosition_.y + 11.0f && bHitAction_ == false)
+			{
+				Character::SetHitRightDamage(true);
+				bHitAction_ = true;
+			}
+			if (Character::GetPos().x - 8.0f >= vPosition_.x + 11.0f && Character::GetPos().y - 8.0f < vPosition_.y + 11.0f &&
+				Character::GetPos().x <= vPosition_.x + 2.0f && Character::GetPos().y - 8.0f > vPosition_.y + 11.0f && bHitAction_ == false)
+			{
+				Character::SetHitLeftDamage(true);
 				bHitAction_ = true;
 			}
 
 			for (int i = 0; i < nBulletMaxCount; i++)
 			{
-				if (Bullet::GetPosition(i).x - 6.0f >= vPosition_.x - 14.0f && Bullet::GetPosition(i).y < vPosition_.y + 7.0f &&
-					Bullet::GetPosition(i).x + 6.0f <= vPosition_.x + 14.0f && Bullet::GetPosition(i).y > vPosition_.y)
+				if (Bullet::GetPosition(i).x - 6.0f >= vPosition_.x - 11.0f && Bullet::GetPosition(i).y - 6.0f < vPosition_.y + 11.0f &&
+					Bullet::GetPosition(i).x + 6.0f <= vPosition_.x + 11.0f && Bullet::GetPosition(i).y + 6.0f > vPosition_.y - 11.0f)
 				{
 					if (nHp_ > nZeroLife)
 					{

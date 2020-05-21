@@ -81,6 +81,7 @@ constexpr int nInitNonBlockTexture = 0;	//ステージ画像の初期化
 constexpr int nInitSideBlockTexture = 0;	//ステージ画像の初期化
 constexpr int nInitBlockTexture = 0;	//ステージ画像の初期化
 constexpr int nInitInSideBlockTexture = 0;	//ステージ画像の初期化
+constexpr int nInitNotBrokenBlockTexture = 0;	//ステージ画像の初期化
 constexpr int nAreaMax = 7;	//描画するエリアの最大数
 constexpr int nBackGroundType = 0;	//背景ブロックの番号
 constexpr int nMoveBlockType = 1;	//移動不可ブロックの番号
