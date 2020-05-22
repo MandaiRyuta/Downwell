@@ -37,8 +37,8 @@ public:
 	/// <summary>
 	/// 初期化関数
 	/// </summary>
-	/// <param name="nscenenumber">シーン番号</param>
-	void Init(int nscenenumber);
+	/// <param name="nSceneNumber">シーン番号</param>
+	void Init(int nSceneNumber);
 	/// <summary>
 	/// 更新関数
 	/// </summary>
@@ -51,27 +51,27 @@ public:
 	/// <summary>
 	/// ステージの座標関数
 	/// </summary>
-	/// <param name="x">プレイヤーもしくは敵のX座標</param>
-	/// <param name="y">プレイヤーもしくは敵のY座標</param>
+	/// <param name="nX">プレイヤーもしくは敵のX座標</param>
+	/// <param name="nY">プレイヤーもしくは敵のY座標</param>
 	/// <returns></returns>
-	const VECTOR& GetStagePos(int x, int y);
+	const VECTOR& GetStagePos(int nX, int nY);
 	/// <summary>
 	/// ステージのブロック種類を調べる関数
 	/// </summary>
-	/// <param name="x">プレイヤーもしくは敵のX座標</param>
-	/// <param name="y">プレイヤーもしくは敵のY座標</param>
+	/// <param name="nX">プレイヤーもしくは敵のX座標</param>
+	/// <param name="nY">プレイヤーもしくは敵のY座標</param>
 	/// <returns></returns>
-	const int& GetStageType(int x, int y);
+	const int& GetStageType(int nX, int nY);
 	/// <summary>
 	/// ブロックの種類を変更する関数
 	/// </summary>
-	/// <param name="type">変更する種類の番号</param>
-	/// <param name="x">ブロックの横列</param>
-	/// <param name="y">ブロックの縦列</param>
-	void SetStageType(int type, int x, int y);
+	/// <param name="nType">変更する種類の番号</param>
+	/// <param name="nX">ブロックの横列</param>
+	/// <param name="nY">ブロックの縦列</param>
+	void SetStageType(int nType, int nX, int nY);
 private:
-	static std::array<std::array<int, StageWidth>, StageHeigh> Stage_;	//ステージ上のブロック種類を管理
-	static std::array<std::array<VECTOR, StageWidth>, StageHeigh> Blockpos_; //ステージ上のブロックを配置する座標を管理
+	std::array<std::array<int, StageWidth>, StageHeigh> Stage_;	//ステージ上のブロック種類を管理
+	std::array<std::array<VECTOR, StageWidth>, StageHeigh> Blockpos_; //ステージ上のブロックを配置する座標を管理
 
 	int nSceneNumber_;	//シーン番号
 	int nBlockTexture_;	//背景テクスチャーハンドル

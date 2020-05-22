@@ -20,48 +20,48 @@ void BehaviorTree::Release()
 /// <summary>
 /// 実行ノードを推論する関数
 /// </summary>
-/// <param name="enemy">推論するノード</param>
-/// <param name="data">推論するビヘイビアデータ</param>
+/// <param name="Enemy">推論するノード</param>
+/// <param name="Data">推論するビヘイビアデータ</param>
 /// <returns>推論し終えた親ノード</returns>
-Node* BehaviorTree::Inference(EnemyParameter* enemy, BehaviorData* data)
+Node* BehaviorTree::Inference(EnemyParameter* Enemy, BehaviorData* Data)
 {
-	data->Init();
-	return Root_->Inference(enemy, data);
+	Data->Init();
+	return Root_->Inference(Enemy, Data);
 }
 /// <summary>
 /// シーケンスノードを推論する関数
 /// </summary>
-/// <param name="sequence_node">シーケンスノード</param>
-/// <param name="enemy">推論する敵情報</param>
-/// <param name="data">推論するビヘイビアデータ</param>
+/// <param name="SequenceNode">シーケンスノード</param>
+/// <param name="Enemy">推論する敵情報</param>
+/// <param name="Data">推論するビヘイビアデータ</param>
 /// <returns>推論し終えたノード</returns>
-Node* BehaviorTree::SequenceBack(Node* sequence_node, EnemyParameter* enemy, BehaviorData* data)
+Node* BehaviorTree::SequenceBack(Node* SequenceNode, EnemyParameter* Enemy, BehaviorData* Data)
 {
-	return sequence_node->Inference(enemy, data);;
+	return SequenceNode->Inference(Enemy, Data);;
 }
 /// <summary>
 /// ノード追加関数
 /// </summary>
-/// <param name="search_name">ノード名</param>
-/// <param name="entry_name">ノード名</param>
-/// <param name="priority">優先度</param>
-/// <param name="select_rule">ルール</param>
+/// <param name="SearchName">ノード名</param>
+/// <param name="EntryName">ノード名</param>
+/// <param name="nPriority">優先度</param>
+/// <param name="nSelectRule">ルール</param>
 /// <param name="judgment">判定クラス</param>
-/// <param name="action">行動クラス</param>
-void BehaviorTree::AddNode(std::string search_name, std::string entry_name, int priority, TREE_RULE select_rule, ActionBase* action)
+/// <param name="Action">行動クラス</param>
+void BehaviorTree::AddNode(std::string SearchName, std::string EntryName, int nPriority, TREE_RULE nSelectRule, ActionBase* Action)
 {
-	if (search_name == "")
+	if (SearchName == "")
 	{
-		Root_ = new Node(entry_name, NULL, NULL, priority, select_rule, action, 1);
+		Root_ = new Node(EntryName, NULL, NULL, nPriority, nSelectRule, Action, 1);
 	}
 	else
 	{
-		Node* search = Root_->SearchNode(search_name);
+		Node* search = Root_->SearchNode(SearchName);
 
 		if (search != nullptr)
 		{
 			Node* sibling = search->GetLastChild();
-			Add_Node_ = new Node(entry_name, search, sibling, priority, select_rule, action, search->GetHierarchyNumber() + 1);
+			Add_Node_ = new Node(EntryName, search, sibling, nPriority, nSelectRule, Action, search->GetHierarchyNumber() + 1);
 
 			search->AddChild(Add_Node_);
 		}
@@ -70,25 +70,25 @@ void BehaviorTree::AddNode(std::string search_name, std::string entry_name, int 
 /// <summary>
 /// 更新関数
 /// </summary>
-/// <param name="enemy">敵情報</param>
-/// <param name="actionnode">行動ノード</param>
-/// <param name="data">ビヘイビアデータ</param>
+/// <param name="Enemy">敵情報</param>
+/// <param name="ActionNode">行動ノード</param>
+/// <param name="Data">ビヘイビアデータ</param>
 /// <returns>ルールで判別し終えた行動ノード</returns>
-Node* BehaviorTree::Run(EnemyParameter* enemy, Node* actionnode, BehaviorData* data)
+Node* BehaviorTree::Run(EnemyParameter& Enemy, Node* ActionNode, BehaviorData* Data)
 {
-	ActionBase::STATE state = actionnode->Run(enemy);
+	ActionBase::STATE state = ActionNode->Run(Enemy);
 
 	if (state == ActionBase::STATE::COMPLETE)
 	{
-		Node* sequence_node = data->PopSequenceNode();
+		Node* SequenceNode = Data->PopSequenceNode();
 
-		if (sequence_node == nullptr)
+		if (SequenceNode == nullptr)
 		{
 			return nullptr;
 		}
 		else
 		{
-			return SequenceBack(sequence_node, enemy, data);
+			return SequenceBack(SequenceNode, &Enemy, Data);
 		}
 	}
 	else if (state == ActionBase::STATE::FAILED)
@@ -96,5 +96,5 @@ Node* BehaviorTree::Run(EnemyParameter* enemy, Node* actionnode, BehaviorData* d
 		return nullptr;
 	}
 
-	return actionnode;
+	return ActionNode;
 }

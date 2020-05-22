@@ -78,32 +78,32 @@ namespace TextureDataBase
 		/// <summary>
 		/// ローディング関数
 		/// </summary>
-		/// <param name="scenetype">レベル番号</param>
-		void Loading(int& level);
+		/// <param name="nLevel">レベル番号</param>
+		void Loading(int& nLevel);
 		/// <summary>
 		/// 解放関数
 		/// </summary>
-		/// <param name="scenetype">レベル番号</param>
-		void Release(int& level);
+		/// <param name="nLevel">レベル番号</param>
+		void Release(int& nLevel);
 
 		/// <summary>
 		/// タイトルのテクスチャーハンドル取得関数
 		/// </summary>
-		/// <param name="number">テクスチャーハンドル番号</param>
+		/// <param name="Number">テクスチャーハンドル番号</param>
 		/// <returns>テクスチャーハンドル</returns>
-		const int& GetTitleTextureData(TextureDataBase::TitleTextureNumber number);
+		const int& GetTitleTextureData(TextureDataBase::TitleTextureNumber Number);
 		/// <summary>
 		/// ゲームのテクスチャーハンドル取得関数
 		/// </summary>
-		/// <param name="number">テクスチャーハンドル番号</param>
+		/// <param name="Number">テクスチャーハンドル番号</param>
 		/// <returns>テクスチャーハンドル</returns>
-		const int& GetGameTextureData(TextureDataBase::GameTextureNumber number);
+		const int& GetGameTextureData(TextureDataBase::GameTextureNumber Number);
 		/// <summary>
 		/// リザルトのテクスチャーハンドル取得関数
 		/// </summary>
-		/// <param name="number">テクスチャーハンドル番号</param>
+		/// <param name="Number">テクスチャーハンドル番号</param>
 		/// <returns>テクスチャーハンドル</returns>
-		const int& GetResultTextureData(TextureDataBase::ResultTextureNumber number);
+		const int& GetResultTextureData(TextureDataBase::ResultTextureNumber Number);
 	private:
 		std::array<int, 6> TitleTexture_;	//タイトルのテクスチャーハンドル
 		std::array<int, 14> GameTexture_;	//ゲームのテクスチャーハンドル

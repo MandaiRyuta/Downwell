@@ -11,32 +11,31 @@
 /// <summary>
 /// “G¶¬ŠÖ”
 /// </summary>
-/// <param name="enemynumber">“G‚Ì•`‰æ”Ô†</param>
-/// <param name="ntype">“G‚Ìí—Ş</param>
-/// <param name="nhp">“G‚ÌHP</param>
-/// <param name="nspeed">“G‚ÌˆÚ“®—Ê</param>
-/// <param name="vposition">“G‚ÌoŒ»À•W</param>
+/// <param name="nEnemyNumber">“G‚Ì•`‰æ”Ô†</param>
+/// <param name="nType">“G‚Ìí—Ş</param>
+/// <param name="nHp">“G‚ÌHP</param>
+/// <param name="vPosition">“G‚ÌoŒ»À•W</param>
 /// <returns></returns>
-EnemyParameter* CreateFactory::CreateInstance(int enemynumber, int ntype, int nhp, VECTOR vposition)
+EnemyParameter* CreateFactory::CreateInstance(int nEnemyNumber, int nType, int nHp, VECTOR vPosition)
 {
 	BehaviorTree behavior;
 
-	switch (ntype)
+	switch (nType)
 	{
 	case 0:
 		behavior.AddNode("", "Root", 0, TREE_RULE::PRIORITY, nullptr);
 		behavior.AddNode("Root", "Move", 1, TREE_RULE::SEQUENTIALLOOP, TurnMoveAction::GetInstance());
-		return new EnemyTurtle(enemynumber, behavior, nhp, vposition);
+		return new EnemyTurtle(nEnemyNumber, behavior, nHp, vPosition);
 		break;
 	case 1:
 		behavior.AddNode("", "Root", 0, TREE_RULE::PRIORITY, nullptr);
 		behavior.AddNode("Root", "Rotate", 1, TREE_RULE::SEQUENTIALLOOP, LoiterningMoveAction::GetInstance());
-		return new EnemySeaUrchin(enemynumber, behavior, nhp, vposition);
+		return new EnemySeaUrchin(nEnemyNumber, behavior, nHp, vPosition);
 		break;
 	case 2:
 		behavior.AddNode("", "Root", 0, TREE_RULE::PRIORITY, nullptr);
 		behavior.AddNode("Root", "Move", 1, TREE_RULE::SEQUENTIALLOOP, TrackingMoveAction::GetInstance());
-		return new EnemyBird(enemynumber, behavior, nhp, vposition);
+		return new EnemyBird(nEnemyNumber, behavior, nHp, vPosition);
 		break;
 	default:
 		return nullptr;

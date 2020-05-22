@@ -12,26 +12,25 @@
 /// <summary>
 /// コンストラクター
 /// </summary>
-/// <param name="enemynumber">敵の描画番号</param>
-/// <param name="aitree">ビヘイビアツリー</param>
-/// <param name="nhp">ウニのHP</param>
-/// <param name="nspeed">ウニの移動量</param>
-/// <param name="vposition">ウニが出現する座標</param>
-EnemySeaUrchin::EnemySeaUrchin(int enemynumber, BehaviorTree aitree, int nhp, VECTOR vposition) :
+/// <param name="nEnemyNumber">敵の描画番号</param>
+/// <param name="AiTree">ビヘイビアツリー</param>
+/// <param name="nHp">ウニのHP</param>
+/// <param name="vPosition">ウニが出現する座標</param>
+EnemySeaUrchin::EnemySeaUrchin(int nEnemyNumber, BehaviorTree AiTree, int nHp, VECTOR vPosition) :
 	Activenode_(nullptr),
 	AIData_(nullptr),
 	bActive_(bInitActive)
 {
 	bLife_ = bInitEnemyLife;
-	AITree_ = aitree;
-	nHp_ = nhp;
-	nMaxHp_ = nhp;
+	AITree_ = AiTree;
+	nHp_ = nHp;
+	nMaxHp_ = nHp;
 	nMoveType_ = nInitEnemyMoveType;
 	vMove_ = VGet(fDefaultPos, fDefaultPos, fDefaultPos);
-	vPosition_ = vposition;
+	vPosition_ = vPosition;
 	AIData_ = new BehaviorData;
 	nTexhandle_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GUrchin);
-	nEnemyNumber_ = enemynumber;
+	nEnemyNumber_ = nEnemyNumber;
 	bHitAction_ = bInitEnemyHitAction;
 }
 /// <summary>
@@ -83,27 +82,14 @@ void EnemySeaUrchin::Update()
 				Character::SetHitRightDamage(true);
 				bHitAction_ = true;
 			}
-
-			if (Character::GetPos().x + 11.0f >= vPosition_.x - 11.0f && Character::GetPos().y + 8.0f < vPosition_.y - 11.0f &&
-				Character::GetPos().x <= vPosition_.x - 2.0f && Character::GetPos().y + 8.0f > vPosition_.y - 11.0f && bHitAction_ == false)
+			if (Character::GetPos().x > vPosition_.x + -11.0f && Character::GetPos().x < vPosition_.x + 11.0f &&
+				Character::GetPos().y - 8.5f <= vPosition_.y + 11.0f && Character::GetPos().y > vPosition_.y - 11.0f && bHitAction_ == false)
 			{
 				Character::SetHitRightDamage(true);
 				bHitAction_ = true;
 			}
-			if (Character::GetPos().x - 8.0f >= vPosition_.x + 11.0f && Character::GetPos().y + 8.0f < vPosition_.y - 11.0f &&
-				Character::GetPos().x <= vPosition_.x + 2.0f && Character::GetPos().y + 11.0f > vPosition_.y - 11.0f && bHitAction_ == false)
-			{
-				Character::SetHitLeftDamage(true);
-				bHitAction_ = true;
-			}
-			if (Character::GetPos().x + 8.0f >= vPosition_.x - 11.0f && Character::GetPos().y - 8.0f < vPosition_.y + 11.0f &&
-				Character::GetPos().x <= vPosition_.x - 2.0f && Character::GetPos().y - 8.0f > vPosition_.y + 11.0f && bHitAction_ == false)
-			{
-				Character::SetHitRightDamage(true);
-				bHitAction_ = true;
-			}
-			if (Character::GetPos().x - 8.0f >= vPosition_.x + 11.0f && Character::GetPos().y - 8.0f < vPosition_.y + 11.0f &&
-				Character::GetPos().x <= vPosition_.x + 2.0f && Character::GetPos().y - 8.0f > vPosition_.y + 11.0f && bHitAction_ == false)
+			if (Character::GetPos().x > vPosition_.x + -11.0f && Character::GetPos().x < vPosition_.x + 11.0f &&
+				Character::GetPos().y + 8.5f >= vPosition_.y - 11.0f && Character::GetPos().y < vPosition_.y + 11.0f && bHitAction_ == false)
 			{
 				Character::SetHitLeftDamage(true);
 				bHitAction_ = true;
@@ -127,7 +113,7 @@ void EnemySeaUrchin::Update()
 			}
 			if (Activenode_ != nullptr)
 			{
-				Activenode_ = AITree_.Run(this, Activenode_, AIData_);
+				Activenode_ = AITree_.Run(*this, Activenode_, AIData_);
 			}
 
 			vPosition_.x += vMove_.x;

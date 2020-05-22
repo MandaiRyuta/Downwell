@@ -3,12 +3,14 @@
 #include "../Actor/EnemyBird.h"
 #include "../Actor/EnemySeaUrchin.h"
 #include "../Actor/EnemyTurtle.h"
-
-bool AliveChecker::SetDead(EnemyParameter* enemy)
+/// <summary>
+/// “G‚ÌHP‚ğŒ©‚Ä¶€‚ğ”»’f‚·‚éŠÖ”
+/// </summary>
+bool AliveChecker::SetDead(EnemyParameter& Enemy)
 {
-	if (enemy->GetHp() <= nZeroLife)
+	if (Enemy.GetHp() <= nZeroLife)
 	{
-		enemy->SetbLife(false);
+		Enemy.SetbLife(false);
 		return true;
 	}
 

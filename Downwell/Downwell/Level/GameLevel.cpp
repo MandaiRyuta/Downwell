@@ -19,8 +19,8 @@
 /// <summary>
 /// コンストラクター
 /// </summary>
-/// <param name="type">シーン番号</param>
-GameLevel::GameLevel(int type)
+/// <param name="nType">シーン番号</param>
+GameLevel::GameLevel(int nType)
 {
 	int enemyturtlecount = 0;
 	int enemyseaurchincount = 0;
@@ -31,22 +31,22 @@ GameLevel::GameLevel(int type)
 	double probability = 0;
 	LevelsResponsible::GetInstance().SetChangeLevel(false);
 
-	nNowLevel_ = type;
+	nNowLevel_ = nType;
 
-	TextureDataBase::TextureData::GetInstance().Loading(type);
+	TextureDataBase::TextureData::GetInstance().Loading(nType);
 	int titletexture = 0;
 	int gametexture = 1;
 	int resulttexture = 2;
 
-	switch (type)
+	switch (nType)
 	{
 	case 0:
 		LevelsResponsible::GetInstance().ResetNowStage();
 		Widgetobj_[0].push_back(new StageWidget);
 		Widgetobj_[0].push_back(new TitleWidget);
 		TextureDataBase::TextureData::GetInstance().Release(resulttexture);
-		Stage::GetInstance().Init(type);
-		Obj_[0].push_back(new Character(type));
+		Stage::GetInstance().Init(nType);
+		Obj_[0].push_back(new Character(nType));
 		break;
 	case 1:
 		//背景 0
@@ -56,8 +56,8 @@ GameLevel::GameLevel(int type)
 		Widgetobj_[0].push_back(new LifeWidget);
 		Widgetobj_[0].push_back(new BulletShotWidget);
 		TextureDataBase::TextureData::GetInstance().Release(titletexture);
-		Stage::GetInstance().Init(type); 
-		Obj_[0].push_back(new Character(type));
+		Stage::GetInstance().Init(nType); 
+		Obj_[0].push_back(new Character(nType));
 		for (int i = 0; i < 350; i++)
 		{
 			for (int t = 0; t < 20; t++)
@@ -95,8 +95,8 @@ GameLevel::GameLevel(int type)
 	case 2:
 		TextureDataBase::TextureData::GetInstance().Release(gametexture);
 		Widgetobj_[0].push_back(new ResultWidget);
-		Stage::GetInstance().Init(type);
-		Obj_[0].push_back(new Character(type));
+		Stage::GetInstance().Init(nType);
+		Obj_[0].push_back(new Character(nType));
 		break;
 	}
 }
@@ -105,15 +105,18 @@ GameLevel::GameLevel(int type)
 /// </summary>
 GameLevel::~GameLevel()
 {
-	for (int i = 0; i < nMaxLevel; i++)
+	for (int i = 0; i < 2; i++)
 	{
+		if (i == 0)
+		{
+			for (auto itr : Widgetobj_[i])
+			{
+				if (itr != nullptr) delete itr;
+			}
+		}
 		for (auto itr : Obj_[i])
 		{
-			if(itr != nullptr)	delete itr;
-		}
-		for (auto itr : Widgetobj_[i])
-		{
-			if (itr != nullptr) delete itr;
+			if (itr != nullptr)	delete itr;
 		}
 	}
 }
@@ -127,12 +130,15 @@ void GameLevel::Update()
 		LevelsResponsible::GetInstance().Exit();
 	}
 	Stage::GetInstance().Update();
-	for (int i = 0; i < nMaxLevel; i++)
+	for (int i = 0; i < 2; i++)
 	{
-		for (auto itr : Widgetobj_[i])
+		if (i == 0)
 		{
-			if (itr == nullptr) return;
-			itr->Update();
+			for (auto itr : Widgetobj_[i])
+			{
+				if (itr == nullptr) return;
+				itr->Update();
+			}
 		}
 		for (auto itr : Obj_[i])
 		{
@@ -147,12 +153,15 @@ void GameLevel::Update()
 void GameLevel::Draw()
 {
 	Stage::GetInstance().Draw();
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 	{
-		for (auto itr : Widgetobj_[i])
+		if (i == 0)
 		{
-			if (itr == nullptr) return;
-			itr->Draw();
+			for (auto itr : Widgetobj_[i])
+			{
+				if (itr == nullptr) return;
+				itr->Draw();
+			}
 		}
 		for (auto itr : Obj_[i])
 		{

@@ -11,12 +11,11 @@ public:
 	/// <summary>
 	/// コンストラクター
 	/// </summary>
-	/// <param name="enemynumber">敵の描画番号</param>
-	/// <param name="aitree">ビヘイビアツリー</param>
-	/// <param name="nhp">ウニのHP</param>
-	/// <param name="nspeed">ウニの移動量</param>
-	/// <param name="vposition">ウニが出現する座標</param>
-	EnemySeaUrchin(int enemynumber, BehaviorTree aitree, int nhp, VECTOR vposition);
+	/// <param name="nEnemyNumber">敵の描画番号</param>
+	/// <param name="AiTree">ビヘイビアツリー</param>
+	/// <param name="nHp">ウニのHP</param>
+	/// <param name="vPosition">ウニが出現する座標</param>
+	EnemySeaUrchin(int nEnemyNumber, BehaviorTree AiTree, int nHp, VECTOR vPosition);
 	/// <summary>
 	/// デストラクター
 	/// </summary>

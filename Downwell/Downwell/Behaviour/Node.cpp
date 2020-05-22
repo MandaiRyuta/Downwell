@@ -5,16 +5,16 @@
 /// <summary>
 /// 優先順位選択関数
 /// </summary>
-/// <param name="list">ノードリスト</param>
+/// <param name="List">ノードリスト</param>
 /// <returns>優先順位を比較し終えたノード</returns>
-Node* Node::SelectPriority(std::vector<Node*>* list)
+Node* Node::SelectPriority(std::vector<Node*>* List)
 {
-	if (list == nullptr) return nullptr;
+	if (List == nullptr) return nullptr;
 	
 	Node* selectnode = nullptr;
 	int priority = -1;
 
-	for (auto itr : *list)
+	for (auto itr : *List)
 	{
 		if (priority < itr->GetPriority())
 		{
@@ -28,54 +28,54 @@ Node* Node::SelectPriority(std::vector<Node*>* list)
 /// <summary>
 /// ランダム選択関数
 /// </summary>
-/// <param name="list">ノードリスト</param>
+/// <param name="List">ノードリスト</param>
 /// <returns>ランダム選択を終えたノード</returns>
-Node* Node::SelectRandom(std::vector<Node*>* list)
+Node* Node::SelectRandom(std::vector<Node*>* List)
 {
 	std::mt19937 mt;
 	std::random_device rnd;
-	int lastlist = static_cast<int>(list->size());
-	std::uniform_int_distribution<> rand(0, lastlist);
+	int lastList = static_cast<int>(List->size());
+	std::uniform_int_distribution<> rand(0, lastList);
 
-	return (*list)[rand(mt)];
+	return (*List)[rand(mt)];
 }
 /// <summary>
 /// オンオフ選択関数
 /// </summary>
-/// <param name="list">ノードリスト</param>
-/// <param name="data">ビヘイビアデータ</param>
+/// <param name="List">ノードリスト</param>
+/// <param name="Data">ビヘイビアデータ</param>
 /// <returns>実行していないノード</returns>
-Node* Node::SelectOnOff(std::vector<Node*>* list, BehaviorData* data)
+Node* Node::SelectOnOff(std::vector<Node*>* List, BehaviorData* Data)
 {
-	std::vector<Node*> offlist;
+	std::vector<Node*> offList;
 
-	for (auto itr : *list)
+	for (auto itr : *List)
 	{
-		if (data->NodeUsedExist(itr->GetName()) == false)
+		if (Data->NodeUsedExist(itr->GetName()) == false)
 		{
-			offlist.push_back(itr);
+			offList.push_back(itr);
 		}
 	}
 
-	if (offlist.size() == 0)
+	if (offList.size() == 0)
 	{
-		data->ResetUsedNode(&ChildNode_);
-		offlist = *list;
+		Data->ResetUsedNode(&ChildNode_);
+		offList = *List;
 	}
 
-	data->EntryUsedNode(offlist[0]->GetName());
+	Data->EntryUsedNode(offList[0]->GetName());
 
-	return offlist[0];
+	return offList[0];
 }
 /// <summary>
 /// シーケンス選択関数
 /// </summary>
-/// <param name="list">ノードリスト</param>
-/// <param name="data">ビヘイビアデータ</param>
+/// <param name="List">ノードリスト</param>
+/// <param name="Data">ビヘイビアデータ</param>
 /// <returns>順番に従ったノード</returns>
-Node* Node::SelectSequence(std::vector<Node*>* list, BehaviorData* data)
+Node* Node::SelectSequence(std::vector<Node*>* List, BehaviorData* Data)
 {
-	int SequenceStep = data->GetSequenceStep(GetName());
+	int SequenceStep = Data->GetSequenceStep(GetName());
 
 	if (SequenceStep >= ChildNode_.size())
 	{
@@ -89,12 +89,12 @@ Node* Node::SelectSequence(std::vector<Node*>* list, BehaviorData* data)
 		}
 	}
 
-	for (auto itr : *list)
+	for (auto itr : *List)
 	{
 		if (ChildNode_[SequenceStep]->GetName() == (itr)->GetName())
 		{
-			data->PushSequenceNode(this);
-			data->SetSequenceStep(GetName(), SequenceStep + 1);
+			Data->PushSequenceNode(this);
+			Data->SetSequenceStep(GetName(), SequenceStep + 1);
 			return ChildNode_[SequenceStep];
 		}
 	}
@@ -104,11 +104,11 @@ Node* Node::SelectSequence(std::vector<Node*>* list, BehaviorData* data)
 /// <summary>
 /// ノード検索関数
 /// </summary>
-/// <param name="search_name">探しているノード名</param>
+/// <param name="SearchName">探しているノード名</param>
 /// <returns>探しているノード</returns>
-Node* Node::SearchNode(std::string search_name)
+Node* Node::SearchNode(std::string SearchName)
 {
-	if (sName_ == search_name)
+	if (sName_ == SearchName)
 	{
 		return this;
 	}
@@ -116,7 +116,7 @@ Node* Node::SearchNode(std::string search_name)
 	{
 		for (auto itr : ChildNode_)
 		{
-			Node* ret = itr->SearchNode(search_name);
+			Node* ret = itr->SearchNode(SearchName);
 
 			if (ret != nullptr)
 			{
@@ -129,33 +129,33 @@ Node* Node::SearchNode(std::string search_name)
 /// <summary>
 /// ノード推論関数
 /// </summary>
-/// <param name="enemy">敵情報</param>
-/// <param name="data">ビヘイビアデータ</param>
+/// <param name="Enemy">敵情報</param>
+/// <param name="Data">ビヘイビアデータ</param>
 /// <returns>推論し終えたノード</returns>
-Node* Node::Inference(EnemyParameter* enemy, BehaviorData* data)
+Node* Node::Inference(EnemyParameter* Enemy, BehaviorData* Data)
 {
-	std::vector<Node*> list;
+	std::vector<Node*> List;
 	Node* result = nullptr;
 
 	for (int i = 0; i < ChildNode_.size(); i++)
 	{
-		list.push_back(ChildNode_[i]);
+		List.push_back(ChildNode_[i]);
 	}
 
 	switch (BTRuleBase_)
 	{
 	case TREE_RULE::PRIORITY:
-		result = SelectPriority(&list);
+		result = SelectPriority(&List);
 		break;
 	case TREE_RULE::ON_OFF:
-		result = SelectOnOff(&list, data);
+		result = SelectOnOff(&List, Data);
 		break;
 	case TREE_RULE::RANDOM:
-		result = SelectRandom(&list);
+		result = SelectRandom(&List);
 		break;
 	case TREE_RULE::SEQUENCE:
 	case TREE_RULE::SEQUENTIALLOOP:
-		result = SelectSequence(&list, data);
+		result = SelectSequence(&List, Data);
 		break;
 	default:
 		break;
@@ -169,7 +169,7 @@ Node* Node::Inference(EnemyParameter* enemy, BehaviorData* data)
 		}
 		else
 		{
-			result = result->Inference(enemy, data);
+			result = result->Inference(Enemy, Data);
 		}
 	}
 
@@ -178,13 +178,13 @@ Node* Node::Inference(EnemyParameter* enemy, BehaviorData* data)
 /// <summary>
 /// 更新関数
 /// </summary>
-/// <param name="enemy">敵情報</param>
+/// <param name="Enemy">敵情報</param>
 /// <returns>ActionBaseのステート</returns>
-ActionBase::STATE Node::Run(EnemyParameter* enemy)
+ActionBase::STATE Node::Run(EnemyParameter& Enemy)
 {
 	if (ActionBase_ != nullptr)
 	{
-		return ActionBase_->Run(enemy);
+		return ActionBase_->Run(Enemy);
 	}
 
 	return ActionBase::STATE::FAILED;

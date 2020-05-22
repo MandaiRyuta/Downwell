@@ -18,89 +18,89 @@ void Input::Init()
 /// <summary>
 /// キーを押した時の判定関数
 /// </summary>
-/// <param name="Key">入力キー</param>
+/// <param name="nKey">入力キー</param>
 /// <returns>true : 押している	false : 押していない</returns>
-signed short int Input::GetKeyPress(int Key)
+signed short int Input::GetKeyPress(int nKey)
 {
-	PressKeyNum_[Key] = Key;
-	PressKey_[Key] = 0x000;
+	PressKeyNum_[nKey] = nKey;
+	PressKey_[nKey] = 0x000;
 	
-	if (CheckHitKey(Key) == 1)
+	if (CheckHitKey(nKey) == 1)
 	{
-		PressKey_[Key] = 0x001;
+		PressKey_[nKey] = 0x001;
 #ifdef DEBUG
-		DebugFont(Key);
+		DebugFont(nKey);
 #endif // DEBUG
-		return PressKey_[Key];
+		return PressKey_[nKey];
 	}
 
-	return PressKey_[Key];
+	return PressKey_[nKey];
 }
 /// <summary>
 /// キーを押した時に1度だけ判定を返す関数
 /// </summary>
-/// <param name="Key">入力キー</param>
+/// <param name="nKey">入力キー</param>
 /// <returns>true : 押している	false : 押していない</returns>
-signed short int Input::GetKeyDown(int Key)
+signed short int Input::GetKeyDown(int nKey)
 {
-	DownKey_[Key] = 0x000;
+	DownKey_[nKey] = 0x000;
 
-	if (CheckHitKey(Key) == 1 && DownKey_[Key] == 0x000)
+	if (CheckHitKey(nKey) == 1 && DownKey_[nKey] == 0x000)
 	{
-		DownKey_[Key] = 0x001;
+		DownKey_[nKey] = 0x001;
 #ifdef DEBUG
-		DebugFont(Key);
+		DebugFont(nKey);
  #endif // DEBUG
-		return DownKey_[Key];
+		return DownKey_[nKey];
 	}
-	else if (CheckHitKey(Key) == 0 && DownKey_[Key] == 0x001)
+	else if (CheckHitKey(nKey) == 0 && DownKey_[nKey] == 0x001)
 	{
-		DownKey_[Key] = 0x000;
+		DownKey_[nKey] = 0x000;
 #ifdef DEBUG
-		DebugFont(Key);
+		DebugFont(nKey);
 #endif // DEBUG
-		return DownKey_[Key];
+		return DownKey_[nKey];
 	}
 	else
 	{
-		DownKey_[Key] = 0x000;
+		DownKey_[nKey] = 0x000;
 #ifdef DEBUG
-		DebugFont(Key);
+		DebugFont(nKey);
 #endif // DEBUG
-		return DownKey_[Key];
+		return DownKey_[nKey];
 	}
-	return DownKey_[Key];
+	return DownKey_[nKey];
 }
 /// <summary>
 /// キーを離した時に1度だけ判定を返す関数
 /// </summary>
-/// <param name="Key">入力キー</param>
+/// <param name="nKey">入力キー</param>
 /// <returns>true : 離している	false : 離していない</returns>
-signed short int Input::GetKeyUp(int Key)
+signed short int Input::GetKeyUp(int nKey)
 {
-	UpKeyNum_[Key] = Key;
-	if (CheckHitKey(Key) == 1)
+	UpKeyNum_[nKey] = nKey;
+	if (CheckHitKey(nKey) == 1)
 	{
-		UpKey_[Key] = 0x001;
+		UpKey_[nKey] = 0x001;
 #ifdef DEBUG
-		DebugFont(Key);
+		DebugFont(nKey);
 #endif // DEBUG
 	}
-	else if (CheckHitKey(Key) == 0 && UpKey_[Key] == 0x001)
+	else if (CheckHitKey(nKey) == 0 && UpKey_[nKey] == 0x001)
 	{
-		UpKey_[Key] = 0x000;
+		UpKey_[nKey] = 0x000;
 #ifdef DEBUG
-		DebugFont(Key);
+		DebugFont(nKey);
 #endif // DEBUG
-		return UpKey_[Key];
+		return UpKey_[nKey];
 	}
 	else
 	{
-		UpKey_[Key] = 0x000;
+		UpKey_[nKey] = 0x000;
 #ifdef DEBUG
-		DebugFont(Key);
+		DebugFont(nKey);
 #endif // DEBUG
-		return UpKey_[Key];
+		return UpKey_[nKey];
 	}
 
 	return 0x000;
@@ -109,11 +109,11 @@ signed short int Input::GetKeyUp(int Key)
 /// <summary>
 /// デバッグ関数
 /// </summary>
-/// <param name="Key">入力キー</param>
-void Input::DebugFont(int Key)
+/// <param name="nKey">入力キー</param>
+void Input::DebugFont(int nKey)
 {
-	DrawFormatString(0, 50, GetColor(0, 0, 0), "%d Key : %d", PressKeyNum_[Key], PressKey_[Key]);
-	DrawFormatString(50,50, GetColor(0, 0, 0), "%d Key : %d", UpKeyNum_[Key], UpKey_[Key]);
-	DrawFormatString(100,50, GetColor(0, 0, 0), "%d Key : %d", DownKeyNum_[Key], DownKey_[Key]);
+	DrawFormatString(0, 50, GetColor(0, 0, 0), "%d nKey : %d", PressKeyNum_[nKey], PressKey_[nKey]);
+	DrawFormatString(50,50, GetColor(0, 0, 0), "%d nKey : %d", UpKeyNum_[nKey], UpKey_[nKey]);
+	DrawFormatString(100,50, GetColor(0, 0, 0), "%d nKey : %d", DownKeyNum_[nKey], DownKey_[nKey]);
 }
 #endif // DEBUG

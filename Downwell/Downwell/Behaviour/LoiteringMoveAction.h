@@ -28,9 +28,9 @@ public:
 	/// <summary>
 	/// 更新関数
 	/// </summary>
-	/// <param name="enemy">敵情報</param>
+	/// <param name="Enemy">敵情報</param>
 	/// <returns>ステート情報</returns>
-	virtual ActionBase::STATE Run(EnemyParameter* enemy);
+	virtual ActionBase::STATE Run(EnemyParameter& Enemy);
 private:
 	VECTOR vMove_[nLoiterningMoveMaxEnemy];	//敵の移動情報
 };

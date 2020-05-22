@@ -21,7 +21,7 @@ bool Character::bJump_ = bInitCharacterJump;	//ジャンプの初期化
 /// コンストラクター
 /// </summary>
 /// <param name="nscenenumber">シーン番号</param>
-Character::Character(int nscenenumber) : nNowScene_(nscenenumber), vSpeed_(VGet(fDefaultPos,fDefaultPos,fDefaultPos)), fJumpPower_(0.0f)
+Character::Character(int nSceneNumber) : nNowScene_(nSceneNumber), vSpeed_(VGet(fDefaultPos,fDefaultPos,fDefaultPos)), fJumpPower_(0.0f)
 {
 	if (nNowScene_ == nTitleLevel)
 	{
@@ -157,10 +157,10 @@ void Character::Update()
 
 		float hitmove = 5.0f;
 		float dammy = 0.0f;
-		MapHitChecker::MapHitCollision(VGet(vPosition_.x - 8.0f, vPosition_.y + 8.0f, 0.0f), hitmove, dammy);
-		MapHitChecker::MapHitCollision(VGet(vPosition_.x + 8.0f, vPosition_.y + 8.0f, 0.0f), hitmove, dammy);
-		MapHitChecker::MapHitCollision(VGet(vPosition_.x - 8.0f, vPosition_.y - 8.0f, 0.0f), hitmove, dammy);
-		MapHitChecker::MapHitCollision(VGet(vPosition_.x + 8.0f, vPosition_.y - 8.0f, 0.0f), hitmove, dammy);
+		MapHitChecker::MapHitCollision(VGet(vPosition_.x - 8.0f, vPosition_.y + 8.0f, 0.0f), hitmove, dammy, 1);
+		MapHitChecker::MapHitCollision(VGet(vPosition_.x + 8.0f, vPosition_.y + 8.0f, 0.0f), hitmove, dammy, 1);
+		MapHitChecker::MapHitCollision(VGet(vPosition_.x - 8.0f, vPosition_.y - 8.0f, 0.0f), hitmove, dammy, 1);
+		MapHitChecker::MapHitCollision(VGet(vPosition_.x + 8.0f, vPosition_.y - 8.0f, 0.0f), hitmove, dammy, 1);
 
 		if (bLeftDamage_ && !bInvincible_)
 		{
@@ -231,18 +231,18 @@ const VECTOR& Character::GetPos()
 /// <summary>
 /// 敵の真上に足元が着地したときの衝突関数
 /// </summary>
-/// <param name="bhit"> true : 衝突   false : 非衝突</param>
-void Character::SetHitEnemy(bool bhit)
+/// <param name="bHit"> true : 衝突   false : 非衝突</param>
+void Character::SetHitEnemy(bool bHit)
 {
-	bHitEnemy_ = bhit;
+	bHitEnemy_ = bHit;
 }
 /// <summary>
 /// 敵と衝突時のダメージ関数
 /// </summary>
-/// <param name="bdamage"> true : ダメージを受ける  false : ダメージを受けない</param>
-void Character::SetHitDamage(bool bdamage)
+/// <param name="bDamage"> true : ダメージを受ける  false : ダメージを受けない</param>
+void Character::SetHitDamage(bool bDamage)
 {
-	bDamage_ = bdamage;
+	bDamage_ = bDamage;
 }
 
 /// <summary>
@@ -264,18 +264,18 @@ const bool Character::GetRightDamageExist()
 /// <summary>
 /// プレイヤーの側面と敵の衝突判定
 /// </summary>
-/// <param name="bdamage">true : 衝突  false : 非衝突</param>
-void Character::SetHitLeftDamage(bool bdamage)
+/// <param name="bDamage">true : 衝突  false : 非衝突</param>
+void Character::SetHitLeftDamage(bool bDamage)
 {
-	bLeftDamage_ = bdamage;
+	bLeftDamage_ = bDamage;
 }
 /// <summary>
 /// プレイヤーの側面と敵の衝突判定
 /// </summary>
-/// <param name="bdamage">true : 衝突　false : 非衝突</param>
-void Character::SetHitRightDamage(bool bdamage)
+/// <param name="bDamage">true : 衝突　false : 非衝突</param>
+void Character::SetHitRightDamage(bool bDamage)
 {
-	bRightDamage_ = bdamage;
+	bRightDamage_ = bDamage;
 }
 /// <summary>
 /// プレイヤーの残りHP取得関数

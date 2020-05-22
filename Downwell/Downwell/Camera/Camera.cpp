@@ -5,11 +5,11 @@
 /// <summary>
 /// 初期化関数
 /// </summary>
-/// <param name="pos">初期座標</param>
-void Camera::Init(VECTOR pos)
+/// <param name="vPosition">初期座標</param>
+void Camera::Init(VECTOR vPosition)
 {
-	vPosition_.x = pos.x;
-	vPosition_.y = pos.y;
+	vPosition_.x = vPosition.x;
+	vPosition_.y = vPosition.y;
 	fShakePower_ = 2.0f;
 	bShake_ = false;
 }
@@ -62,10 +62,10 @@ MATRIX Camera::GetMatrix()
 /// <summary>
 /// カメラ座標を設定する関数
 /// </summary>
-/// <param name="pos">設定するカメラ座標</param>
-void Camera::SetPosition(VECTOR pos)
+/// <param name="vPosition">設定するカメラ座標</param>
+void Camera::SetPosition(VECTOR vPosition)
 {
-	vPosition_ = pos;
+	vPosition_ = vPosition;
 }
 /// <summary>
 /// カメラを振動させる関数

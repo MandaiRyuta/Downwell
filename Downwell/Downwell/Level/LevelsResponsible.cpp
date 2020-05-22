@@ -103,26 +103,26 @@ void LevelsResponsible::Exit()
 /// <summary>
 /// レベル切り替え関数
 /// </summary>
-/// <param name="type">切り替えたいレベル</param>
-void LevelsResponsible::ChangeLevel(int type)
+/// <param name="nType">切り替えたいレベル</param>
+void LevelsResponsible::ChangeLevel(int nType)
 {
 	if (Level_ != nullptr)
 	{
 		delete Level_;
 	}
 
-	auto chengelevel = [](int type)
+	auto chengelevel = [](int nType)
 	{
-		switch (type)
+		switch (nType)
 		{
 		case 0:
-			return new GameLevel(type);
+			return new GameLevel(nType);
 			break;
 		case 1:
-			return new GameLevel(type);
+			return new GameLevel(nType);
 			break;
 		case 2:
-			return new GameLevel(type);
+			return new GameLevel(nType);
 			break;
 		default:
 			return new GameLevel(0);
@@ -130,7 +130,7 @@ void LevelsResponsible::ChangeLevel(int type)
 		}
 	};
 
-	Level_ = chengelevel(type);
+	Level_ = chengelevel(nType);
 }
 /// <summary>
 /// レベル取得関数
@@ -143,10 +143,10 @@ const int& LevelsResponsible::GetNowLevel()
 /// <summary>
 /// レベル切り替えフラグ設定関数
 /// </summary>
-/// <param name="bchangescene">	true : 切り替える	false : 切り替えない</param>
-void LevelsResponsible::SetChangeLevel(bool bchangescene)
+/// <param name="bChangeScene">	true : 切り替える	false : 切り替えない</param>
+void LevelsResponsible::SetChangeLevel(bool bChangeScene)
 {
-	bChangeLevel_ = bchangescene;
+	bChangeLevel_ = bChangeScene;
 }
 /// <summary>
 /// レベル切り替えフラグ取得関数
@@ -159,10 +159,10 @@ const bool& LevelsResponsible::GetChengeLevelExist()
 /// <summary>
 /// レベル設定関数
 /// </summary>
-/// <param name="nlevel">指定したいレベル</param>
-void LevelsResponsible::SetNowLevel(int nlevel)
+/// <param name="nLevel">指定したいレベル</param>
+void LevelsResponsible::SetNowLevel(int nLevel)
 {
-	nNowLevel_ = nlevel;
+	nNowLevel_ = nLevel;
 }
 /// <summary>
 /// 現在のレベルを切り替えてるか確認する関数
@@ -175,10 +175,10 @@ const bool& LevelsResponsible::GetLevelState()
 /// <summary>
 /// 現在のレベルを切り替えるか指定する関数
 /// </summary>
-/// <param name="bstate">true : 切り替える		false : 切り替えない</param>
-void LevelsResponsible::SetLevelState(bool bstate)
+/// <param name="bState">true : 切り替える		false : 切り替えない</param>
+void LevelsResponsible::SetLevelState(bool bState)
 {
-	bLevelState_ = bstate;
+	bLevelState_ = bState;
 }
 /// <summary>
 /// 次のレベルを呼ぶ関数
@@ -209,10 +209,10 @@ const int& LevelsResponsible::GetNowStage()
 /// <summary>
 /// 次の区画に切り替える関数
 /// </summary>
-/// <param name="bnextstage">true : 切り替える	false : 切り替えない</param>
-void LevelsResponsible::SetNextStage(bool bnextstage)
+/// <param name="bNextStage">true : 切り替える	false : 切り替えない</param>
+void LevelsResponsible::SetNextStage(bool bNextStage)
 {
-	bNextStage_ = bnextstage;
+	bNextStage_ = bNextStage;
 }
 /// <summary>
 /// 次のレベルに切り替えたか確認する関数
@@ -222,8 +222,12 @@ const bool& LevelsResponsible::GetNextStageExist()
 {
 	return bNextStage_;
 }
-
-Rect& LevelsResponsible::GetQuadTree(int area)
+/// <summary>
+/// エリア情報取得関数
+/// </summary>
+/// <param name="nArea">エリア番号</param>
+/// <returns></returns>
+Rect& LevelsResponsible::GetQuadTree(int nArea)
 {
-	return Quadtree_[area];
+	return Quadtree_[nArea];
 }

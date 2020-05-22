@@ -6,17 +6,16 @@
 /// <summary>
 /// コンストラクター
 /// </summary>
-/// <param name="enemynumber">描画される敵番号</param>
-/// <param name="ntype">敵の種類</param>
-/// <param name="nhp">敵のHP</param>
-/// <param name="nspeed">敵の移動速度</param>
-/// <param name="vposition">敵が発生する座標</param>
-Enemy::Enemy(int enemynumber, int ntype, int nhp, VECTOR vposition)
+/// <param name="nEnemyNumber">描画される敵番号</param>
+/// <param name="nType">敵の種類</param>
+/// <param name="nHp">敵のHP</param>
+/// <param name="vPosition">敵が発生する座標</param>
+Enemy::Enemy(int nEnemyNumber, int nType, int nHp, VECTOR vPosition)
 {
 	//単体で
 	cFactory_ = new CreateFactory();
 	//複数で
-	cProduct_ = cFactory_->Create(enemynumber, ntype, nhp, vposition);
+	cProduct_ = cFactory_->Create(nEnemyNumber, nType, nHp, vPosition);
 }
 /// <summary>
 /// デストラクター
@@ -37,7 +36,7 @@ Enemy::~Enemy()
 /// </summary>
 void Enemy::Update()
 {
-	bool bdead = AliveChecker::SetDead(cProduct_);
+	bool bdead = AliveChecker::SetDead(*cProduct_);
 
 	if (!bdead)
 	{

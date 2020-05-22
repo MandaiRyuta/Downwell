@@ -19,22 +19,21 @@ public:
 	/// デストラクター
 	/// </summary>
 	~CharacterMove() {}
-public:
 	/// <summary>
 	/// 左右の加速移動関数
 	/// </summary>
-	/// <param name="vPos">座標</param>
-	/// <param name="fspeedx">X座標の移動量</param>
-	void SideAcceleration(VECTOR& vPos, float fspeedx);
+	/// <param name="vPosition">座標</param>
+	/// <param name="fSpeedx">X座標の移動量</param>
+	void SideAcceleration(VECTOR& vPosition, float fSpeedx);
 	/// <summary>
 	/// 左右移動関数
 	/// </summary>
-	/// <param name="vposition">プレイヤー座標</param>
-	/// <param name="fspeedx">X座標の移動量</param>
-	/// <param name="fspeedy">Y座標の移動量</param>
-	/// <param name="fgravitypower">重力</param>
-	/// <param name="fsize">画像サイズ</param>
-	void SideMove(VECTOR& vposition, float& fspeedx, float& fspeedy, float& fgravitypower, float fsize);
+	/// <param name="vPosition">プレイヤー座標</param>
+	/// <param name="fSpeedx">X座標の移動量</param>
+	/// <param name="fSpeedy">Y座標の移動量</param>
+	/// <param name="fGravityPower">重力</param>
+	/// <param name="fSize">画像サイズ</param>
+	void SideMove(VECTOR& vPosition, float& fSpeedx, float& fSpeedy, float& fGravityPower, float fSize);
 private:
 	VECTOR vSpeed;	//移動量
 	int nSideType_;	//左右移動判断

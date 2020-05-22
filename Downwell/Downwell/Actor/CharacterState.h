@@ -18,17 +18,16 @@ public:
 	/// デストラクター
 	/// </summary>
 	~CharacterState() {}
-public:
 	/// <summary>
 	/// 攻撃開始する関数
 	/// </summary>
-	/// <param name="vpos">座標</param>
+	/// <param name="vPosition">座標</param>
 	/// <param name="bJump">ジャンプフラグ</param>
 	/// <param name="bAttackjump">攻撃ジャンプフラグ</param>
-	/// <param name="nstate">行動ステート</param>
-	/// <param name="fgravity">重力</param>
-	/// <param name="bshake">振動フラグ</param>
-	void Attack(VECTOR& vpos, bool& bJump, int& nstate, float& fgravity, bool& bshake, bool& bAttackJump);
+	/// <param name="nState">行動ステート</param>
+	/// <param name="fGravity">重力</param>
+	/// <param name="bShake">振動フラグ</param>
+	void Attack(VECTOR& vPosition, bool& bJump, int& nState, float& fGravity, bool& bShake, bool& bAttackJump);
 	/// <summary>
 	/// 更新関数
 	/// </summary>
@@ -40,13 +39,13 @@ public:
 	/// <summary>
 	/// 攻撃フラグ設定関数
 	/// </summary>
-	/// <param name="battack">攻撃フラグ　true : 攻撃する　false : 攻撃しない </param>
-	void SetAttackExist(bool battack);
+	/// <param name="bAttack">攻撃フラグ　true : 攻撃する　false : 攻撃しない </param>
+	void SetAttackExist(bool bAttack);
 	/// <summary>
 	/// 弾補充関数
 	/// </summary>
-	/// <param name="nbullet">補充する弾の量</param>
-	static void SetBullet(int nbullet);
+	/// <param name="nBullet">補充する弾の量</param>
+	static void SetBullet(int nBullet);
 	/// <summary>
 	/// 弾の残弾数を受け取る関数
 	/// </summary>

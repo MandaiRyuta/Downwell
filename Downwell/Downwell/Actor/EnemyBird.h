@@ -11,12 +11,11 @@ public:
 	/// <summary>
 	/// コンストラクター
 	/// </summary>
-	/// <param name="enemynumber">敵の描画番号</param>
-	/// <param name="aitree">ビヘイビアツリー</param>
-	/// <param name="nhp">鳥のHP</param>
-	/// <param name="nspeed">鳥の移動量</param>
-	/// <param name="vposition">鳥が出現する座標</param>
-	EnemyBird(int enemynumber, BehaviorTree aitree, int nhp, VECTOR vposition);
+	/// <param name="nEnemyNumber">敵の描画番号</param>
+	/// <param name="AiTree">ビヘイビアツリー</param>
+	/// <param name="nHp">鳥のHP</param>
+	/// <param name="vPosition">鳥が出現する座標</param>
+	EnemyBird(int nEnemyNumber, BehaviorTree AiTree, int nHp, VECTOR vPosition);
 	/// <summary>
 	/// デストラクター
 	/// </summary>

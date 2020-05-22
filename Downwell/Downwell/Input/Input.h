@@ -39,33 +39,33 @@ public:
 	/// <summary>
 	/// キーを押した時の判定関数
 	/// </summary>
-	/// <param name="Key">入力キー</param>
+	/// <param name="nKey">入力キー</param>
 	/// <returns>true : 押している	false : 押していない</returns>
-	signed short int GetKeyPress(int Key);
+	signed short int GetKeyPress(int nKey);
 	/// <summary>
 	/// キーを押した時に1度だけ判定を返す関数
 	/// </summary>
-	/// <param name="Key">入力キー</param>
+	/// <param name="nKey">入力キー</param>
 	/// <returns>true : 押している	false : 押していない</returns>
-	signed short int GetKeyDown(int Key);
+	signed short int GetKeyDown(int nKey);
 	/// <summary>
 	/// キーを離した時に1度だけ判定を返す関数
 	/// </summary>
-	/// <param name="Key">入力キー</param>
+	/// <param name="nKey">入力キー</param>
 	/// <returns>true : 離している	false : 離していない</returns>
-	signed short int GetKeyUp(int Key);
+	signed short int GetKeyUp(int nKey);
 #ifdef DEBUG
 	/// <summary>
 	/// デバッグ関数
 	/// </summary>
-	/// <param name="Key">入力キー</param>
-	void DebugFont(int Key);
+	/// <param name="nKey">入力キー</param>
+	void DebugFont(int nKey);
 #endif	
 private:
-	Array<int, 256> DownKeyNum_;	//押した時用のキー番号
-	Array<int, 256> UpKeyNum_;	//離した時用のキー番号
-	Array<int, 256> PressKeyNum_;	//押しっぱなしの時のキー番号
-	Array<signed short int, 256> DownKey_;	//押した時用のキーフラグ
-	Array<signed short int, 256> UpKey_;	//離した時用のキーフラグ
-	Array<signed short int, 256> PressKey_;	//押しっぱなしの時のキーフラグ
+	std::array<int, 256> DownKeyNum_;	//押した時用のキー番号
+	std::array<int, 256> UpKeyNum_;	//離した時用のキー番号
+	std::array<int, 256> PressKeyNum_;	//押しっぱなしの時のキー番号
+	std::array<signed short int, 256> DownKey_;	//押した時用のキーフラグ
+	std::array<signed short int, 256> UpKey_;	//離した時用のキーフラグ
+	std::array<signed short int, 256> PressKey_;	//押しっぱなしの時のキーフラグ
 };

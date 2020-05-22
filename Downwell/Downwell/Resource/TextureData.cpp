@@ -21,10 +21,10 @@ void TextureDataBase::TextureData::Init()
 /// <summary>
 /// ローディング関数
 /// </summary>
-/// <param name="scenetype">レベル番号</param>
-void TextureDataBase::TextureData::Loading(int& level)
+/// <param name="nLevel">レベル番号</param>
+void TextureDataBase::TextureData::Loading(int& nLevel)
 {
-	switch (level)
+	switch (nLevel)
 	{
 	case 0:
 		TitleTexture_[0] = LoadGraph("Resource/block.png");
@@ -64,10 +64,10 @@ void TextureDataBase::TextureData::Loading(int& level)
 /// <summary>
 /// 解放関数
 /// </summary>
-/// <param name="scenetype">レベル番号</param>
-void TextureDataBase::TextureData::Release(int& level)
+/// <param name="nLevel">レベル番号</param>
+void TextureDataBase::TextureData::Release(int& nLevel)
 {
-	switch (level)
+	switch (nLevel)
 	{
 	case 0:
 		DeleteGraph(TitleTexture_[0]);
@@ -106,31 +106,31 @@ void TextureDataBase::TextureData::Release(int& level)
 /// <summary>
 /// タイトルのテクスチャーハンドル取得関数
 /// </summary>
-/// <param name="number">テクスチャーハンドル番号</param>
+/// <param name="Number">テクスチャーハンドル番号</param>
 /// <returns>テクスチャーハンドル</returns>
-const int& TextureDataBase::TextureData::GetTitleTextureData(TextureDataBase::TitleTextureNumber number)
+const int& TextureDataBase::TextureData::GetTitleTextureData(TextureDataBase::TitleTextureNumber Number)
 {
-	int texturenumber = static_cast<int>(number);
+	int texturenumber = static_cast<int>(Number);
 	return TitleTexture_[texturenumber];
 }
 /// <summary>
 /// ゲームのテクスチャーハンドル取得関数
 /// </summary>
-/// <param name="number">テクスチャーハンドル番号</param>
+/// <param name="Number">テクスチャーハンドル番号</param>
 /// <returns>テクスチャーハンドル</returns>
-const int& TextureDataBase::TextureData::GetGameTextureData(TextureDataBase::GameTextureNumber number)
+const int& TextureDataBase::TextureData::GetGameTextureData(TextureDataBase::GameTextureNumber Number)
 {
-	int texturenumber = static_cast<int>(number);
+	int texturenumber = static_cast<int>(Number);
 	return GameTexture_[texturenumber];
 }
 /// <summary>
 /// リザルトのテクスチャーハンドル取得関数
 /// </summary>
-/// <param name="number">テクスチャーハンドル番号</param>
+/// <param name="Number">テクスチャーハンドル番号</param>
 /// <returns>テクスチャーハンドル</returns>
-const int& TextureDataBase::TextureData::GetResultTextureData(TextureDataBase::ResultTextureNumber number)
+const int& TextureDataBase::TextureData::GetResultTextureData(TextureDataBase::ResultTextureNumber Number)
 {
-	int texturenumber = static_cast<int>(number);
+	int texturenumber = static_cast<int>(Number);
 	return Resulttexture_[texturenumber];
 }
 

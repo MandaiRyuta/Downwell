@@ -10,13 +10,12 @@ public:
 	/// <summary>
 	/// コンストラクター
 	/// </summary>
-	/// <param name="nscenenumber">シーン番号</param>
-	Character(int nscenenumber);
+	/// <param name="nSceneNumber">シーン番号</param>
+	Character(int nSceneNumber);
 	/// <summary>
 	/// デストラクター
 	/// </summary>
 	~Character();
-public:
 	/// <summary>
 	/// 更新関数
 	/// </summary>
@@ -34,13 +33,13 @@ public:
 	/// <summary>
 	/// 敵の真上に足元が着地したときの衝突関数
 	/// </summary>
-	/// <param name="bhit"> true : 衝突   false : 非衝突</param>
-	static void SetHitEnemy(bool bhit);
+	/// <param name="bHit"> true : 衝突   false : 非衝突</param>
+	static void SetHitEnemy(bool bHit);
 	/// <summary>
 	/// 敵と衝突時のダメージ関数
 	/// </summary>
-	/// <param name="bdamage"> true : ダメージを受ける  false : ダメージを受けない</param>
-	static void SetHitDamage(bool bdamage);
+	/// <param name="bDamage"> true : ダメージを受ける  false : ダメージを受けない</param>
+	static void SetHitDamage(bool bDamage);
 	/// <summary>
 	/// 左のダメージ判定取得関数
 	/// </summary>
@@ -54,13 +53,13 @@ public:
 	/// <summary>
 	/// プレイヤーの側面と敵の衝突判定
 	/// </summary>
-	/// <param name="bdamage">true : 衝突  false : 非衝突</param>
-	static void SetHitLeftDamage(bool bdamage);
+	/// <param name="bDamage">true : 衝突  false : 非衝突</param>
+	static void SetHitLeftDamage(bool bDamage);
 	/// <summary>
 	/// プレイヤーの側面と敵の衝突判定
 	/// </summary>
-	/// <param name="bdamage">true : 衝突　false : 非衝突</param>
-	static void SetHitRightDamage(bool bdamage);
+	/// <param name="bDamage">true : 衝突　false : 非衝突</param>
+	static void SetHitRightDamage(bool bDamage);
 	/// <summary>
 	/// プレイヤーの残りHP取得関数
 	/// </summary>

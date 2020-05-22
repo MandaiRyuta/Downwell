@@ -9,17 +9,15 @@ public:
 	/// <summary>
 	/// コンストラクター
 	/// </summary>
-	/// <param name="enemynumber">描画される敵番号</param>
-	/// <param name="ntype">敵の種類</param>
-	/// <param name="nhp">敵のHP</param>
-	/// <param name="nspeed">敵の移動速度</param>
-	/// <param name="vposition">敵が発生する座標</param>
-	Enemy(int enemynumber, int ntype, int nhp, VECTOR vposition);
+	/// <param name="nEnemyNumber">描画される敵番号</param>
+	/// <param name="nType">敵の種類</param>
+	/// <param name="nHp">敵のHP</param>
+	/// <param name="vPosition">敵が発生する座標</param>
+	Enemy(int nEnemyNumber, int nType, int nHp, VECTOR vPosition);
 	/// <summary>
 	/// デストラクター
 	/// </summary>
 	~Enemy();
-public:
 	/// <summary>
 	/// 更新関数
 	/// </summary>

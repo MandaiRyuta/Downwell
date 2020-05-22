@@ -18,7 +18,7 @@ public:
 	/// </summary>
 	/// <param name="OnResolved">未解決処理関数</param>
 	/// <param name="OnRejected">未解決処理が処理されなかった時の関数</param>
-	void Run(const Function<void()>& OnResolved, const Function<void()>& OnRejected);
+	void Run(const std::function<void()>& OnResolved, const std::function<void()>& OnRejected);
 
 	/// <summary>
 	/// ウィンドウモード設定関数

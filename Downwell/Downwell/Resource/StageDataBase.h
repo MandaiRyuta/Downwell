@@ -28,11 +28,11 @@ public:
 	/// <summary>
 	/// 指定したブロックの情報を取得する関数
 	/// </summary>
-	/// <param name="type">区画</param>
-	/// <param name="x">X座標</param>
-	/// <param name="y">Y座標</param>
-	/// <returns></returns>
-	int GetStageType(int type, int x, int y);
+	/// <param name="nType">区画</param>
+	/// <param name="nX">X座標</param>
+	/// <param name="nY">Y座標</param>
+	/// <returns>ステージ情報</returns>
+	int GetStageType(int nType, int nX, int nY);
 private:
 	int nStage_[12][50][20];	//区画情報
 };

@@ -5,5 +5,9 @@
 
 namespace AliveChecker
 {
-	bool SetDead(EnemyParameter* enemy);
+	/// <summary>
+	/// “G‚ÌHP‚ğŒ©‚Ä¶€‚ğ”»’f‚·‚éŠÖ”
+	/// <param name="Enemy">“Gî•ñ</param>
+	/// </summary>
+	bool SetDead(EnemyParameter& Enemy);
 }

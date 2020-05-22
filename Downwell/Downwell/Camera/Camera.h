@@ -31,8 +31,8 @@ public:
 	/// <summary>
 	/// 初期化関数
 	/// </summary>
-	/// <param name="pos">初期座標</param>
-	void Init(VECTOR pos);
+	/// <param name="vPosition">初期座標</param>
+	void Init(VECTOR vPosition);
 	/// <summary>
 	/// 更新関数
 	/// </summary>
@@ -49,8 +49,8 @@ public:
 	/// <summary>
 	/// カメラ座標を設定する関数
 	/// </summary>
-	/// <param name="pos">設定するカメラ座標</param>
-	void SetPosition(VECTOR pos);
+	/// <param name="vPosition">設定するカメラ座標</param>
+	void SetPosition(VECTOR vPosition);
 	/// <summary>
 	/// カメラを振動させる関数
 	/// </summary>

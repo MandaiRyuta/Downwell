@@ -11,12 +11,11 @@ public:
 	/// コンストラクター
 	/// </summary>
 	/// <param name="type">シーン番号</param>
-	GameLevel(int type);
+	GameLevel(int nType);
 	/// <summary>
 	/// デストラクター
 	/// </summary>
 	~GameLevel();
-public:
 	/// <summary>
 	/// 更新関数
 	/// </summary>
@@ -28,6 +27,6 @@ public:
 
 private:
 	int nNowLevel_;	//現在のシーン番号
-	std::list<Actor*> Obj_[3];	//Actor情報
-	std::list<Widget*> Widgetobj_[3];	//Widget情報
+	std::list<Actor*> Obj_[2];	//Actor情報
+	std::list<Widget*> Widgetobj_[1];	//Widget情報
 };

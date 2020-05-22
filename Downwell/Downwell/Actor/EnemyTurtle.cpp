@@ -12,26 +12,25 @@
 /// <summary>
 /// コンストラクター
 /// </summary>
-/// <param name="enemynumber">敵の描画番号</param>
-/// <param name="aitree">ビヘイビアツリー</param>
-/// <param name="nhp">亀のHP</param>
-/// <param name="nspeed">亀の移動量</param>
-/// <param name="vposition">亀が出現する座標</param>
-EnemyTurtle::EnemyTurtle(int enemynumber, BehaviorTree aitree, int nhp, VECTOR vposition) :
+/// <param name="nEnemyNumber">敵の描画番号</param>
+/// <param name="AiTree">ビヘイビアツリー</param>
+/// <param name="nHp">亀のHP</param>
+/// <param name="vPosition">亀が出現する座標</param>
+EnemyTurtle::EnemyTurtle(int nEnemyNumber, BehaviorTree AiTree, int nHp, VECTOR vPosition) :
 	Activenode_(nullptr),
 	AIData_(nullptr),
 	bActive_(bInitActive)
 {
 	bLife_ = bInitEnemyLife;
-	AITree_ = aitree;
-	nHp_ = nhp;
-	nMaxHp_ = nhp;
+	AITree_ = AiTree;
+	nHp_ = nHp;
+	nMaxHp_ = nHp;
 	nMoveType_ = nInitEnemyMoveType;
 	vMove_ = VGet(fDefaultPos, fDefaultPos, fDefaultPos);
-	vPosition_ = vposition;
+	vPosition_ = vPosition;
 	AIData_ = new BehaviorData;
 	nTexhandle_ = TextureDataBase::TextureData::GetInstance().GetGameTextureData(TextureDataBase::GameTextureNumber::GTurtle);
-	nEnemyNumber_ = enemynumber;
+	nEnemyNumber_ = nEnemyNumber;
 	bHitAction_ = bInitEnemyHitAction;
 }
 /// <summary>
@@ -111,7 +110,7 @@ void EnemyTurtle::Update()
 			}
 			if (Activenode_ != nullptr)
 			{
-				Activenode_ = AITree_.Run(this, Activenode_, AIData_);
+				Activenode_ = AITree_.Run(*this, Activenode_, AIData_);
 			}
 
 			vPosition_.x += vMove_.x;

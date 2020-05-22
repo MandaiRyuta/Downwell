@@ -28,10 +28,10 @@ void BehaviorData::Init()
 /// <summary>
 /// シーケンスノードを追加する関数
 /// </summary>
-/// <param name="node">追加するノード</param>
-void BehaviorData::PushSequenceNode(Node* node)
+/// <param name="Node">追加するノード</param>
+void BehaviorData::PushSequenceNode(Node* Node)
 {
-	SequenceStack_.push(node);
+	SequenceStack_.push(Node);
 }
 /// <summary>
 /// シーケンスノードからノードを取り除く関数
@@ -56,54 +56,54 @@ Node* BehaviorData::PopSequenceNode()
 /// <summary>
 /// ノードが使われているか確認する関数
 /// </summary>
-/// <param name="name">ノード名</param>
+/// <param name="Name">ノード名</param>
 /// <returns>true : 使用　false : 未使用</returns>
-bool BehaviorData::NodeUsedExist(std::string name)
+bool BehaviorData::NodeUsedExist(std::string Name)
 {
-	if (UsedNode_.count(name) == 0)
+	if (UsedNode_.count(Name) == 0)
 	{
 		return false;
 	}
 
-	return UsedNode_[name];
+	return UsedNode_[Name];
 }
 /// <summary>
 /// 指定したノードを使用するときの命令関数
 /// </summary>
-/// <param name="name">使用するノード名</param>
-void BehaviorData::EntryUsedNode(std::string name)
+/// <param name="Name">使用するノード名</param>
+void BehaviorData::EntryUsedNode(std::string Name)
 {
-	UsedNode_[name] = true;
+	UsedNode_[Name] = true;
 }
 /// <summary>
 /// シーケンス番号取得関数
 /// </summary>
-/// <param name="name">シーケンス名</param>
+/// <param name="Name">シーケンス名</param>
 /// <returns></returns>
-int BehaviorData::GetSequenceStep(std::string name)
+int BehaviorData::GetSequenceStep(std::string Name)
 {
-	if (UpdateSequenceStep_.count(name) == 0)
+	if (UpdateSequenceStep_.count(Name) == 0)
 	{
-		UpdateSequenceStep_[name] = 0;
+		UpdateSequenceStep_[Name] = 0;
 	}
-	return UpdateSequenceStep_[name];
+	return UpdateSequenceStep_[Name];
 }
 /// <summary>
 /// シーケンス登録関数
 /// </summary>
-/// <param name="name">シーケンス名</param>
-/// <param name="step">シーケンス番号</param>
-void BehaviorData::SetSequenceStep(std::string name, int step)
+/// <param name="Name">シーケンス名</param>
+/// <param name="nStep">シーケンス番号</param>
+void BehaviorData::SetSequenceStep(std::string Name, int nStep)
 {
-	UpdateSequenceStep_[name] = step;
+	UpdateSequenceStep_[Name] = nStep;
 }
 /// <summary>
 /// 使用しているノードのリセット関数
 /// </summary>
-/// <param name="reset_hierachy">リセットノード</param>
-void BehaviorData::ResetUsedNode(std::vector<Node*>* reset_hierachy)
+/// <param name="ResetHierachy">リセットノード</param>
+void BehaviorData::ResetUsedNode(std::vector<Node*>* ResetHierachy)
 {
-	for (auto itr = reset_hierachy->begin(); itr != reset_hierachy->end(); itr++)
+	for (auto itr = ResetHierachy->begin(); itr != ResetHierachy->end(); itr++)
 	{
 		UsedNode_[(*itr)->GetName()] = false;
 	}

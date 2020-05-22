@@ -20,22 +20,21 @@ public:
 	/// <summary>
 	/// コンストラクター
 	/// </summary>
-	/// <param name="entry_name">エントリー名</param>
-	/// <param name="parent_node">登録したノードの検索</param>
-	/// <param name="sibling">兄弟ノード</param>
-	/// <param name="priority">優先度</param>
-	/// <param name="select_rule">ビヘイビアツリーの選択ルール</param>
-	/// <param name="judgment">切り替える判断クラス(残ったHPで行動を判断)</param>
-	/// <param name="action">行動クラス</param>
-	/// <param name="hierarchy_number">子要素にいれているものに登録するヒエラルキー</param>
-	Node(std::string entry_name, Node* parent_node, Node* sibling, int priority, TREE_RULE select_rule, ActionBase* action, int hierarchy_number) :
-		sName_(entry_name),
-		Parent_(parent_node),
-		Sibiling_(sibling),
-		nPriority_(priority),
-		BTRuleBase_(select_rule),
-		ActionBase_(action),
-		nHierarchyNumber_(hierarchy_number),
+	/// <param name="EntryName">エントリー名</param>
+	/// <param name="ParentNode">登録したノードの検索</param>
+	/// <param name="Sibling">兄弟ノード</param>
+	/// <param name="nPriority">優先度</param>
+	/// <param name="SelectRule">ビヘイビアツリーの選択ルール</param>
+	/// <param name="Action">行動クラス</param>
+	/// <param name="HierarchyNumber">子要素にいれているものに登録するヒエラルキー</param>
+	Node(std::string EntryName, Node* ParentNode, Node* Sibling, int nPriority, TREE_RULE SelectRule, ActionBase* Action, int HierarchyNumber) :
+		sName_(EntryName),
+		Parent_(ParentNode),
+		Sibiling_(Sibling),
+		nPriority_(nPriority),
+		BTRuleBase_(SelectRule),
+		ActionBase_(Action),
+		nHierarchyNumber_(HierarchyNumber),
 		ChildNode_(NULL)
 	{}
 	/// <summary>
@@ -43,7 +42,6 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	~Node() {}
-public:
 	/// <summary>
 	/// エントリー名取得関数
 	/// </summary>
@@ -63,11 +61,11 @@ public:
 	/// <summary>
 	/// 子ノード取得関数
 	/// </summary>
-	/// <param name="index">子ノードの番号</param>
+	/// <param name="nIndex">子ノードの番号</param>
 	/// <returns>子ノード</returns>
-	const Node* GetChild(int index)
+	const Node* GetChild(int nIndex)
 	{
-		return ChildNode_.size() >= static_cast<size_t>(index) ? nullptr : ChildNode_[index];
+		return ChildNode_.size() >= static_cast<size_t>(nIndex) ? nullptr : ChildNode_[nIndex];
 	}
 	/// <summary>
 	/// 末尾子ノード取得関数
@@ -117,26 +115,26 @@ public:
 	/// <summary>
 	/// 親ノードを設定する関数
 	/// </summary>
-	/// <param name="parent">設定する親ノード</param>
-	void SetParent(Node* parent)
+	/// <param name="Parent">設定する親ノード</param>
+	void SetParent(Node* Parent)
 	{
-		parent != nullptr ? Parent_ = parent : Parent_ = nullptr;
+		Parent != nullptr ? Parent_ = Parent : Parent_ = nullptr;
 	}
 	/// <summary>
 	/// 子ノードの追加関数
 	/// </summary>
-	/// <param name="child">追加する子ノード</param>
-	void AddChild(Node* child)
+	/// <param name="Child">追加する子ノード</param>
+	void AddChild(Node* Child)
 	{
-		child != nullptr ? ChildNode_.push_back(child) : ChildNode_.push_back(nullptr);
+		Child != nullptr ? ChildNode_.push_back(Child) : ChildNode_.push_back(nullptr);
 	}
 	/// <summary>
 	/// 兄弟ノードの設定関数
 	/// </summary>
-	/// <param name="sibling">設定する兄弟ノード</param>
-	void SetSibling(Node* sibling)
+	/// <param name="Sibling">設定する兄弟ノード</param>
+	void SetSibling(Node* Sibling)
 	{
-		sibling != nullptr ? Sibiling_ = sibling : Sibiling_ = nullptr;
+		Sibling != nullptr ? Sibiling_ = Sibling : Sibiling_ = nullptr;
 	}
 	/// <summary>
 	/// 行動ノードの所持確認関数
@@ -146,53 +144,52 @@ public:
 	{
 		return ActionBase_ != nullptr ? true : false;
 	}
-public:
 	/// <summary>
 	/// 優先順位選択関数
 	/// </summary>
-	/// <param name="list">ノードリスト</param>
+	/// <param name="List">ノードリスト</param>
 	/// <returns>優先順位を比較し終えたノード</returns>
-	Node* SelectPriority(std::vector<Node*>* list);
+	Node* SelectPriority(std::vector<Node*>* List);
 	/// <summary>
 	/// ランダム選択関数
 	/// </summary>
-	/// <param name="list">ノードリスト</param>
+	/// <param name="List">ノードリスト</param>
 	/// <returns>ランダム選択を終えたノード</returns>
-	Node* SelectRandom(std::vector<Node*>* list);
+	Node* SelectRandom(std::vector<Node*>* List);
 	/// <summary>
 	/// オンオフ選択関数
 	/// </summary>
-	/// <param name="list">ノードリスト</param>
-	/// <param name="data">ビヘイビアデータ</param>
+	/// <param name="List">ノードリスト</param>
+	/// <param name="Data">ビヘイビアデータ</param>
 	/// <returns>実行していないノード</returns>
-	Node* SelectOnOff(std::vector<Node*>* list, BehaviorData* data);
+	Node* SelectOnOff(std::vector<Node*>* List, BehaviorData* Data);
 	/// <summary>
 	/// シーケンス選択関数
 	/// </summary>
-	/// <param name="list">ノードリスト</param>
-	/// <param name="data">ビヘイビアデータ</param>
+	/// <param name="List">ノードリスト</param>
+	/// <param name="Data">ビヘイビアデータ</param>
 	/// <returns>順番に従ったノード</returns>
-	Node* SelectSequence(std::vector<Node*>* list, BehaviorData* data);
+	Node* SelectSequence(std::vector<Node*>* List, BehaviorData* Data);
 	/// <summary>
 	/// ノード検索関数
 	/// </summary>
-	/// <param name="search_name">探しているノード名</param>
+	/// <param name="SearchName">探しているノード名</param>
 	/// <returns>探しているノード</returns>
-	Node* SearchNode(std::string search_name);
+	Node* SearchNode(std::string SearchName);
 	/// <summary>
 	/// ノード推論関数
 	/// </summary>
-	/// <param name="enemy">敵情報</param>
-	/// <param name="data">ビヘイビアデータ</param>
+	/// <param name="Enemy">敵情報</param>
+	/// <param name="Data">ビヘイビアデータ</param>
 	/// <returns>推論し終えたノード</returns>
-	Node* Inference(EnemyParameter* enemy, BehaviorData* data);
+	Node* Inference(EnemyParameter* Enemy, BehaviorData* Data);
 	/// <summary>
 	/// 更新関数
 	/// </summary>
-	/// <param name="enemy">敵情報</param>
+	/// <param name="Enemy">敵情報</param>
 	/// <returns>ActionBaseのステート</returns>
-	ActionBase::STATE Run(EnemyParameter* enemy);
-protected:
+	ActionBase::STATE Run(EnemyParameter& Enemy);
+private:
 	std::string sName_;	//名前
 	TREE_RULE BTRuleBase_;	//選択ルール
 	ActionBase* ActionBase_;	//行動クラス

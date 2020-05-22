@@ -12,7 +12,6 @@ public:
 	/// デストラクター
 	/// </summary>
 	~Bullet();
-public:
 	/// <summary>
 	/// 更新関数
 	/// </summary>
@@ -24,8 +23,8 @@ public:
 	/// <summary>
 	/// 弾作成関数
 	/// </summary>
-	/// <param name="vpos">弾の出現座標</param>
-	void Create(const VECTOR& vpos);
+	/// <param name="vPosition">弾の出現座標</param>
+	void Create(const VECTOR& vPosition);
 	/// <summary>
 	/// 弾の画像大きさ取得関数
 	/// </summary>
@@ -34,24 +33,24 @@ public:
 	/// <summary>
 	/// 弾の座標取得関数
 	/// </summary>
-	/// <param name="nbulletnumber">弾の番号</param>
+	/// <param name="nBulletNumber">弾の番号</param>
 	/// <returns>弾の座標</returns>
-	const static VECTOR& GetPosition(int nbulletnumber);
+	const static VECTOR& GetPosition(int nBulletNumber);
 	/// <summary>
 	/// 弾の座標初期化関数
 	/// </summary>
-	/// <param name="nbulletnumber">弾の番号</param>
-	static void ResetSetPosition(int nbulletnumber);
+	/// <param name="nBulletNumber">弾の番号</param>
+	static void ResetSetPosition(int nBulletNumber);
 	/// <summary>
 	/// 弾の表示フラグ取得関数
 	/// </summary>
 	/// <param name="num">弾の番号</param>
 	/// <returns>弾の表示もしくは非表示フラグ</returns>
-	static const bool& GetBulletExist(int num);
+	static const bool& GetBulletExist(int nEnemyNum);
 private:
 	int nBulletType_;	//弾の種類
 	int nBulletTexture_;	//弾の画像ハンドル
-	static VECTOR vPosition_[10];	//弾の座標
+	static VECTOR vBulletsPosition_[10];	//弾の座標
 	float fScale_;	//画像の大きさ
 	static bool bBullet_[10];	//弾の表示フラグ
 	static float fBulletspeed_[10];	//弾の移動量

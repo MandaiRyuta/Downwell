@@ -26,7 +26,6 @@ public:
 		static LevelsResponsible Inst;
 		return Inst;
 	}
-public:
 	/// <summary>
 	/// 初期化関数
 	/// </summary>
@@ -47,12 +46,11 @@ public:
 	/// 終了関数
 	/// </summary>
 	void Exit();
-public:
 	/// <summary>
 	/// レベル切り替え関数
 	/// </summary>
-	/// <param name="type">切り替えたいレベル</param>
-	void ChangeLevel(int type);
+	/// <param name="nType">切り替えたいレベル</param>
+	void ChangeLevel(int nType);
 	/// <summary>
 	/// レベル取得関数
 	/// </summary>
@@ -62,7 +60,7 @@ public:
 	/// レベル切り替えフラグ設定関数
 	/// </summary>
 	/// <param name="bchangescene">	true : 切り替える	false : 切り替えない</param>
-	void SetChangeLevel(bool bchangelevel);
+	void SetChangeLevel(bool bChangeLevel);
 	/// <summary>
 	/// レベル切り替えフラグ取得関数
 	/// </summary>
@@ -71,8 +69,8 @@ public:
 	/// <summary>
 	/// レベル設定関数
 	/// </summary>
-	/// <param name="nlevel">指定したいレベル</param>
-	void SetNowLevel(int nlevel);
+	/// <param name="nLevel">指定したいレベル</param>
+	void SetNowLevel(int nLevel);
 	/// <summary>
 	/// 現在のレベルを切り替えてるか確認する関数
 	/// </summary>
@@ -81,8 +79,8 @@ public:
 	/// <summary>
 	/// 現在のレベルを切り替えるか指定する関数
 	/// </summary>
-	/// <param name="bstate">true : 切り替える		false : 切り替えない</param>
-	void SetLevelState(bool bstate);
+	/// <param name="bState">true : 切り替える		false : 切り替えない</param>
+	void SetLevelState(bool bState);
 	/// <summary>
 	/// 次のレベルを呼ぶ関数
 	/// </summary>
@@ -99,15 +97,19 @@ public:
 	/// <summary>
 	/// 次の区画に切り替える関数
 	/// </summary>
-	/// <param name="bnextstage">true : 切り替える	false : 切り替えない</param>
-	void SetNextStage(bool bnextstage);
+	/// <param name="bNextStage">true : 切り替える	false : 切り替えない</param>
+	void SetNextStage(bool bNextStage);
 	/// <summary>
 	/// 次のレベルに切り替えたか確認する関数
 	/// </summary>
 	/// <returns>true : 切り替えている	false : 切り替えてない</returns>
 	const bool& GetNextStageExist();
-
-	Rect& GetQuadTree(int area);
+	/// <summary>
+	/// エリア情報取得関数
+	/// </summary>
+	/// <param name="nArea">エリア番号</param>
+	/// <returns></returns>
+	Rect& GetQuadTree(int nArea);
 private:
 	int nNowStage_;	//現在のステージ
 	bool bNextStage_;	//次の切り替えるフラグ

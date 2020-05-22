@@ -7,12 +7,12 @@
 #include "../Collision/MapHitCheck.h"
 #include <random>
 
-std::array<std::array<int, StageWidth>, StageHeigh> Stage::Stage_ = {};	//ステージ上のブロック種類を管理
-std::array<std::array<VECTOR, StageWidth>, StageHeigh> Stage::Blockpos_ = {};	//ステージ上のブロックを配置する座標を管理
 /// <summary>
 /// コンストラクター
 /// </summary>
-Stage::Stage():
+Stage::Stage() :
+	Blockpos_(),
+	Stage_(),
 	nSceneNumber_(nInitStageLevelNumber),
 	nBlockSideBlockTexture_(nInitBlockSideBlockTexture),
 	nNonBlockTexture_(nInitNonBlockTexture),
@@ -28,10 +28,10 @@ Stage::~Stage(){}
 /// <summary>
 /// 初期化関数
 /// </summary>
-/// <param name="nscenenumber">シーン番号</param>
-void Stage::Init(int nscenenumber)
+/// <param name="nSceneNumber">シーン番号</param>
+void Stage::Init(int nSceneNumber)
 {
-	nSceneNumber_ = nscenenumber;
+	nSceneNumber_ = nSceneNumber;
 
 	int nx = 0, ny = 0, stagetype = 0;
 	StageDataBase::GetInstance().InitStage();
@@ -210,30 +210,30 @@ void Stage::Draw()
 /// <summary>
 /// ステージの座標関数
 /// </summary>
-/// <param name="x">プレイヤーもしくは敵のX座標</param>
-/// <param name="y">プレイヤーもしくは敵のY座標</param>
+/// <param name="nX">プレイヤーもしくは敵のX座標</param>
+/// <param name="nY">プレイヤーもしくは敵のY座標</param>
 /// <returns></returns>
-const VECTOR& Stage::GetStagePos(int x, int y)
+const VECTOR& Stage::GetStagePos(int nX, int nY)
 {
-	return Blockpos_[y][x];
+	return Blockpos_[nY][nX];
 }
 /// <summary>
 /// ステージのブロック種類を調べる関数
 /// </summary>
-/// <param name="x">プレイヤーもしくは敵のX座標</param>
-/// <param name="y">プレイヤーもしくは敵のY座標</param>
+/// <param name="nX">プレイヤーもしくは敵のX座標</param>
+/// <param name="nY">プレイヤーもしくは敵のY座標</param>
 /// <returns></returns>
-const int& Stage::GetStageType(int x, int y)
+const int& Stage::GetStageType(int nX, int nY)
 {
-	return Stage_[y][x];
+	return Stage_[nY][nX];
 }
 /// <summary>
 /// ブロックの種類を変更する関数
 /// </summary>
-/// <param name="type">変更する種類の番号</param>
-/// <param name="x">ブロックの横列</param>
-/// <param name="y">ブロックの縦列</param>
-void Stage::SetStageType(int type, int x, int y)
+/// <param name="nType">変更する種類の番号</param>
+/// <param name="nX">ブロックの横列</param>
+/// <param name="nY">ブロックの縦列</param>
+void Stage::SetStageType(int nType, int nX, int nY)
 {
-	Stage_[y][x] = type;
+	Stage_[nY][nX] = nType;
 }

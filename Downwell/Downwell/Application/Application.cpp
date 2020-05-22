@@ -18,7 +18,7 @@ Application::~Application()
 /// </summary>
 /// <param name="OnResolved">–¢‰ğŒˆˆ—ŠÖ”</param>
 /// <param name="OnRejected">–¢‰ğŒˆˆ—‚ªˆ—‚³‚ê‚È‚©‚Á‚½‚ÌŠÖ”</param>
-void Application::Run(const Function<void()>& OnResolved, const Function<void()>& OnRejected)
+void Application::Run(const std::function<void()>& OnResolved, const std::function<void()>& OnRejected)
 {
 	if (DxLib_Init() == Error)
 	{

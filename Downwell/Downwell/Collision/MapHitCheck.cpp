@@ -3,16 +3,17 @@
 /// <summary>
 /// ステージのブロックとの衝突判定する関数
 /// </summary>
-/// <param name="vposition">座標</param>
-/// <param name="fspeedx">対象のX移動量</param>
-/// <param name="fspeedy">対象のY移動量</param>
+/// <param name="vPosition">座標</param>
+/// <param name="fSpeedx">対象のX移動量</param>
+/// <param name="fSpeedy">対象のY移動量</param>
+/// <param name="nType">判定する対象 0は飛んでいる対象,1飛んでいない対象とプレイヤー</param>
 /// <returns>衝突している部位</returns>
-int MapHitChecker::MapHitCollision(VECTOR vposition, float& fspeedx, float& fspeedy)
+int MapHitChecker::MapHitCollision(VECTOR vPosition, float& fSpeedx, float& fSpeedy,int nType)
 {
 	float affterx, afftery;
 
-	affterx = vposition.x + fspeedx;
-	afftery = vposition.y + fspeedy;
+	affterx = vPosition.x + fSpeedx;
+	afftery = vPosition.y + fSpeedy;
 
 	if (GetChipParam(VGet(affterx, afftery, 0.0f)) == 1 || GetChipParam(VGet(affterx, afftery, 0.0f)) == 2 || GetChipParam(VGet(affterx, afftery, 0.0f)) == 3|| GetChipParam(VGet(affterx, afftery, 0.0f)) == 4 || GetChipParam(VGet(affterx, afftery, 0.0f)) ==5)
 	{
@@ -27,29 +28,46 @@ int MapHitChecker::MapHitCollision(VECTOR vposition, float& fspeedx, float& fspe
 		bty = (float)((int)afftery / BlockHeight) * BlockHeight;        // 上辺の Y 座標
 		bby = (float)((int)afftery / BlockHeight + 1) * BlockHeight;    // 下辺の Y 座標
 
-		if (fspeedx > 0.0f)
+		if (fSpeedx > 0.0f)
 		{
-			fspeedx = blx - vposition.x - 1.0f;
+			fSpeedx = blx - vPosition.x - 1.0f;
 			return 1;
 		}
-		if (fspeedx < 0.0f)
+		if (fSpeedx < 0.0f)
 		{
-			fspeedx = brx - vposition.x;
+			fSpeedx = brx - vPosition.x;
 			return 2;
 		}
-		if (fspeedy > 0.0f)
+		if (nType == 0)
 		{
-			fspeedy = bty - vposition.y - 1.0f;
-			return 3;
+			if (fSpeedy > 0.0f)
+			{
+				fSpeedy = -1.0f;
+				return 3;
+			}
+			if (fSpeedy < 0.0f)
+			{
+				//float set = vPosition.y - bby;
+
+				fSpeedy = 1.0f;
+				return 4;
+			}
 		}
-		if (fspeedy < 0.0f)
+		else if (nType == 1)
 		{
-			float set = vposition.y - bby;
+			if (fSpeedy > 0.0f)
+			{
+				fSpeedy = bty - vPosition.y - 1.0f;
+				return 3;
+			}
+			if (fSpeedy < 0.0f)
+			{
+				float set = vPosition.y - bby;
 
-			fspeedy = bby - vposition.y + (set);
-			return 4;
+				fSpeedy = bby - vPosition.y + (set);
+				return 4;
+			}
 		}
-
 		return 4;
 	}
 
@@ -58,13 +76,13 @@ int MapHitChecker::MapHitCollision(VECTOR vposition, float& fspeedx, float& fspe
 /// <summary>
 /// ステージに配置しているブロックの種類を取得する関数
 /// </summary>
-/// <param name="vposition">調べたいステージ内の座標</param>
+/// <param name="vPosition">調べたいステージ内の座標</param>
 /// <returns>配置されているブロックの種類</returns>
-int MapHitChecker::GetChipParam(VECTOR vposition)
+int MapHitChecker::GetChipParam(VECTOR vPosition)
 {
 	int x,y;
-	x = (int)vposition.x / BlockSize  - (BlockSize / 2);
-	y = (int)vposition.y / -BlockSize;
+	x = (int)vPosition.x / BlockSize  - (BlockSize / 2);
+	y = (int)vPosition.y / -BlockSize;
 
 	if (x >= StageWidth || y >= StageHeigh || x < 0 || y < 0) return 0;
 
