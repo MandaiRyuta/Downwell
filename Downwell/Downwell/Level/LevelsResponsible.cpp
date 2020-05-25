@@ -21,33 +21,12 @@ void LevelsResponsible::Init()
 /// </summary>
 void LevelsResponsible::Update()
 {
-	if (nNowLevel_ == 2 && bChangeLevel_ == false)
+	if (nNowLevel_ >= 2 && bChangeLevel_ == false)
 	{
 		if (Input::GetInstance().GetKeyDown(KEY_INPUT_SPACE) == 0x001)
 		{
 			nNowLevel_ = 0;
 			bChangeLevel_ = true;
-		}
-	}
-	     
-	if (bChangeLevel_)
-	{
-		switch (nNowLevel_)
-		{
-		case 0:
-			ChangeLevel(0);
-			bChangeLevel_ = false;
-			break;
-		case 1:
-			ChangeLevel(1);
-			bChangeLevel_ = false;
-			break;
-		case 2:
-			ChangeLevel(2);
-			bChangeLevel_ = false;
-			break;
-		default:
-			break;
 		}
 	}
 
@@ -77,6 +56,25 @@ void LevelsResponsible::Update()
 	}
 
 	Level_->Update();
+
+	if (!bChangeLevel_) return;
+
+	switch (nNowLevel_)
+	{
+	case 0:
+		ChangeLevel(0);
+		break;
+	case 1:
+		ChangeLevel(1);
+		break;
+	case 2:
+		ChangeLevel(2);
+		break;
+	default:
+		break;
+	}
+
+	bChangeLevel_ = false;
 }
 /// <summary>
 /// ï`âÊä÷êî

@@ -15,7 +15,7 @@ float Bullet::fBulletspeed_[10] = {};	//íeÇÃà⁄ìÆãóó£
 /// </summary>
 Bullet::Bullet() : nBulletCount_()
 {
-	for (int i = 0; i < nBulletMaxCount; i++)
+	for (int i = 0; i < nBulletMaxCount; ++i)
 	{
 		bBullet_[i] = false;
 		nBulletCount_[i] = nBulletInitCount;
@@ -44,65 +44,9 @@ Bullet::~Bullet()
 /// </summary>
 void Bullet::Update()
 {
-	float dammy = 0.0f;
+	BulletFlagSet();
 
-	if (Input::GetInstance().GetKeyPress(KEY_INPUT_SPACE) == 0x001)
-	{
-		bBullet_[nBulletNumber] = true;
-	}
-
-	if (bBullet_[nBulletNumber])
-	{
-		switch (nBulletType_)
-		{
-		case 0:
-			for (int i = 0; i < nBulletMaxCount; i++)
-			{
-				fBulletspeed_[i] = fBulletSpeed;
-
-				if (nBulletCount_[i] > nBulletDeadMaxCount)
-				{
-					nBulletCount_[i] = 0;
-					bBullet_[i] = false;
-					fBulletspeed_[i] = fBulletInitSpeed;
-					vBulletsPosition_[i] = VGet(fDefaultPos, fDefaultPos, fDefaultPos);
-				}
-				if (LevelsResponsible::GetInstance().GetNowLevel() == 0)
-				{
-					if (MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x - (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 1 ||
-						MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x + (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 1 ||
-						MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x - (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
-						MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x + (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
-						MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x - (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
-						MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x + (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
-						MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x - (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5 ||
-						MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x + (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5)
-					{
-						bBullet_[i] = false;
-						fBulletspeed_[i] = fBulletInitSpeed;
-						vBulletsPosition_[i] = VGet(fDefaultPos, fDefaultPos, fDefaultPos);
-					}
-				}
-				else
-				{
-					if (MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x - (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
-						MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x + (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
-						MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x - (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
-						MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x + (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
-						MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x - (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5 ||
-						MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x + (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5)
-					{
-						bBullet_[i] = false;
-						fBulletspeed_[i] = fBulletInitSpeed;
-						vBulletsPosition_[i] = VGet(fDefaultPos, fDefaultPos, fDefaultPos);
-					}
-				}
-				vBulletsPosition_[i].y -= fBulletspeed_[i];
-				nBulletCount_[i]++;
-			}
-			break;
-		}
-	}
+	BulletMove();
 }
 /// <summary>
 /// ï`âÊä÷êî
@@ -111,10 +55,78 @@ void Bullet::Draw()
 {
 	if (bBullet_[nBulletNumber])
 	{
-		for (int i = 0; i < nBulletMaxCount; i++)
+		for (int i = 0; i < nBulletMaxCount; ++i)
 		{
 			DrawBillboard3D(vBulletsPosition_[i], 0.5f, 0.5f, fScale_, 0, nBulletTexture_, false);
 		}
+	}
+}
+/// <summary>
+/// íeÇîÒï\é¶Ç©ÇÁï\é¶Ç…êÿÇËë÷Ç¶ÇÈä÷êî
+/// </summary>
+void Bullet::BulletFlagSet()
+{
+	if (Input::GetInstance().GetKeyPress(KEY_INPUT_SPACE) == 0x001)
+	{
+		bBullet_[nBulletNumber] = true;
+	}
+}
+/// <summary>
+/// íeÇÃà⁄ìÆä÷êî
+/// </summary>
+void Bullet::BulletMove()
+{
+
+	if (!bBullet_[nBulletNumber]) return;
+
+	switch (nBulletType_)
+	{
+	case 0:
+		for (int i = 0; i < nBulletMaxCount; ++i)
+		{
+			fBulletspeed_[i] = fBulletSpeed;
+
+			if (nBulletCount_[i] > nBulletDeadMaxCount)
+			{
+				nBulletCount_[i] = 0;
+				bBullet_[i] = false;
+				fBulletspeed_[i] = fBulletInitSpeed;
+				vBulletsPosition_[i] = VGet(fDefaultPos, fDefaultPos, fDefaultPos);
+			}
+			if (LevelsResponsible::GetInstance().GetNowLevel() == 0)
+			{
+				if (MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x - (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 1 ||
+					MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x + (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 1 ||
+					MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x - (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
+					MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x + (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
+					MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x - (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
+					MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x + (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
+					MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x - (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5 ||
+					MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x + (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5)
+				{
+					bBullet_[i] = false;
+					fBulletspeed_[i] = fBulletInitSpeed;
+					vBulletsPosition_[i] = VGet(fDefaultPos, fDefaultPos, fDefaultPos);
+				}
+			}
+			else
+			{
+				if (MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x - (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
+					MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x + (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 2 ||
+					MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x - (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
+					MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x + (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 4 ||
+					MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x - (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5 ||
+					MapHitChecker::GetChipParam(VGet(vBulletsPosition_[i].x + (fScale_ * 0.5f), vBulletsPosition_[i].y - (fScale_ * 0.5f + 1.0f), 0.0f)) == 5)
+				{
+					bBullet_[i] = false;
+					fBulletspeed_[i] = fBulletInitSpeed;
+					vBulletsPosition_[i] = VGet(fDefaultPos, fDefaultPos, fDefaultPos);
+				}
+			}
+			vBulletsPosition_[i].y -= fBulletspeed_[i];
+			nBulletCount_[i]++;
+		}
+		break;
 	}
 }
 /// <summary>

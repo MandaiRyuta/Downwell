@@ -28,6 +28,19 @@ public:
 	/// 描画関数
 	/// </summary>
 	virtual void Draw() override;
+
+	/// <summary>
+	/// クアッドツリー内にいるかどうかを確認する関数
+	/// </summary>
+	void QuadTreeCheckCollision();
+	/// <summary>
+	/// プレイヤーやブロックとの衝突判定関数
+	/// </summary>
+	void BirdHitCollision();
+	/// <summary>
+	/// 鳥が行動を行う関数
+	/// </summary>
+	void BirdMoveAction();
 private:
 	BehaviorData* AIData_;	//ビヘイビアデータクラス
 	BehaviorTree AITree_;	//ビヘイビアツリークラス

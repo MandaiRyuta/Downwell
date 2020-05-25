@@ -41,12 +41,12 @@ void Stage::Init(int nSceneNumber)
 	float blockwidth = static_cast<float>(BlockWidth);
 	float blockheight = static_cast<float>(BlockHeight);
 
-	for (int type = 0; type < nAreaMax; type++)
+	for (int type = 0; type < nAreaMax; ++type)
 	{
 		stagetype = randset(mt);
-		for (int y = 0; y < OneBlockHeight; y++)
+		for (int y = 0; y < OneBlockHeight; ++y)
 		{
-			for (int x = 0; x < OneBlockWidth; x++)
+			for (int x = 0; x < OneBlockWidth; ++x)
 			{
 				ny = y + (type * OneBlockHeight);
 
@@ -94,17 +94,61 @@ void Stage::Init(int nSceneNumber)
 /// </summary>
 void Stage::Update()
 {
+	BlockHittingChange();
+}
+/// <summary>
+/// 描画関数
+/// </summary>
+void Stage::Draw()
+{
+	BlockCurringDraw();
+}
+/// <summary>
+/// ステージの座標関数
+/// </summary>
+/// <param name="nX">プレイヤーもしくは敵のX座標</param>
+/// <param name="nY">プレイヤーもしくは敵のY座標</param>
+/// <returns></returns>
+const VECTOR& Stage::GetStagePos(int nX, int nY)
+{
+	return Blockpos_[nY][nX];
+}
+/// <summary>
+/// ステージのブロック種類を調べる関数
+/// </summary>
+/// <param name="nX">プレイヤーもしくは敵のX座標</param>
+/// <param name="nY">プレイヤーもしくは敵のY座標</param>
+/// <returns></returns>
+const int& Stage::GetStageType(int nX, int nY)
+{
+	return Stage_[nY][nX];
+}
+/// <summary>
+/// ブロックの種類を変更する関数
+/// </summary>
+/// <param name="nType">変更する種類の番号</param>
+/// <param name="nX">ブロックの横列</param>
+/// <param name="nY">ブロックの縦列</param>
+void Stage::SetStageType(int nType, int nX, int nY)
+{
+	Stage_[nY][nX] = nType;
+}
+/// <summary>
+/// ブロックに弾が衝突したときの処理
+/// </summary>
+void Stage::BlockHittingChange()
+{
 	/// <summary>
 	/// 各マップチップの座標とカメラの矩形を判定して、フラグを指定する　true || false 
 	/// true の場合　描画、　false の場合　描画させない。
 	/// </summary>
 	if (nSceneNumber_ == nGameLevel)
 	{
-		for (int i = 0; i < nBulletMaxCount; i++)
+		for (int i = 0; i < nBulletMaxCount; ++i)
 		{
 			if (MapHitChecker::GetChipParam(VGet(Bullet::GetPosition(i).x - 5.0f, Bullet::GetPosition(i).y - 8.0f, 0.0f)) == 3 ||
 				MapHitChecker::GetChipParam(VGet(Bullet::GetPosition(i).x + 5.0f, Bullet::GetPosition(i).y - 8.0f, 0.0f)) == 3 ||
-				MapHitChecker::GetChipParam(VGet(Bullet::GetPosition(i).x , Bullet::GetPosition(i).y - 8.0f, 0.0f)) == 3)
+				MapHitChecker::GetChipParam(VGet(Bullet::GetPosition(i).x, Bullet::GetPosition(i).y - 8.0f, 0.0f)) == 3)
 			{
 				int x = static_cast<int>(Bullet::GetPosition(i).x / BlockSize - (BlockSize * 0.5f));
 				int y = static_cast<int>(Bullet::GetPosition(i).y / -BlockSize);
@@ -137,23 +181,22 @@ void Stage::Update()
 	}
 }
 /// <summary>
-/// 描画関数
+/// カリングしたブロックを描画する関数
 /// </summary>
-void Stage::Draw()
+void Stage::BlockCurringDraw()
 {
 	int MapDrawPointX, MapDrawPointY;
 	MapDrawPointX = MapDrawPointY = 0;
 	MapDrawPointX = static_cast<int>(-Character::GetPos().x + ((640 / 20 + 2) / 2 - 1));
 	MapDrawPointY = static_cast<int>(-Character::GetPos().y + ((640 / 20 + 2) / 2 - 1));
-	
-	int numcount = 0;
-	for (int y = 0; y < StageHeigh; y++)
+
+	for (int y = 0; y < StageHeigh; ++y)
 	{
-		for (int x = 0; x < StageWidth; x++)
+		for (int x = 0; x < StageWidth; ++x)
 		{
 			//画面外のステージオブジェクトはカリング
 			if (y + MapDrawPointY < 0 || y + MapDrawPointY >= y + MapDrawPointY + 50)	continue;
-			
+
 			if (nSceneNumber_ == nTitleLevel)
 			{
 				if (Stage_[y][x] == nMoveBlockType)
@@ -203,37 +246,6 @@ void Stage::Draw()
 					DrawBillboard3D(Blockpos_[y][x], 0.5f, 0.5f, BlockSize, 0, nBlockTexture_, false);
 				}
 			}
-			numcount++;
 		}
 	}
-}
-/// <summary>
-/// ステージの座標関数
-/// </summary>
-/// <param name="nX">プレイヤーもしくは敵のX座標</param>
-/// <param name="nY">プレイヤーもしくは敵のY座標</param>
-/// <returns></returns>
-const VECTOR& Stage::GetStagePos(int nX, int nY)
-{
-	return Blockpos_[nY][nX];
-}
-/// <summary>
-/// ステージのブロック種類を調べる関数
-/// </summary>
-/// <param name="nX">プレイヤーもしくは敵のX座標</param>
-/// <param name="nY">プレイヤーもしくは敵のY座標</param>
-/// <returns></returns>
-const int& Stage::GetStageType(int nX, int nY)
-{
-	return Stage_[nY][nX];
-}
-/// <summary>
-/// ブロックの種類を変更する関数
-/// </summary>
-/// <param name="nType">変更する種類の番号</param>
-/// <param name="nX">ブロックの横列</param>
-/// <param name="nY">ブロックの縦列</param>
-void Stage::SetStageType(int nType, int nX, int nY)
-{
-	Stage_[nY][nX] = nType;
 }

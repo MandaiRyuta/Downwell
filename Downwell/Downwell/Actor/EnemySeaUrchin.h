@@ -29,6 +29,18 @@ public:
 	/// 描画関数
 	/// </summary>
 	virtual void Draw() override;
+	/// <summary>
+	/// クアッドツリー内にいるかどうかを確認する関数
+	/// </summary>
+	void QuadTreeCheckCollision();
+	/// <summary>
+	/// プレイヤーやブロックとの衝突判定関数
+	/// </summary>
+	void SeaUrchinHitCollision();
+	/// <summary>
+	/// ウニが行動を行う関数
+	/// </summary>
+	void SeaUrchinMoveAction();
 private:
 	BehaviorData* AIData_;	//ビヘイビアデータクラス
 	BehaviorTree AITree_;	//ビヘイビアツリークラス

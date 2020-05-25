@@ -21,6 +21,14 @@ public:
 	/// </summary>
 	void Draw();
 	/// <summary>
+	/// 弾を非表示から表示に切り替える関数
+	/// </summary>
+	void BulletFlagSet();
+	/// <summary>
+	/// 弾の移動関数
+	/// </summary>
+	void BulletMove();
+	/// <summary>
 	/// 弾作成関数
 	/// </summary>
 	/// <param name="vPosition">弾の出現座標</param>

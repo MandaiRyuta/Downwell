@@ -24,7 +24,30 @@ public:
 	/// 描画関数
 	/// </summary>
 	virtual void Draw() override;
-
+	/// <summary>
+	/// デバッグ表示関数
+	/// </summary>
+	void DebugFont();
+	/// <summary>
+	/// レベルごとにキャラクターの情報を切り替える関数
+	/// </summary>
+	void CharacterModeSet();
+	/// <summary>
+	///	キャラクターの衝突判定関数 
+	/// </summary>
+	void CharacterHitCollision();
+	/// <summary>
+	/// キャラクターが衝突した際に無敵状態にさせる関数
+	/// </summary>
+	void CharacterInvincible();
+	/// <summary>
+	/// キャラクターに加える重力
+	/// </summary>
+	void CharacterGravity();
+	/// <summary>
+	/// キャラクターの行動関数
+	/// </summary>
+	void CharacterActionState();
 	/// <summary>
 	/// 座標取得関数
 	/// </summary>

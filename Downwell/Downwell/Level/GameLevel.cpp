@@ -58,9 +58,9 @@ GameLevel::GameLevel(int nType)
 		TextureDataBase::TextureData::GetInstance().Release(titletexture);
 		Stage::GetInstance().Init(nType); 
 		Obj_[0].push_back(new Character(nType));
-		for (int i = 0; i < 350; i++)
+		for (int i = 0; i < 350; ++i)
 		{
-			for (int t = 0; t < 20; t++)
+			for (int t = 0; t < 20; ++t)
 			{
 				if (Stage::GetInstance().GetStageType(t, i) == 9)
 				{
@@ -105,7 +105,7 @@ GameLevel::GameLevel(int nType)
 /// </summary>
 GameLevel::~GameLevel()
 {
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 2; ++i)
 	{
 		if (i == 0)
 		{
@@ -130,7 +130,7 @@ void GameLevel::Update()
 		LevelsResponsible::GetInstance().Exit();
 	}
 	Stage::GetInstance().Update();
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 2; ++i)
 	{
 		if (i == 0)
 		{
@@ -153,7 +153,7 @@ void GameLevel::Update()
 void GameLevel::Draw()
 {
 	Stage::GetInstance().Draw();
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 2; ++i)
 	{
 		if (i == 0)
 		{

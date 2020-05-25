@@ -7,7 +7,7 @@ class EnemyParameter;
 
 class TurnMoveAction : public ActionBase
 {
-private:
+public:
 	/// <summary>
 	/// コンストラクター
 	/// </summary>
@@ -17,15 +17,6 @@ private:
 	/// </summary>
 	~TurnMoveAction() {}
 public:
-	/// <summary>
-	/// インスタンス生成関数
-	/// </summary>
-	/// <returns>静的なTurnMoveActionのインスタンス</returns>
-	static TurnMoveAction* GetInstance()
-	{
-		static TurnMoveAction instance;
-		return &instance;
-	}
 	/// <summary>
 	/// 更新関数
 	/// </summary>

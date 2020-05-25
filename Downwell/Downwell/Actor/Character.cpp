@@ -68,6 +68,50 @@ Character::~Character()
 /// </summary>
 void Character::Update()
 {
+	CharacterModeSet();
+
+	CharacterInvincible();
+
+	CharacterGravity();
+
+	CharacterHitCollision();
+
+	CharacterActionState();
+}
+/// <summary>
+/// 描画関数
+/// </summary>
+void Character::Draw()
+{
+	DebugFont();
+
+	DrawBillboard3D(VGet(vPosition_.x, vPosition_.y, 0.0f), 0.5f, 0.5f, fSize_, 0, nTexhandle_,false);
+	
+	CharacterState_.Draw(); 
+}
+/// <summary>
+/// デバッグ表示関数
+/// </summary>
+void Character::DebugFont()
+{
+#ifdef DEBUG
+	if (bJump_)
+	{
+		DrawFormatString(0, 0, GetColor(255, 255, 255), "JumpON");
+		DrawFormatString(100, 0, GetColor(255, 255, 255), "Speed.Y :  %f", vSpeed_.y);
+	}
+	else
+	{
+		DrawFormatString(0, 0, GetColor(255, 255, 255), "JumpOFF");
+		DrawFormatString(100, 0, GetColor(255, 255, 255), "Speed.Y :  %f", vSpeed_.y);
+	}
+#endif
+}
+/// <summary>
+/// レベルごとにキャラクターの情報を切り替える関数
+/// </summary>
+void Character::CharacterModeSet()
+{
 	if (nNowScene_ == nTitleLevel)
 	{
 		if (MapHitChecker::GetChipParam(VGet(vPosition_.x + 8, vPosition_.y, 0.0f)) == 99 && LevelsResponsible::GetInstance().GetNextStageExist() == false ||
@@ -111,7 +155,45 @@ void Character::Update()
 			LevelsResponsible::GetInstance().NextStage();
 		}
 	}
+}
+/// <summary>
+///	キャラクターの衝突判定関数 
+/// </summary>
+void Character::CharacterHitCollision()
+{
+	float hitmove = 5.0f;
+	float dammy = 0.0f;
 
+	if (nNowScene_ == nGameLevel)
+	{
+		MapHitChecker::MapHitCollision(VGet(vPosition_.x - 8.0f, vPosition_.y + 8.0f, 0.0f), hitmove, dammy, 1);
+		MapHitChecker::MapHitCollision(VGet(vPosition_.x + 8.0f, vPosition_.y + 8.0f, 0.0f), hitmove, dammy, 1);
+		MapHitChecker::MapHitCollision(VGet(vPosition_.x - 8.0f, vPosition_.y - 8.0f, 0.0f), hitmove, dammy, 1);
+		MapHitChecker::MapHitCollision(VGet(vPosition_.x + 8.0f, vPosition_.y - 8.0f, 0.0f), hitmove, dammy, 1);
+
+		if (bLeftDamage_ && !bInvincible_)
+		{
+			nHitCooltime_ = 0;
+			nLife_ -= 1;
+			vPosition_.y += 1;
+			vPosition_.x += hitmove;
+			bInvincible_ = true;
+		}
+		if (bRightDamage_ && !bInvincible_)
+		{
+			nHitCooltime_ = 0;
+			nLife_ -= 1;
+			vPosition_.y += 1.0f;
+			vPosition_.x -= hitmove;
+			bInvincible_ = true;
+		}
+	}
+}
+/// <summary>
+/// キャラクターが衝突した際に無敵状態にさせる関数
+/// </summary>
+void Character::CharacterInvincible()
+{
 	if (nNowScene_ == nGameLevel)
 	{
 		if (bInvincible_)
@@ -137,88 +219,42 @@ void Character::Update()
 				nHitCooltime_++;
 			}
 		}
-		if (fGravity_ > -10.0f)
-		{
-			fGravity_ += fGravity;
-		}
-
-		vSpeed_.y = fGravity_;
-
-		//if (bPlayershake_)
-		//{
-		//	vSpeed_.y = vSpeed_.y + (fPlayershake_ * -1.0f);
-		//}
-
-		if(bHitEnemy_)
-		{
-			vSpeed_.y += 20.0f;
-			bHitEnemy_ = false;
-		}
-
-		float hitmove = 5.0f;
-		float dammy = 0.0f;
-		MapHitChecker::MapHitCollision(VGet(vPosition_.x - 8.0f, vPosition_.y + 8.0f, 0.0f), hitmove, dammy, 1);
-		MapHitChecker::MapHitCollision(VGet(vPosition_.x + 8.0f, vPosition_.y + 8.0f, 0.0f), hitmove, dammy, 1);
-		MapHitChecker::MapHitCollision(VGet(vPosition_.x - 8.0f, vPosition_.y - 8.0f, 0.0f), hitmove, dammy, 1);
-		MapHitChecker::MapHitCollision(VGet(vPosition_.x + 8.0f, vPosition_.y - 8.0f, 0.0f), hitmove, dammy, 1);
-
-		if (bLeftDamage_ && !bInvincible_)
-		{
-			nHitCooltime_ = 0;
-			nLife_ -= 1;
-			vPosition_.y += 1;
-			vPosition_.x += hitmove;
-			bInvincible_ = true;
-		}
-		if (bRightDamage_ && !bInvincible_)
-		{
-			nHitCooltime_ = 0;
-			nLife_ -= 1;
-			vPosition_.y += 1.0f;
-			vPosition_.x -= hitmove;
-			bInvincible_ = true;
-		}
-
-		MoveState_.SideMove(vPosition_,vSpeed_.x,vSpeed_.y, fGravity_, fSize_);
-		CharacterState_.Attack(vPosition_, bJump_, nCharacterActionState_, fGravity_, bPlayershake_, bAttackJump_);
-		CharacterState_.Update();
-		vPosition_.y += vSpeed_.y;
 	}
-	else if (nNowScene_ == nTitleLevel)
+}
+/// <summary>
+/// キャラクターに加える重力
+/// </summary>
+void Character::CharacterGravity()
+{
+	if (nNowScene_ == nTitleLevel || nNowScene_ == nGameLevel)
 	{
-
 		if (fGravity_ > -10.0f)
 		{
 			fGravity_ += fGravity;
-		}	
+		}
+
 		vSpeed_.y = fGravity_;
-		
+	}
+}
+/// <summary>
+/// キャラクターの行動関数
+/// </summary>
+void Character::CharacterActionState()
+{
+	if (nNowScene_ == nTitleLevel)
+	{
 		MoveState_.SideMove(vPosition_, vSpeed_.x, vSpeed_.y, fGravity_, fSize_);
 		CharacterState_.Attack(vPosition_, bJump_, nCharacterActionState_, fGravity_, bPlayershake_, bAttackJump_);
 		CharacterState_.Update();
 		vPosition_.y += vSpeed_.y;
 	}
-}
-/// <summary>
-/// 描画関数
-/// </summary>
-void Character::Draw()
-{
-#ifdef DEBUG
-	if (bJump_)
+	else if (nNowScene_ == nGameLevel)
 	{
-		DrawFormatString(0, 0, GetColor(255, 255, 255), "JumpON");
-		DrawFormatString(100, 0, GetColor(255, 255, 255), "Speed.Y :  %f", vSpeed_.y);
+		MoveState_.SideMove(vPosition_, vSpeed_.x, vSpeed_.y, fGravity_, fSize_);
+		CharacterState_.Attack(vPosition_, bJump_, nCharacterActionState_, fGravity_, bPlayershake_, bAttackJump_);
+		CharacterState_.Update();
+		vPosition_.y += vSpeed_.y;
 	}
-	else
-	{
-		DrawFormatString(0, 0, GetColor(255, 255, 255), "JumpOFF");
-		DrawFormatString(100, 0, GetColor(255, 255, 255), "Speed.Y :  %f", vSpeed_.y);
-	}
-#endif
-	DrawBillboard3D(VGet(vPosition_.x, vPosition_.y, 0.0f), 0.5f, 0.5f, fSize_, 0, nTexhandle_,false);
-	
-	CharacterState_.Draw(); 
 }
 /// <summary>
 /// 座標取得関数

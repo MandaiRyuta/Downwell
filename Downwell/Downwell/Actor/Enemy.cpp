@@ -15,7 +15,7 @@ Enemy::Enemy(int nEnemyNumber, int nType, int nHp, VECTOR vPosition)
 	//単体で
 	cFactory_ = new CreateFactory();
 	//複数で
-	cProduct_ = cFactory_->Create(nEnemyNumber, nType, nHp, vPosition);
+	cParameter_ = cFactory_->Create(nEnemyNumber, nType, nHp, vPosition);
 }
 /// <summary>
 /// デストラクター
@@ -26,9 +26,9 @@ Enemy::~Enemy()
 	{
 		delete cFactory_;
 	}
-	if (cProduct_ != nullptr)
+	if (cParameter_ != nullptr)
 	{
-		delete cProduct_;
+		delete cParameter_;
 	}
 }
 /// <summary>
@@ -36,11 +36,11 @@ Enemy::~Enemy()
 /// </summary>
 void Enemy::Update()
 {
-	bool bdead = AliveChecker::SetDead(*cProduct_);
+	bool bdead = AliveChecker::SetDead(*cParameter_);
 
 	if (!bdead)
 	{
-		cProduct_->Update();
+		cParameter_->Update();
 	}
 }
 /// <summary>
@@ -48,5 +48,5 @@ void Enemy::Update()
 /// </summary>
 void Enemy::Draw()
 {
-	cProduct_->Draw();
+	cParameter_->Draw();
 }

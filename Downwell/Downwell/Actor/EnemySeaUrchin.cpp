@@ -51,6 +51,25 @@ EnemySeaUrchin::~EnemySeaUrchin()
 /// </summary>
 void EnemySeaUrchin::Update()
 {
+	QuadTreeCheckCollision();
+	SeaUrchinHitCollision();
+	SeaUrchinMoveAction();
+}
+/// <summary>
+/// 描画関数
+/// </summary>
+void EnemySeaUrchin::Draw()
+{
+	if (bLife_)
+	{
+		DrawBillboard3D(vPosition_, 0.5f, 0.5f, 16.0f, 0.0f, nTexhandle_, false);
+	}
+}
+/// <summary>
+/// クアッドツリー内にいるかどうかを確認する関数
+/// </summary>
+void EnemySeaUrchin::QuadTreeCheckCollision()
+{
 	bActive_ = false;
 	bool bactive = false;
 	Rect rc(vPosition_.x - fUrchinRectPadding, vPosition_.y - fUrchinRectPadding, fUrchinTextureScale, fUrchinTextureScale);
@@ -63,71 +82,71 @@ void EnemySeaUrchin::Update()
 			bActive_ = true;
 		}
 	}
+}
+/// <summary>
+/// プレイヤーやブロックとの衝突判定関数
+/// </summary>
+void EnemySeaUrchin::SeaUrchinHitCollision()
+{
+	if (!bActive_) return;
+	if (!bLife_) return;
 
-	if (bActive_)
+	bHitAction_ = false;
+
+	if (Character::GetPos().x - 8.0f <= vPosition_.x + 8.0f && Character::GetPos().y - 8.0f < vPosition_.y + 8.0f &&
+		Character::GetPos().x - 8.0f >= vPosition_.x + 8.0f && Character::GetPos().y + 8.0f > vPosition_.y - 8.0f && bHitAction_ == false)
 	{
-		if (bLife_)
+		Character::SetHitLeftDamage(true);
+		bHitAction_ = true;
+	}
+	if (Character::GetPos().x + 8.0f <= vPosition_.x - 8.0f && Character::GetPos().y - 8.0f < vPosition_.y + 8.0f &&
+		Character::GetPos().x + 8.0f >= vPosition_.x - 8.0f && Character::GetPos().y + 8.0f > vPosition_.y - 8.0f && bHitAction_ == false)
+	{
+		Character::SetHitRightDamage(true);
+		bHitAction_ = true;
+	}
+	if (Character::GetPos().x > vPosition_.x + -11.0f && Character::GetPos().x < vPosition_.x + 11.0f &&
+		Character::GetPos().y - 8.5f <= vPosition_.y + 11.0f && Character::GetPos().y > vPosition_.y - 11.0f && bHitAction_ == false)
+	{
+		Character::SetHitRightDamage(true);
+		bHitAction_ = true;
+	}
+	if (Character::GetPos().x > vPosition_.x + -11.0f && Character::GetPos().x < vPosition_.x + 11.0f &&
+		Character::GetPos().y + 8.5f >= vPosition_.y - 11.0f && Character::GetPos().y < vPosition_.y + 11.0f && bHitAction_ == false)
+	{
+		Character::SetHitLeftDamage(true);
+		bHitAction_ = true;
+	}
+
+	for (int i = 0; i < nBulletMaxCount; ++i)
+	{
+		if (Bullet::GetPosition(i).x - 6.0f >= vPosition_.x - 11.0f && Bullet::GetPosition(i).y - 6.0f < vPosition_.y + 11.0f &&
+			Bullet::GetPosition(i).x + 6.0f <= vPosition_.x + 11.0f && Bullet::GetPosition(i).y + 6.0f > vPosition_.y - 11.0f)
 		{
-			bHitAction_ = false;
-
-			if (Character::GetPos().x - 8.0f <= vPosition_.x + 8.0f && Character::GetPos().y - 8.0f < vPosition_.y + 8.0f &&
-				Character::GetPos().x - 8.0f >= vPosition_.x + 8.0f && Character::GetPos().y + 8.0f > vPosition_.y - 8.0f && bHitAction_ == false)
+			if (nHp_ > nZeroLife)
 			{
-				Character::SetHitLeftDamage(true);
-				bHitAction_ = true;
+				nHp_--;
 			}
-			if (Character::GetPos().x + 8.0f <= vPosition_.x - 8.0f && Character::GetPos().y - 8.0f < vPosition_.y + 8.0f &&
-				Character::GetPos().x + 8.0f >= vPosition_.x - 8.0f && Character::GetPos().y + 8.0f > vPosition_.y - 8.0f && bHitAction_ == false)
-			{
-				Character::SetHitRightDamage(true);
-				bHitAction_ = true;
-			}
-			if (Character::GetPos().x > vPosition_.x + -11.0f && Character::GetPos().x < vPosition_.x + 11.0f &&
-				Character::GetPos().y - 8.5f <= vPosition_.y + 11.0f && Character::GetPos().y > vPosition_.y - 11.0f && bHitAction_ == false)
-			{
-				Character::SetHitRightDamage(true);
-				bHitAction_ = true;
-			}
-			if (Character::GetPos().x > vPosition_.x + -11.0f && Character::GetPos().x < vPosition_.x + 11.0f &&
-				Character::GetPos().y + 8.5f >= vPosition_.y - 11.0f && Character::GetPos().y < vPosition_.y + 11.0f && bHitAction_ == false)
-			{
-				Character::SetHitLeftDamage(true);
-				bHitAction_ = true;
-			}
-
-			for (int i = 0; i < nBulletMaxCount; i++)
-			{
-				if (Bullet::GetPosition(i).x - 6.0f >= vPosition_.x - 11.0f && Bullet::GetPosition(i).y - 6.0f < vPosition_.y + 11.0f &&
-					Bullet::GetPosition(i).x + 6.0f <= vPosition_.x + 11.0f && Bullet::GetPosition(i).y + 6.0f > vPosition_.y - 11.0f)
-				{
-					if (nHp_ > nZeroLife)
-					{
-						nHp_--;
-					}
-				}
-			}
-
-			if (Activenode_ == nullptr)
-			{
-				Activenode_ = AITree_.Inference(this, AIData_);
-			}
-			if (Activenode_ != nullptr)
-			{
-				Activenode_ = AITree_.Run(*this, Activenode_, AIData_);
-			}
-
-			vPosition_.x += vMove_.x;
-			vPosition_.y += vMove_.y;
 		}
 	}
 }
 /// <summary>
-/// 描画関数
+/// ウニが行動を行う関数
 /// </summary>
-void EnemySeaUrchin::Draw()
+void EnemySeaUrchin::SeaUrchinMoveAction()
 {
-	if (bLife_)
+	if (!bActive_) return;
+	if (!bLife_) return;
+
+	if (Activenode_ == nullptr)
 	{
-		DrawBillboard3D(vPosition_, 0.5f, 0.5f, 16.0f, 0.0f, nTexhandle_, false);
+		Activenode_ = AITree_.Inference(this, AIData_);
 	}
+	if (Activenode_ != nullptr)
+	{
+		Activenode_ = AITree_.Run(*this, Activenode_, AIData_);
+	}
+
+	vPosition_.x += vMove_.x;
+	vPosition_.y += vMove_.y;
 }

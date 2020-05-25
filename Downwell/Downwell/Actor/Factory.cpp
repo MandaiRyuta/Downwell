@@ -24,17 +24,17 @@ EnemyParameter* CreateFactory::CreateInstance(int nEnemyNumber, int nType, int n
 	{
 	case 0:
 		behavior.AddNode("", "Root", 0, TREE_RULE::PRIORITY, nullptr);
-		behavior.AddNode("Root", "Move", 1, TREE_RULE::SEQUENTIALLOOP, TurnMoveAction::GetInstance());
+		behavior.AddNode("Root", "Move", 1, TREE_RULE::SEQUENTIALLOOP, new TurnMoveAction);
 		return new EnemyTurtle(nEnemyNumber, behavior, nHp, vPosition);
 		break;
 	case 1:
 		behavior.AddNode("", "Root", 0, TREE_RULE::PRIORITY, nullptr);
-		behavior.AddNode("Root", "Rotate", 1, TREE_RULE::SEQUENTIALLOOP, LoiterningMoveAction::GetInstance());
+		behavior.AddNode("Root", "Rotate", 1, TREE_RULE::SEQUENTIALLOOP,new LoiterningMoveAction);
 		return new EnemySeaUrchin(nEnemyNumber, behavior, nHp, vPosition);
 		break;
 	case 2:
 		behavior.AddNode("", "Root", 0, TREE_RULE::PRIORITY, nullptr);
-		behavior.AddNode("Root", "Move", 1, TREE_RULE::SEQUENTIALLOOP, TrackingMoveAction::GetInstance());
+		behavior.AddNode("Root", "Move", 1, TREE_RULE::SEQUENTIALLOOP,new TrackingMoveAction);
 		return new EnemyBird(nEnemyNumber, behavior, nHp, vPosition);
 		break;
 	default:

@@ -52,74 +52,9 @@ EnemyBird::~EnemyBird()
 /// </summary>
 void EnemyBird::Update()
 {
-	bActive_ = bInitActive;
-	bool bactive = bInitActive;
-	Rect rc(vPosition_.x - fBirdRectPadding, vPosition_.y - fBirdRectPadding, fBirdTextureScale, fBirdTextureScale);
-	for (int i = 0; i < nQuadTreeMaxCount; i++)
-	{
-		bactive = LevelsResponsible::GetInstance().GetQuadTree(i).HitCheck(rc);
-
-		if (bactive)
-		{
-			bActive_ = true;
-		}
-	}
-
-	if (bActive_)
-	{
-		if (bLife_)
-		{
-
-			bHitAction_ = false;
-			if (Character::GetPos().x - 9.0f <= vPosition_.x + 9.0f && Character::GetPos().y - 7.0f < vPosition_.y + 8.0f &&
-				Character::GetPos().x - 9.0f >= vPosition_.x + 9.0f && Character::GetPos().y + 7.0f > vPosition_.y - 8.0f && bHitAction_ == false)
-			{
-				Character::SetHitLeftDamage(true);
-				bHitAction_ = true;
-			}
-			if (Character::GetPos().x + 9.0f <= vPosition_.x - 9.0f && Character::GetPos().y - 7.0f < vPosition_.y + 8.0f &&
-				Character::GetPos().x + 9.0f >= vPosition_.x - 9.0f && Character::GetPos().y + 7.0f > vPosition_.y - 8.0f && bHitAction_ == false)
-			{
-				Character::SetHitRightDamage(true);
-				bHitAction_ = true;
-			}
-
-			if (Character::GetPos().x > vPosition_.x + -11.0f && Character::GetPos().x < vPosition_.x + 11.0f &&
-				Character::GetPos().y - 8.5f <= vPosition_.y + 11.0f && Character::GetPos().y > vPosition_.y - 11.0f && bHitAction_ == false)
-			{
-				Character::SetHitEnemy(true);
-				if (nHp_ > nZeroLife)
-				{
-					nHp_--;
-				}
-				bHitAction_ = true;
-			}
-
-			for (int i = 0; i < nBulletMaxCount; i++)
-			{
-				if (Bullet::GetPosition(i).x - 6.0f >= vPosition_.x - 11.0f && Bullet::GetPosition(i).y - 6.0f < vPosition_.y + 11.0f &&
-					Bullet::GetPosition(i).x + 6.0f <= vPosition_.x + 11.0f && Bullet::GetPosition(i).y + 6.0f> vPosition_.y - 11.0f)
-				{
-					if (nHp_ > nZeroLife)
-					{
- 						nHp_--;
-					}
-				}
-			}
-
-			if (Activenode_ == nullptr)
-			{
-				Activenode_ = AITree_.Inference(this, AIData_);
-			}
-			if (Activenode_ != nullptr)
-			{
-				Activenode_ = AITree_.Run(*this, Activenode_, AIData_);
-			}
-
-			vPosition_.x += vMove_.x;
-			vPosition_.y += vMove_.y;
-		}
-	}
+	QuadTreeCheckCollision();
+	BirdHitCollision();
+	BirdMoveAction();
 }
 /// <summary>
 /// 描画関数
@@ -130,4 +65,87 @@ void EnemyBird::Draw()
 	{
 		DrawBillboard3D(vPosition_, 0.5f, 0.5f, 18.0f, 0.0f, nTexhandle_, false);
 	}
+}
+/// <summary>
+/// クアッドツリー内にいるかどうかを確認する関数
+/// </summary>
+void EnemyBird::QuadTreeCheckCollision()
+{
+	bActive_ = bInitActive;
+	bool bactive = bInitActive;
+	Rect rc(vPosition_.x - fBirdRectPadding, vPosition_.y - fBirdRectPadding, fBirdTextureScale, fBirdTextureScale);
+	for (int i = 0; i < nQuadTreeMaxCount; ++i)
+	{
+		bactive = LevelsResponsible::GetInstance().GetQuadTree(i).HitCheck(rc);
+
+		if (bactive)
+		{
+			bActive_ = true;
+		}
+	}
+}
+/// <summary>
+/// プレイヤーやブロックとの衝突判定関数
+/// </summary>
+void EnemyBird::BirdHitCollision()
+{
+	if (!bActive_) return;
+	if (!bLife_) return;
+
+	bHitAction_ = false;
+	if (Character::GetPos().x - 9.0f <= vPosition_.x + 9.0f && Character::GetPos().y - 7.0f < vPosition_.y + 8.0f &&
+		Character::GetPos().x - 9.0f >= vPosition_.x + 9.0f && Character::GetPos().y + 7.0f > vPosition_.y - 8.0f && bHitAction_ == false)
+	{
+		Character::SetHitLeftDamage(true);
+		bHitAction_ = true;
+	}
+	if (Character::GetPos().x + 9.0f <= vPosition_.x - 9.0f && Character::GetPos().y - 7.0f < vPosition_.y + 8.0f &&
+		Character::GetPos().x + 9.0f >= vPosition_.x - 9.0f && Character::GetPos().y + 7.0f > vPosition_.y - 8.0f && bHitAction_ == false)
+	{
+		Character::SetHitRightDamage(true);
+		bHitAction_ = true;
+	}
+
+	if (Character::GetPos().x > vPosition_.x + -11.0f && Character::GetPos().x < vPosition_.x + 11.0f &&
+		Character::GetPos().y - 8.5f <= vPosition_.y + 11.0f && Character::GetPos().y > vPosition_.y - 11.0f && bHitAction_ == false)
+	{
+		Character::SetHitEnemy(true);
+		if (nHp_ > nZeroLife)
+		{
+			nHp_--;
+		}
+		bHitAction_ = true;
+	}
+
+	for (int i = 0; i < nBulletMaxCount; ++i)
+	{
+		if (Bullet::GetPosition(i).x - 6.0f >= vPosition_.x - 11.0f && Bullet::GetPosition(i).y - 6.0f < vPosition_.y + 11.0f &&
+			Bullet::GetPosition(i).x + 6.0f <= vPosition_.x + 11.0f && Bullet::GetPosition(i).y + 6.0f > vPosition_.y - 11.0f)
+		{
+			if (nHp_ > nZeroLife)
+			{
+				nHp_--;
+			}
+		}
+	}
+}
+/// <summary>
+/// 鳥が行動を行う関数
+/// </summary>
+void EnemyBird::BirdMoveAction()
+{
+	if (!bActive_) return;
+	if (!bLife_) return;
+
+	if (Activenode_ == nullptr)
+	{
+		Activenode_ = AITree_.Inference(this, AIData_);
+	}
+	if (Activenode_ != nullptr)
+	{
+		Activenode_ = AITree_.Run(*this, Activenode_, AIData_);
+	}
+
+	vPosition_.x += vMove_.x;
+	vPosition_.y += vMove_.y;
 }

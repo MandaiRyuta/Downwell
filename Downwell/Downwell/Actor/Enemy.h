@@ -28,5 +28,5 @@ public:
 	virtual void Draw() override;
 private:
 	Factory* cFactory_;	//ファクトリークラス
-	EnemyParameter* cProduct_;	//敵のパラメータークラス
+	EnemyParameter* cParameter_;	//敵のパラメータークラス
 };

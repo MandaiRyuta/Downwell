@@ -633,11 +633,11 @@ int Stage[12][50][20] =
 /// </summary>
 void StageDataBase::InitStage()
 {
-	for (int z = 0; z < nStageMaxCount; z++)
+	for (int z = 0; z < nStageMaxCount; ++z)
 	{
-		for (int y = 0; y < nStageHeight; y++)
+		for (int y = 0; y < nStageHeight; ++y)
 		{
-			for (int x = 0; x < nStageWidth; x++)
+			for (int x = 0; x < nStageWidth; ++x)
 			{
 				nStage_[z][y][x] = Stage[z][y][x];
 			}

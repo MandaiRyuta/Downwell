@@ -69,6 +69,14 @@ public:
 	/// <param name="nX">ブロックの横列</param>
 	/// <param name="nY">ブロックの縦列</param>
 	void SetStageType(int nType, int nX, int nY);
+	/// <summary>
+	/// ブロックに弾が衝突したときの処理
+	/// </summary>
+	void BlockHittingChange();
+	/// <summary>
+	/// カリングしたブロックを描画する関数
+	/// </summary>
+	void BlockCurringDraw();
 private:
 	std::array<std::array<int, StageWidth>, StageHeigh> Stage_;	//ステージ上のブロック種類を管理
 	std::array<std::array<VECTOR, StageWidth>, StageHeigh> Blockpos_; //ステージ上のブロックを配置する座標を管理

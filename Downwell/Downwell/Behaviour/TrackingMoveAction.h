@@ -6,7 +6,7 @@ class EnemyParameter;
 
 class TrackingMoveAction : public ActionBase
 {
-private:
+public:
 	/// <summary>
 	/// コンストラクター
 	/// </summary>
@@ -16,16 +16,6 @@ private:
 	/// </summary>
 	~TrackingMoveAction() {}
 public:
-	/// <summary>
-	/// インスタンス生成関数
-	/// </summary>
-	/// <returns>静的なTrackingMoveActionのインスタンス</returns>
-	static TrackingMoveAction* GetInstance()
-	{
-		static TrackingMoveAction instance;
-
-		return &instance;
-	}
 	/// <summary>
 	/// 更新関数
 	/// </summary>

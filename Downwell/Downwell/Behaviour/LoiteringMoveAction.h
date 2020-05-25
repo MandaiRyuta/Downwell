@@ -6,7 +6,7 @@ class EnemyParameter;
 
 class LoiterningMoveAction : public ActionBase
 {
-private:
+public:
 	/// <summary>
 	/// コンストラクター
 	/// </summary>
@@ -16,15 +16,6 @@ private:
 	/// </summary>
 	~LoiterningMoveAction() {}
 public:
-	/// <summary>
-	/// インスタンス取得関数
-	/// </summary>
-	/// <returns>静的なLoiterningMoveActionのインスタンス</returns>
-	static LoiterningMoveAction* GetInstance()
-	{
-		static LoiterningMoveAction instance;
-		return &instance;
-	}
 	/// <summary>
 	/// 更新関数
 	/// </summary>
